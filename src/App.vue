@@ -6,9 +6,20 @@
 </template>
 
 <script>
-export default {
-  name: 'App'
-}
+    export default {
+        name: 'App',
+        methods:{
+            judgeLogin(){
+                let isLogin = store.state.user;
+                if(isLogin){
+
+                }
+            }
+        },
+        created(){
+            this.judgeLogin();
+        }
+    }
 </script>
 
 <style>

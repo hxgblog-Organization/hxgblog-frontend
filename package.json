@@ -10,8 +10,16 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "axios": "^0.18.0",
+    "bootstrap": "^4.0.0-beta.2",
+    "element-ui": "^2.5.4",
+    "jquery": "^3.3.1",
+    "jsencrypt": "^3.0.0-rc.1",
+    "lodash": "^4.17.11",
+    "mockjs": "^1.0.1-beta3",
     "vue": "^2.5.2",
-    "vue-router": "^3.0.1"
+    "vue-router": "^3.0.1",
+    "vuex": "^3.1.0"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",

@@ -11,7 +11,6 @@ require('./bootloader');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 import App from './App'
-import
 Vue.config.productionTip = false;
 
 /* eslint-disable no-new */
@@ -21,4 +20,4 @@ new Vue({
     store,
     router,
     render: h => h(App),
-}).$mount('#app');
+});

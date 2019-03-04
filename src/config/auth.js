@@ -8,9 +8,10 @@ import router from "./index";
  */
 var instance = axios.create({ timeout: 1000 * 12});
 instance.defaults.withCredentials = true; //跨域
-instance.defaults.baseURL = 'http://doclever.cn:8090/mock/5c3d98703dce46264b246eb3';// 设置默认请求url
-
-instance.insterceptors.request.use(
+// instance.defaults.baseURL = 'http://doclever.cn:8090/mock/5c3d98703dce46264b246eb3';// 设置默认请求url
+instance.defaults.baseURL = 'http://8080';
+//
+instance.interceptors.request.use(
     config => {
         return config;
     },
@@ -19,11 +20,32 @@ instance.insterceptors.request.use(
     }
 );
 
-instance.insterceptors.request.use(
+//
+instance.interceptors.request.use(
     response => {
         if (response.headers.api_token){
-
+            let user = store.state.user;
+            user.api_token = response.headers.api_token;
+            store.commit(types.USER, user);
         }
-    }
-
-);
+        return response;
+    },
+    error => {
+        if (error.response) {
+            switch (error.response.status) {
+                case 401:
+                    store.commit(types.LOGOUT);
+                    //只有在当前路由，不是在登录页面才跳转
+                    router.currentRoute.path !== this.LOGINURL() && router.replace({
+                        path: this.LOGINURL(),
+                        query: { redirect: router.currentRoute.path },
+                    });
+                    break;
+                case 404:
+                    router.replace({path: "/404"});
+                    break;
+            }
+        }
+        return Promise.reject(error.response.data);
+    });
+export default instance;

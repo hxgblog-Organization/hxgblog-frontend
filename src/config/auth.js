@@ -9,7 +9,7 @@ import router from "./index";
 var instance = axios.create({ timeout: 1000 * 12});
 instance.defaults.withCredentials = true; //跨域
 // instance.defaults.baseURL = 'http://doclever.cn:8090/mock/5c3d98703dce46264b246eb3';// 设置默认请求url
-instance.defaults.baseURL = 'http://8080';
+instance.defaults.baseURL = 'http://localhost:88';
 //
 instance.interceptors.request.use(
     config => {

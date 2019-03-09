@@ -6,71 +6,18 @@
             <h2 class="ctitle"><b>学无止境</b> <span>不要轻易放弃。学习成长的路上，我们长路漫漫，只因学无止境。</span></h2>
             <div class="rnav">
                 <ul>
-                    <li><a href="#">Laravel</a></li>
-                    <li><a href="#">PHP</a></li>
-                    <li><a href="#">Vue</a></li>
-                    <li><a href="#">Python</a></li>
-                    <li><a href="#">Java</a></li>
-                    <li><a href="#">算法</a></li>
+                    <li v-for="type in articalTypes"><a @click="">{{ type.type_name}}</a></li>
                 </ul>
             </div>
             <ul class="cbp_tmtimeline">
-                <li>
-                    <time class="cbp_tmtime"><span>08-08</span> <span>2017</span></time>
+                <li v-for="artical in articalDatas">
+                    <time class="cbp_tmtime"><span>{{ artical.monthDay }}</span><span>{{ artical.year }}</span></time>
                     <div class="cbp_tmicon"></div>
                     <div class="cbp_tmlabel" data-scroll-reveal="enter right over 1s" >
-                        <h2>三步实现滚动条触动css动画效果</h2>
-                        <p><span class="blogpic"><a href="/"><img src="../../images/reception/001.png"></a></span>现在很多网站都有这种效果，我就整理了一下，分享出来。利用滚动条来实现动画效果，ScrollReveal.js 用于创建和管理元素进入可视区域时的动画效果，帮助你的网站增加吸引力...</p>
+                        <h2>{{ artical.arti_title }}</h2>
+                        <p><span class="blogpic"><a href="/"><img src="../../images/reception/001.png"></a></span>{{ artical.arti_content }}</p>
                         <router-link to="/showArtical" target="_blank" class="readmore">阅读全文&gt;&gt;</router-link>
                     </div>
-                </li>
-                <li>
-                    <time class="cbp_tmtime" ><span>08-08</span> <span>2017</span></time>
-                    <div class="cbp_tmicon"></div>
-                    <div class="cbp_tmlabel"data-scroll-reveal="enter right over 1s" >
-                        <h2>三步实现滚动条触动css动画效果</h2>
-                        <p><span class="blogpic"><a href="/"><img src="../../images/reception/001.png"></a></span>现在很多网站都有这种效果，我就整理了一下，分享出来。利用滚动条来实现动画效果，ScrollReveal.js 用于创建和管理元素进入可视区域时的动画效果，帮助你的网站增加吸引力...</p>
-                        <a href="/" target="_blank" class="readmore">阅读全文&gt;&gt;</a> </div>
-                </li>
-                <li>
-                    <time class="cbp_tmtime" ><span>08-08</span> <span>2017</span></time>
-                    <div class="cbp_tmicon"></div>
-                    <div class="cbp_tmlabel" data-scroll-reveal="enter right over 1s" >
-                        <h2>三步实现滚动条触动css动画效果</h2>
-                        <p><span class="blogpic"><a href="/"><img src="../../images/reception/001.png"></a></span>现在很多网站都有这种效果，我就整理了一下，分享出来。利用滚动条来实现动画效果，ScrollReveal.js 用于创建和管理元素进入可视区域时的动画效果，帮助你的网站增加吸引力...</p>
-                        <a href="/" target="_blank" class="readmore">阅读全文&gt;&gt;</a> </div>
-                </li>
-                <li>
-                    <time class="cbp_tmtime" ><span>08-08</span> <span>2017</span></time>
-                    <div class="cbp_tmicon"></div>
-                    <div class="cbp_tmlabel" data-scroll-reveal="enter right over 1s" >
-                        <h2>三步实现滚动条触动css动画效果</h2>
-                        <p><span class="blogpic"><a href="/"><img src="../../images/reception/001.png"></a></span>现在很多网站都有这种效果，我就整理了一下，分享出来。利用滚动条来实现动画效果，ScrollReveal.js 用于创建和管理元素进入可视区域时的动画效果，帮助你的网站增加吸引力...</p>
-                        <a href="/" target="_blank" class="readmore">阅读全文&gt;&gt;</a> </div>
-                </li>
-                <li>
-                    <time class="cbp_tmtime" ><span>08-08</span> <span>2017</span></time>
-                    <div class="cbp_tmicon"></div>
-                    <div class="cbp_tmlabel" data-scroll-reveal="enter right over 1s" >
-                        <h2>三步实现滚动条触动css动画效果</h2>
-                        <p><span class="blogpic"><a href="/"><img src="../../images/reception/001.png"></a></span>现在很多网站都有这种效果，我就整理了一下，分享出来。利用滚动条来实现动画效果，ScrollReveal.js 用于创建和管理元素进入可视区域时的动画效果，帮助你的网站增加吸引力...</p>
-                        <a href="/" target="_blank" class="readmore">阅读全文&gt;&gt;</a> </div>
-                </li>
-                <li>
-                    <time class="cbp_tmtime" ><span>08-08</span> <span>2017</span></time>
-                    <div class="cbp_tmicon"></div>
-                    <div class="cbp_tmlabel" data-scroll-reveal="enter right over 1s" >
-                        <h2>三步实现滚动条触动css动画效果</h2>
-                        <p><span class="blogpic"><a href="/"><img src="../../images/reception/001.png"></a></span>现在很多网站都有这种效果，我就整理了一下，分享出来。利用滚动条来实现动画效果，ScrollReveal.js 用于创建和管理元素进入可视区域时的动画效果，帮助你的网站增加吸引力...</p>
-                        <a href="/" target="_blank" class="readmore">阅读全文&gt;&gt;</a> </div>
-                </li>
-                <li>
-                    <time class="cbp_tmtime" ><span>08-08</span> <span>2017</span></time>
-                    <div class="cbp_tmicon"></div>
-                    <div class="cbp_tmlabel" data-scroll-reveal="enter right over 1s" >
-                        <h2>三步实现滚动条触动css动画效果</h2>
-                        <p><span class="blogpic"><a href="/"><img src="../../images/reception/001.png"></a></span>现在很多网站都有这种效果，我就整理了一下，分享出来。利用滚动条来实现动画效果，ScrollReveal.js 用于创建和管理元素进入可视区域时的动画效果，帮助你的网站增加吸引力...</p>
-                        <a href="/" target="_blank" class="readmore">阅读全文&gt;&gt;</a> </div>
                 </li>
             </ul>
             <div class="page"><a title="Total record"><b>107</b> </a><b>1</b><a href="/news/index_2.html">2</a><a href="/news/index_3.html">3</a><a href="/news/index_4.html">4</a><a href="/news/index_5.html">5</a><a href="/news/index_2.html">&gt;</a><a href="/news/index_5.html">&gt;&gt;</a></div>
@@ -81,25 +28,36 @@
 </template>
 
 <script>
-    // import '../../assets/js/scrollReveal'
     export default {
-        name: "artical"
+        name: "artical",
+        data () {
+            return {
+                articalTypes : [],
+                articalDatas : [],
+
+
+            }
+        },
+        mounted() {
+            let self = this;
+            this.GET(ApiPath.artical.byTypeSelectArtical)
+                .then(function (res) {
+                    if(res.data.code == 0){
+                        self.articalTypes = res.data.data.art_types;
+                        self.articalDatas = res.data.data.articals;
+                    }
+
+                })
+        }
     }
 
 </script>
 
 <style scoped>
-    .rnav { }
-    .rnav { margin: 30px auto; overflow: hidden; overflow: hidden; padding-left: 100px }
+    .rnav { margin: 30px auto; overflow: hidden; overflow: hidden; padding-left: 100px; color: #000}
     .rnav li { width: 120px; text-align: center; display: inline-block; margin-bottom: 5px; margin-right: 5px; float: left; height: 40px; line-height: 38px; background: rgba(255,255,255,0.2) }
-    .rnav li a { color: #fff; display: block; -webkit-transition: all 1s; -moz-transition: all 1s; -o-transition: all 1s; transition: all 1s; border: #fff 1px solid }
-    .rnav ul li a:hover { background: #075498; }
-    .rnav li:nth-child(1) { background: #FE5187 }
-    .rnav li:nth-child(2) { background: #339967 }
-    .rnav li:nth-child(3) { background: #FF8151 }
-    .rnav li:nth-child(4) { background: #3594cb }
-    .rnav li:nth-child(5) { background: #66CC9A }
-    .rnav li:nth-child(6) { background: #079798 }
+    .rnav li a {  display: block; -webkit-transition: all 1s; -moz-transition: all 1s; -o-transition: all 1s; transition: all 1s; border: #fff 1px solid; cursor: pointer }
+    .rnav ul li a:hover { background: #075498; color: #000}
     /* cbp_tmtimeline */
     .cbp_tmtimeline { margin: 30px 0 0 0; padding: 0; list-style: none; position: relative; }
     .cbp_tmtimeline:before { content: ''; position: absolute; top: 0; bottom: 0; width: 5px; background: #afdcf8; left: 158px; margin-left: -10px; }

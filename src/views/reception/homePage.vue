@@ -31,76 +31,35 @@
             <p>文章<span>推荐</span></p>
         </h2>
         <div class="bloglist left">
-            <h3>程序员请放下你的技术情节，与你的同伴一起进步</h3>
-            <figure><img src="images/001.png"></figure>
+            <div v-for="item in articalData" :key="item.id">
+            <h3>{{ item.arti_title }}</h3>
+            <figure><img src="../../images/reception/001.png"></figure>
             <ul>
-                <p>如果说掌握一门赖以生计的技术是技术人员要学会的第一课的话， 那么我觉得技术人员要真正学会的第二课，不是技术，而是业务、交流与协作，学会关心其他工作伙伴的工作情况和进展...</p>
-                <a title="/" href="/" target="_blank" class="readmore">阅读全文>></a>
+                <p>{{ item.arti_content }}</p>
+                <router-link :to="{ name: 'showArtical', query: {artId: item.arti_id}}" title="/"  target="_blank" class="readmore" @click="showArtical(item.arti_id)">阅读全文>></router-link>
             </ul>
-            <p class="dateview"><span>2013-11-04</span><span>作者：杨青</span><span>个人博客：[<a href="/news/life/">程序人生</a>]</span></p>
-            <h3>程序员请放下你的技术情节，与你的同伴一起进步</h3>
-            <figure><img src="images/001.png"></figure>
-            <ul>
-                <p>如果说掌握一门赖以生计的技术是技术人员要学会的第一课的话， 那么我觉得技术人员要真正学会的第二课，不是技术，而是业务、交流与协作，学会关心其他工作伙伴的工作情况和进展...</p>
-                <a title="/" href="/" target="_blank" class="readmore">阅读全文>></a>
-            </ul>
-            <p class="dateview"><span>2013-11-04</span><span>作者：杨青</span><span>个人博客：[<a href="/news/life/">程序人生</a>]</span></p>
-            <h3>程序员请放下你的技术情节，与你的同伴一起进步</h3>
-            <figure><img src="images/001.png"></figure>
-            <ul>
-                <p>如果说掌握一门赖以生计的技术是技术人员要学会的第一课的话， 那么我觉得技术人员要真正学会的第二课，不是技术，而是业务、交流与协作，学会关心其他工作伙伴的工作情况和进展...</p>
-                <a title="/" href="/" target="_blank" class="readmore">阅读全文>></a>
-            </ul>
-            <p class="dateview"><span>2013-11-04</span><span>作者：杨青</span><span>个人博客：[<a href="/news/life/">程序人生</a>]</span></p>
-            <h3>程序员请放下你的技术情节，与你的同伴一起进步</h3>
-            <figure><img src="images/001.png"></figure>
-            <ul>
-                <p>如果说掌握一门赖以生计的技术是技术人员要学会的第一课的话， 那么我觉得技术人员要真正学会的第二课，不是技术，而是业务、交流与协作，学会关心其他工作伙伴的工作情况和进展...</p>
-                <a title="/" href="/" target="_blank" class="readmore">阅读全文>></a>
-            </ul>
-            <p class="dateview"><span>2013-11-04</span><span>作者：杨青</span><span>个人博客：[<a href="/news/life/">程序人生</a>]</span></p>
-            <h3>程序员请放下你的技术情节，与你的同伴一起进步</h3>
-            <figure><img src="images/001.png"></figure>
-            <ul>
-                <p>如果说掌握一门赖以生计的技术是技术人员要学会的第一课的话， 那么我觉得技术人员要真正学会的第二课，不是技术，而是业务、交流与协作，学会关心其他工作伙伴的工作情况和进展...</p>
-                <a title="/" href="/" target="_blank" class="readmore">阅读全文>></a>
-            </ul>
-            <p class="dateview"><span>2013-11-04</span><span>作者：杨青</span><span>个人博客：[<a href="/news/life/">程序人生</a>]</span></p>
+            <p class="dateview"><span>{{ item.arti_create_time}}</span><span>作者：张腾飞</span><span>个人博客：[<a href="/news/life/">坏小哥</a>]</span></p>
+            </div>
         </div>
         <aside class="right">
             <div class="weather"><iframe width="250" scrolling="no" height="60" frameborder="0" allowtransparency="true" src="http://i.tianqi.com/index.php?c=code&id=12&icon=1&num=1"></iframe></div>
             <div class="news">
-                <h3>
-                    <p>最新<span>文章</span></p>
-                </h3>
-                <ul class="rank">
-                    <li><a href="/" title="Column 三栏布局 个人网站模板" target="_blank">Column 三栏布局 个人网站模板</a></li>
-                    <li><a href="/" title="with love for you 个人网站模板" target="_blank">with love for you 个人网站模板</a></li>
-                    <li><a href="/" title="免费收录网站搜索引擎登录口大全" target="_blank">免费收录网站搜索引擎登录口大全</a></li>
-                    <li><a href="/" title="做网站到底需要什么?" target="_blank">做网站到底需要什么?</a></li>
-                    <li><a href="/" title="企业做网站具体流程步骤" target="_blank">企业做网站具体流程步骤</a></li>
-                    <li><a href="/" title="建站流程篇——教你如何快速学会做网站" target="_blank">建站流程篇——教你如何快速学会做网站</a></li>
-                    <li><a href="/" title="box-shadow 阴影右下脚折边效果" target="_blank">box-shadow 阴影右下脚折边效果</a></li>
-                    <li><a href="/" title="打雷时室内、户外应该需要注意什么" target="_blank">打雷时室内、户外应该需要注意什么</a></li>
-                </ul>
                 <h3 class="ph">
                     <p>点击<span>排行</span></p>
                 </h3>
-                <ul class="paih">
-                    <li><a href="/" title="Column 三栏布局 个人网站模板" target="_blank">Column 三栏布局 个人网站模板</a></li>
-                    <li><a href="/" title="withlove for you 个人网站模板" target="_blank">with love for you 个人网站模板</a></li>
-                    <li><a href="/" title="免费收录网站搜索引擎登录口大全" target="_blank">免费收录网站搜索引擎登录口大全</a></li>
-                    <li><a href="/" title="做网站到底需要什么?" target="_blank">做网站到底需要什么?</a></li>
-                    <li><a href="/" title="企业做网站具体流程步骤" target="_blank">企业做网站具体流程步骤</a></li>
+                <ul class="paih" >
+                    <li v-for="items in browseTop" :key="items.id"><a href="/" title="items.arti_title+" target="_blank">{{ items.arti_title }}</a></li>
                 </ul>
                 <h3 class="links">
                     <p>友情<span>链接</span></p>
                 </h3>
                 <ul class="website">
                     <li><a href="/">个人博客</a></li>
-                    <li><a href="/">谢泽文个人博客</a></li>
-                    <li><a href="/">3DST技术网</a></li>
-                    <li><a href="/">思衡网络</a></li>
+                    <li><a href="/">个人CSDN博客</a></li>
+                    <li><a href="/">爱民博客</a></li>
+                    <li><a href="/">李静博客</a></li>
+                    <li><a href="/">XXXX博客</a></li>
+                    <li><a href="/">XXXX博客</a></li>
                 </ul>
             </div>
             <a href="/" class="weixin"> </a></aside>
@@ -114,20 +73,38 @@
         name: "homePage",
         data() {
             return {
+                articalData: {},
+                browseTop  : {},
 
             }
 
         },
         methods: {
-            test(){
-
+            showMainPage(){
+                let self = this;
+                this.GET(ApiPath.homePage.showMain)
+                    .then(function (res) {
+                        if(res.data.code == 0){
+                            console.log( res.data.data);
+                            self.articalData = res.data.data.new_artical;
+                            self.browseTop = res.data.data.browse_top;
+                        }
+                    })
+            },
+            showArtical(art_id){
+                this.$router.push({
+                    path: `/showArtical/${artId}`,
+                })
             }
+        },
+        mounted(){
+            this.showMainPage();
         }
     }
 </script>
 
 <style scoped>
-    .banner {  margin-top:20px;height: 265px; overflow: hidden }
+    .banner {  margin-top:20px;height: 215px; overflow: hidden }
     .texts { width: 350px; line-height: 26px; margin: 40px 0 0 20px; float: left; font-size: 14px; }
     .texts p { -webkit-transform: translate(60px); -moz-transform: translate(60px); -o-transform: translate(60px); -ms-transform: translate(60px); transform: translate(60px); text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.8), 2px 2px 3px rgba(180, 151, 151, 0.3); }
     .texts p:nth-child(1) { -webkit-animation: animations 3s ease-out 1s backwards; -moz-animation: animations 3s ease-out 1s backwards; -o-animation: animations 3s ease-out 1s backwards; -ms-animation: animations 3s ease-out 1s backwards; animation: animations 3s ease-out 1s backwards; }

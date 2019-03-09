@@ -7,7 +7,7 @@
             <router-link to="/"><span>首页</span><span class="en">Protal</span></router-link>
             <router-link to="/artical"><span>文章</span><span class="en">Artical</span></router-link>
             <router-link to="/album"><span>相册</span><span class="en">Album</span></router-link>
-            <router-link to="/messageBoard"><span>碎言碎语</span><span class="en">Doing</span></router-link>
+            <router-link to="/messageBoard"><span>闲言碎语</span><span class="en">Doing</span></router-link>
         </nav>
     </header>
 

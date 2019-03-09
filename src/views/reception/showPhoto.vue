@@ -11,23 +11,6 @@
                     <div class="box"><img src="../../images/reception/001.png" alt=""></div>
                     <div class="box"><img src="../../images/reception/001.png" alt=""></div>
                     <div class="box"><img src="../../images/reception/001.png" alt=""></div>
-                    <div class="box"><img src="../../images/reception/001.png" alt=""></div>
-                    <div class="box"><img src="../../images/reception/001.png" alt=""></div>
-                    <div class="box"><img src="../../images/reception/001.png" alt=""></div>
-                    <div class="box"><img src="../../images/reception/001.png" alt=""></div>
-                    <div class="box"><img src="../../images/reception/001.png" alt=""></div>
-                    <div class="box"><img src="../../images/reception/001.png" alt=""></div>
-                    <div class="box"><img src="../../images/reception/001.png" alt=""></div>
-                    <div class="box"><img src="../../images/reception/001.png" alt=""></div>
-                    <div class="box"><img src="../../images/reception/001.png" alt=""></div>
-                    <div class="box"><img src="../../images/reception/001.png" alt=""></div>
-                    <div class="box"><img src="../../images/reception/001.png" alt=""></div>
-                    <div class="box"><img src="../../images/reception/001.png" alt=""></div>
-                    <div class="box"><img src="../../images/reception/001.png" alt=""></div>
-                    <div class="box"><img src="../../images/reception/001.png" alt=""></div>
-                    <div class="box"><img src="../../images/reception/001.png" alt=""></div>
-                    <div class="box"><img src="../../images/reception/001.png" alt=""></div>
-                    <div class="box"><img src="../../images/reception/001.png" alt=""></div>
                 </div>
             </div>
         </article>
@@ -60,7 +43,7 @@
                     { "src": "03.jpg" }, { "src": "04.jpg" }, { "src": "02.jpg" }, { "src": "05.jpg" }, { "src": "01.jpg" }, { "src": "06.jpg" }
                 ]};
             var str = "";
-            var templ = '<div class="box" style="opacity:0;filter:alpha(opacity=0);"><div class="pic"><img src="img/{{src}}" /></div></div>'
+            var templ = '<div class="box" style="opacity:0;filter:alpha(opacity=0);"><div class="pic"><img src="img/{{src}}" /></div></div>';
 
             for(var i = 0; i < data.data.length; i++) {
                 str += templ.replace("{{src}}", data.data[i].src);
@@ -74,16 +57,19 @@
 </script>
 
 <style scoped>
-    #div1 { margin:auto; position:relative; }
+    #div1 { margin:auto; position:relative;    height: 1715px; }
     .box { float:left; padding:10px; border:1px solid #ccc; background:#f7f7f7; box-shadow:0 0 8px #ccc; }
     .box:hover { box-shadow:0 0 10px #999; }
     .box img { width:200px; }
 
     .box{
-        position: absolute;
-        top: 0px;
-        left: 753px;
-        opacity: 1
+
+        opacity: 1;
+        float: left;
+        padding: 10px;
+        border: 1px solid #ccc;
+        background: #f7f7f7;
+        box-shadow: 0 0 8px #ccc;
     }
 
     [class^="icon-"], [class*=" icon-"] {

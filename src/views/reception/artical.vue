@@ -6,21 +6,20 @@
             <h2 class="ctitle"><b>学无止境</b> <span>不要轻易放弃。学习成长的路上，我们长路漫漫，只因学无止境。</span></h2>
             <div class="rnav">
                 <ul>
-                    <li v-for="type in articalTypes"><a @click="">{{ type.type_name}}</a></li>
+                    <li v-for="type in articalTypes"><a :class="{active : active == type.type_name}" @click="btTypeSelectArtical(type.type_id, type.type_name)">{{ type.type_name}}</a></li>
                 </ul>
             </div>
             <ul class="cbp_tmtimeline">
                 <li v-for="artical in articalDatas">
-                    <time class="cbp_tmtime"><span>{{ artical.monthDay }}</span><span>{{ artical.year }}</span></time>
+                    <time class="cbp_tmtime"><span>{{ artical.monthDay }}</span><span>{{ artical.years }}</span></time>
                     <div class="cbp_tmicon"></div>
                     <div class="cbp_tmlabel" data-scroll-reveal="enter right over 1s" >
                         <h2>{{ artical.arti_title }}</h2>
                         <p><span class="blogpic"><a href="/"><img src="../../images/reception/001.png"></a></span>{{ artical.arti_content }}</p>
-                        <router-link to="/showArtical" target="_blank" class="readmore">阅读全文&gt;&gt;</router-link>
+                        <router-link :to="{ name: 'showArtical', query: { artId: artical.arti_id } }" target="_blank" class="readmore">阅读全文&gt;&gt;</router-link>
                     </div>
                 </li>
             </ul>
-            <div class="page"><a title="Total record"><b>107</b> </a><b>1</b><a href="/news/index_2.html">2</a><a href="/news/index_3.html">3</a><a href="/news/index_4.html">4</a><a href="/news/index_5.html">5</a><a href="/news/index_2.html">&gt;</a><a href="/news/index_5.html">&gt;&gt;</a></div>
         </div>
     </article>
     <myFooter></myFooter>
@@ -34,26 +33,74 @@
             return {
                 articalTypes : [],
                 articalDatas : [],
-
+                typeId  : 0,
+                active : '',
+                page: 0,
+                isHave: true,
 
             }
         },
+        methods:{
+            handleScrolls() {
+                if(!this.isHave) return ;
+                // 可视区高度
+                var windowHeight = document.documentElement.clientHeight;
+                //滚动条的高度
+                var srcollTop = document.documentElement.scrollTop || document.body.scrollTop;
+                var srcollH = document.body.scrollHeight;
+                if(srcollTop + windowHeight  > srcollH) {
+                    this.page++;
+                    this.getArtical(3);
+                }
+            },
+            getArtical(getStatus) {
+                let self = this;
+                self.GET(ApiPath.artical.byTypeSelectArtical, {
+                    'type_id': self.typeId,
+                    'page'   : self.page
+                })
+                    .then(function (res) {
+                        if(res.data.code == 0){
+                            let data = res.data.data.articals;
+                            if(data.length === 0){
+                                self.isHave = false;
+                                return ;
+                            }
+                            if(getStatus === 3) {
+                                self.articalDatas = self.articalDatas.concat(data);
+                                return ;
+                            }
+                            self.articalDatas = data;
+                        }
+                    });
+            },
+            btTypeSelectArtical(typeId, typeName) {
+                this.typeId = typeId;
+                this.active = typeName;
+                this.page = 0;
+                this.getArtical(2);
+            },
+        },
         mounted() {
             let self = this;
-            this.GET(ApiPath.artical.byTypeSelectArtical)
+            self.GET(ApiPath.artical.showArticalPage)
                 .then(function (res) {
                     if(res.data.code == 0){
                         self.articalTypes = res.data.data.art_types;
+                        self.typeId = self.articalTypes[0].type_id;
+                        self.active = self.articalTypes[0].type_name;
                         self.articalDatas = res.data.data.articals;
                     }
-
-                })
-        }
+                });
+            window.addEventListener('scroll',self.handleScrolls);
+        },
     }
-
 </script>
 
 <style scoped>
+    .active {
+        background: #075498;
+    }
     .rnav { margin: 30px auto; overflow: hidden; overflow: hidden; padding-left: 100px; color: #000}
     .rnav li { width: 120px; text-align: center; display: inline-block; margin-bottom: 5px; margin-right: 5px; float: left; height: 40px; line-height: 38px; background: rgba(255,255,255,0.2) }
     .rnav li a {  display: block; -webkit-transition: all 1s; -moz-transition: all 1s; -o-transition: all 1s; transition: all 1s; border: #fff 1px solid; cursor: pointer }

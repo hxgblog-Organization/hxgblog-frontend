@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <router-view/>
+    <SCRIPT SRC=""></SCRIPT>
   </div>
 </template>
 

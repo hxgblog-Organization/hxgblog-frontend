@@ -12,15 +12,6 @@
                         <input name="Submit" class="input_submit" value="搜索" type="submit">
                     </form>
                 </div>
-                <div class="fenlei">
-                    <h2>文章分类</h2>
-                    <ul>
-                        <li><a href="/">学无止境（33）</a></li>
-                        <li><a href="/">日记（19）</a></li>
-                        <li><a href="/">慢生活（520）</a></li>
-                        <li><a href="/">美文欣赏（40）</a></li>
-                    </ul>
-                </div>
                 <div class="tuijian">
                     <h2>站长推荐</h2>
                     <ul>
@@ -47,16 +38,10 @@
                         <li><a href="/">个人博客模板《绅士》后台管理</a></li>
                     </ul>
                 </div>
-                <div class="cloud">
-                    <h2>标签云</h2>
-                    <ul>
-                        <a href="/">陌上花开</a> <a href="/">校园生活</a> <a href="/">html5</a> <a href="/">SumSung</a> <a href="/">青春</a> <a href="/">温暖</a> <a href="/">阳光</a> <a href="/">三星</a><a href="/">索尼</a> <a href="/">华维荣耀</a> <a href="/">三星</a> <a href="/">索尼</a>
-                    </ul>
-                </div>
                 <div class="guanzhu">
-                    <h2>关注我 么么哒</h2>
+                    <h2>关注我——>坏小哥</h2>
                     <ul>
-                        <img src="images/wx.jpg">
+                        <img src="../../images/reception/hxg-gzh.jpg">
                     </ul>
                 </div>
             </div>
@@ -108,8 +93,20 @@
 
             }
         },
+        methods: {
+            getArticalInfor(artId) {
+                let self = this;
+                self.GET(ApiPath.artical.showArticalDetail, {
+                    art_id: artId 
+                })
+                    .then(function (res) {
+
+
+                    })
+            }
+        },
         mounted() {
-            console.log(this.$route.query.artId);
+            this.getArticalInfor(this.$route.query.artId);
         }
     }
 </script>
@@ -129,7 +126,6 @@
     .wdxc li { width: 32%; overflow: hidden; float: left; height: 80px; margin-bottom: 2px; margin-right: 2px }
     .wdxc li img { height: 100%; min-height: 80px; -webkit-transition: all 0.5s; -moz-transition: all 0.5s; transition: all 0.5s; }
     .wdxc li img:hover { transform: scale(1.05) }
-    .fenlei li { margin-bottom: 10px; margin-left: 10px }
     .tuijian li { text-overflow: ellipsis; white-space: nowrap; overflow: hidden; margin-bottom: 5px; background: url(../../images/reception/li.png) left center no-repeat; padding-left: 20px }
     .links a { display: block; float: left; margin: 0 10px 5px 0 }
     .guanzhu img { width: 100% }
@@ -153,18 +149,6 @@
     /*about*/
     .about{ padding: 20px; background: rgba(255,255,255,0.8);}
     .about img{ max-width:500px; margin:20px 0; width:100%}
-    .cloud ul a { line-height: 24px; height: 24px; display: block; background: #999; float: left; padding: 3px 11px; margin: 10px 10px 0 0; border-radius: 8px; -moz-transition: all 0.5s; -webkit-transition: all 0.5s; -o-transition: all 0.5s; transition: all 0.5s; color: #FFF }
-    .cloud ul a:nth-child(8n-7) { background: #8A9B0F }
-    .cloud ul a:nth-child(8n-6) { background: #EB6841 }
-    .cloud ul a:nth-child(8n-5) { background: #3FB8AF }
-    .cloud ul a:nth-child(8n-4) { background: #FE4365 }
-    .cloud ul a:nth-child(8n-3) { background: #FC9D9A }
-    .cloud ul a:nth-child(8n-2) { background: #EDC951 }
-    .cloud ul a:nth-child(8n-1) { background: #C8C8A9 }
-    .cloud ul a:nth-child(8n) { background: #83AF9B }
-    .cloud ul a:first-child { background: #036564 }
-    .cloud ul a:last-child { background: #3299BB }
-    .cloud ul a:hover { border-radius: 0; text-shadow: #000 1px 1px 1px }
     .picbox { width: 100%; overflow: hidden;  }
     .picbox ul { overflow: hidden; width: 24%; float: left; margin-right:10px }
     .picbox ul li { display: block; background: #FFF; margin: 0 0 20px 0; border: 1px #d9d9d9 solid; }

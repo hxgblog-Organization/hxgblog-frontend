@@ -4,5 +4,7 @@ export  default {
      */
     showArticalPage: 'showArticalPage',
     byTypeSelectArtical: 'byTypeSelectArtical',
+    showArticalDetail: 'showArticalDetail',
+    byNameSelectArtical: 'byNameSelectArtical',
 
 }

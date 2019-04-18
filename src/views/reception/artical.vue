@@ -1,6 +1,5 @@
 <template>
     <div>
-        <myHeader></myHeader>
     <article>
         <div class="containers">
             <h2 class="ctitle"><b>学无止境</b> <span>不要轻易放弃。学习成长的路上，我们长路漫漫，只因学无止境。</span></h2>
@@ -15,14 +14,13 @@
                     <div class="cbp_tmicon"></div>
                     <div class="cbp_tmlabel" data-scroll-reveal="enter right over 1s" >
                         <h2>{{ artical.arti_title }}</h2>
-                        <p><span class="blogpic"><a href="/"><img src="../../images/reception/001.png"></a></span>{{ artical.arti_content }}</p>
+                        <p><span class="blogpic"><a href="/"><img src="../../images/reception/001.png"></a></span><span>{{ artical.arti_content }}</span></p>
                         <router-link :to="{ name: 'showArtical', query: { artId: artical.arti_id } }" target="_blank" class="readmore">阅读全文&gt;&gt;</router-link>
                     </div>
                 </li>
             </ul>
         </div>
     </article>
-    <myFooter></myFooter>
     </div>
 </template>
 
@@ -48,7 +46,8 @@
                 //滚动条的高度
                 var srcollTop = document.documentElement.scrollTop || document.body.scrollTop;
                 var srcollH = document.body.scrollHeight;
-                if(srcollTop + windowHeight  > srcollH) {
+                // console.log(windowHeight + "--" + srcollTop + "---" + srcollH);
+                if(srcollTop + windowHeight + (this.page * 210) > srcollH) {
                     this.page++;
                     this.getArtical(3);
                 }

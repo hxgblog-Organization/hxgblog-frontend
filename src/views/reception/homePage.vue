@@ -1,20 +1,19 @@
 <template>
     <div id="front-main-content">
-        <myHeader></myHeader>
         <div class="banner">
         <section class="box">
             <ul class="texts">
-                <p>打了死结的青春，捆死一颗苍白绝望的灵魂。</p>
-                <p>为自己掘一个坟墓来葬心，红尘一梦，不再追寻。</p>
-                <p>加了锁的青春，不会再因谁而推开心门。</p>
+                <p>Where there is a will, there is a way!</p>
+                <p>As long as you feel, nothing is impossible!</p>
+                <p>To be or not to be, that's a question! —— Shakespeare</p>
             </ul>
-            <div class="avatar"><a href="#"><span>杨青</span></a> </div>
+            <div class="avatar"><a href="#"><span>杨青</span></a></div>
         </section>
     </div>
     <div class="template">
         <div class="box">
             <h3>
-                <p><span>个人博客</span>模板 Templates</p>
+                <p><span>个人博客</span>~随便写写，记录点点滴滴！</p>
             </h3>
             <ul>
                 <li><a href="/"  target="_blank"><img src="../../images/reception/001.png"></a><span>仿新浪博客风格·梅——古典个人博客模板</span></li>
@@ -62,9 +61,8 @@
                     <li><a href="/">XXXX博客</a></li>
                 </ul>
             </div>
-            <a href="/" class="weixin"> </a></aside>
+            <a href="/" class="wei-xin"> </a></aside>
     </article>
-    <myFooter></myFooter>
     </div>
 </template>
 
@@ -291,7 +289,7 @@
     .avatar a:hover span { display: block; margin-top: 0; }
     .template { background: #F1F0EE }
     .template h3 { border-bottom: #FFF 1px solid; width: 100%; overflow: hidden; font-size: 14px; margin: 0 0 10px; font-family: "Î¢ÈíÑÅºÚ"; display: block; clear: both; }
-    .template h3 p { background: #474645; width: 180px; height: 25px; margin: 15px 0 0 10px; line-height: 25px; color: #fff; text-align: center; box-shadow: #999 4px 5px 1px; }
+    .template h3 p { background: #474645; width: 240px; height: 25px; margin: 15px 0 0 10px; line-height: 25px; color: #fff; text-align: center; box-shadow: #999 4px 5px 1px; }
     .template h3 p span { color: #38b3d4; }
     .template ul { overflow: hidden; }
     .template ul li { margin: 3px; float: left; display: block; padding: 5px 5px 6px 5px; -webkit-transition: all 1s; -moz-transition: all 1s; -o-transition: all 1s; transition: all 1s; }
@@ -325,5 +323,5 @@
     .paih li { line-height: 30px; height: 30px; overflow: hidden; padding-left: 24px; border-bottom: #CCC dotted 1px }
     .website { margin: 10px 0; background: #F3F3F3; border-radius: 50%; text-align: center; }
     .website li { line-height: 26px; text-shadow: #fff 1px 1px 1px; height: 26px; }
-    .weixin { background: url(../../images/reception/hxg-gzh.jpg) no-repeat; width: 100%; display: inline-block; height: 274px; overflow: hidden; margin: 10px 0; clear: both }
+    .wei-xin { background: url(../../images/reception/hxg-gzh.jpg) no-repeat; width: 100%; display: inline-block; height: 274px; overflow: hidden; margin: 10px 0; clear: both }
 </style>

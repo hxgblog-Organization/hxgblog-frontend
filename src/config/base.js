@@ -41,6 +41,7 @@ export default {
         }
         sessionStorage.setItem("url_login", url);
     },
+    //数据加密
     RSA: function (plaintext) {
         var encrypt = new JSEncrypt();
         encrypt.setPublicKey('-----BEGIN PUBLIC KEY-----\n' +
@@ -50,6 +51,18 @@ export default {
             'wOLwn+AVxjYmaQzCZwIDAQAB\n' +
             '-----END PUBLIC KEY-----\n');
         return encrypt.encrypt(plaintext);
+    },
+    //登录验证
+    loginValidate: function (param = {}) {
+        if(param.phone === ''){
+            this.$message.error('请你填写手机号');
+            return false;
+        }
+        if(param.password === ''){
+            this.$message.error('请你填写密码');
+            return false;
+        }
+        return true;
     }
 
 }

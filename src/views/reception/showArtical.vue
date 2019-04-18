@@ -1,10 +1,9 @@
 <template>
     <div class="show-artical">
-        <myHeader></myHeader>
-        <article>
+        <article class="main-artical">
             <div class="l_box">
                 <div class="search">
-                    <form action="/e/search/index.php" method="post" name="searchform" id="searchform">
+                    <form action="" method="post" name="searchform" id="searchform">
                         <input name="keyboard" id="keyboard" class="input_text" value="请输入关键字词" style="color: rgb(153, 153, 153);" onfocus="if(value=='请输入关键字词'){this.style.color='#000';value=''}" onblur="if(value==''){this.style.color='#999';value='请输入关键字词'}" type="text">
                         <input name="show" value="title" type="hidden">
                         <input name="tempid" value="1" type="hidden">
@@ -15,27 +14,17 @@
                 <div class="tuijian">
                     <h2>站长推荐</h2>
                     <ul>
-                        <li><a href="/">你是什么人便会遇上什么人</a></li>
-                        <li><a href="/">帝国cms 列表页调用子栏目，没有则不显示栏目名称</a></li>
-                        <li><a href="/">第二届 优秀个人博客模板比赛参选活动</a></li>
-                        <li><a href="/">个人博客模板《绅士》后台管理</a></li>
-                        <li><a href="/">你是什么人便会遇上什么人</a></li>
-                        <li><a href="/">帝国cms 列表页调用子栏目，没有则不显示栏目名称</a></li>
-                        <li><a href="/">第二届 优秀个人博客模板比赛参选活动</a></li>
-                        <li><a href="/">个人博客模板《绅士》后台管理</a></li>
+                        <li v-for="newItem in newArtical" :key="newItem.id">
+                            <a href="/">{{ newItem.arti_title }}</a>
+                        </li>
                     </ul>
                 </div>
                 <div class="tuijian">
                     <h2>点击排行</h2>
                     <ul>
-                        <li><a href="/">你是什么人便会遇上什么人</a></li>
-                        <li><a href="/">帝国cms 列表页调用子栏目，没有则不显示栏目名称</a></li>
-                        <li><a href="/">第二届 优秀个人博客模板比赛参选活动</a></li>
-                        <li><a href="/">个人博客模板《绅士》后台管理</a></li>
-                        <li><a href="/">你是什么人便会遇上什么人</a></li>
-                        <li><a href="/">帝国cms 列表页调用子栏目，没有则不显示栏目名称</a></li>
-                        <li><a href="/">第二届 优秀个人博客模板比赛参选活动</a></li>
-                        <li><a href="/">个人博客模板《绅士》后台管理</a></li>
+                        <li v-for="browseItem in browseTopArtical" :key="browseItem.id">
+                            <a href="/">{{ browseItem.arti_title }}</a>
+                        </li>
                     </ul>
                 </div>
                 <div class="guanzhu">
@@ -51,36 +40,43 @@
                 <h3 class="news_title">个人博客，属于我的小世界！</h3>
                 <div class="bloginfo">
                     <ul>
-                        <li class="author">作者：<a href="/">杨青</a></li>
+                        <li class="author">作者：<a href="/">坏小哥</a></li>
                         <li class="lmname"><a href="/">学无止境</a></li>
-                        <li class="timer">时间：2018-5-13</li>
-                        <li class="view">4567人已阅读</li>
+                        <li class="timer">时间：{{ articalData.years + "-" + articalData.monthDay }}</li>
+                        <li class="view">{{ articalData.arti_browse }}人已阅读</li>
                     </ul>
                 </div>
-                <div class="tags"><a href="/" target="_blank">个人博客</a> &nbsp; <a href="/" target="_blank">小世界</a></div>
+                <div class="tags">
+                    <a href="/" target="_blank">个人博客</a> &nbsp;
+                    <a href="/" target="_blank">小世界</a>
+                </div>
                 <div class="news_about"><strong>简介</strong>个人博客，用来做什么？我刚开始就把它当做一个我吐槽心情的地方，也就相当于一个网络记事本，写上一些关于自己生活工作中的小情小事，也会放上一些照片，音乐。每天工作回家后就能访问自己的网站，一边听着音乐，一边写写文章。</div>
-                <div class="news_con"> 本文很长，记录了我博客建站初到现在的过程，还有我从毕业到现在的一个状态，感谢您的阅读，如果你还是学生，也许你能从此文中，找到我们曾经相似的地方。如果你已经工作，有自己的博客，我想，你并没有忘记当初建立个人博客的初衷吧！<br>
-                    <br>
-                    我的个人博客已经建站有8年的时间了，对它的热爱，一直都是只增未减。回想大学读书的那几年，那会儿非常流行QQ空间，我们寝室的室友还经常邀约去学校的网吧做自己的空间。系里有个男生，空间做得非常漂亮，什么悬浮，开场动画，音乐播放器，我们女生羡慕得不得了。还邀约他跟我们一起去通宵弄空间，网上可以找到很多免费的flash资源，还有音乐，那也是第一次接触js，知道在浏览器输入一个地址，修改一下数据，就能调用一些背景出来。然后把自己QQ空间弄得漂漂亮亮的，经常邀约室友来互踩。我记得08年地震，第二天晚上，我们寝室的几个人还淡定的在寝室装扮空间呢！<br>
-                    <br>
-                    <img alt="" src="../../images/reception/001.png"><br>
-                    <br>
-                    我接到的第一单，是一位父亲，想给自家的宝贝建立一个博客。他说他想买一个域名，谈了好几天，最终花了8000多购买到，我挺敬佩他的，对孩子的爱，毫不吝啬。域名固然重要，其实我想说坚持用博客来记录宝贝成长点滴，才是最有价值的。第二单是一个阅读网站，从加他到跟他聊，看他朋友圈，很有才气的一个人，也相当有爱心，他的网站大部分是分享给一些爱好阅读的长者。还有些就是技术类的站长，做资讯，做旅游，做推广的。通常，从选的模板就能看出来网站类型。《<u><a href="http://www.yangqq.com/download/div/2017-09-08/789.html">心蓝时间轴</a></u>》偏个人，《<u><a href="http://www.yangqq.com/download/div/2018-03-18/807.html">绅士</a></u>》，《<u><a href="http://www.yangqq.com/download/div/2018-04-22/815.html" target="_blank">格调</a></u>》偏技术，资讯。《<u><a href="http://www.yangqq.com/download/div/2018-04-18/814.html" target="_blank">清雅</a></u>》，《<u><a href="http://www.yangqq.com/download/div/2017-07-16/785.html" target="_blank">水墨古典</a></u>》偏文艺。但也有对我防备心的，比如说付款方式，能不能走淘宝，这些我也能理解，但是有些吧，从一开始聊，感觉就不太好，理应就认为不应该收钱，收钱干嘛，到处都是免费的，听到这些，我也慢慢解释。其实他们并不了解我，了解我的网站，只要是从我博客来的，关注过一段时间的，都知道青姐的人品是咋样的。用“心塞”这个词，毫不为过吧。<br>
-                    <br>
-                    我做过的网站，每过一段时间，我都会一个个点击看看进展怎么样，个人博客，不像真实的面对面聊，更多的是文字的交流，不得不说有时候文字传达的信息更能了解一个人，甚至有心灵共鸣。我想我还会再重新做一个仅仅属于自己的个人博客，如果你也想要做一个博客，用来记录自己的家庭，工作，生活，或者讨女友欢心，不妨现在就开始吧！<br>
-                    <br>
-                    &nbsp;
+                <div class="news_con">
+                    <p class="artical">
+                        {{ articalData.arti_content }}
+                    </p>
                 </div>
             </div>
             <div class="news_pl">
                 <h2>文章评论</h2>
-                <ul>
-                    <div class="gbko"> </div>
+                <ul v-for="com in comments" :key="com.arti_id">
+                    <li >
+                        <a>
+                            <img src=""/>
+                        </a>
+                        <div class="gbko">
+                            <div>
+                                <span>{{ com.come_content }}</span>
+                                <span>{{ com.created_at }}</span>
+                                <span>
+                                    <a>查看回复</a>
+                                </span>
+                            </div>
+                        </div>
+                    </li>
                 </ul>
             </div>
         </div>
-
-        <myFooter></myFooter>
         </article>
     </div>
 </template>
@@ -90,6 +86,10 @@
         name: "showArtical",
         data() {
             return {
+                browseTopArtical: [],
+                newArtical: [],
+                comments: [],
+                articalData: {}
 
             }
         },
@@ -100,7 +100,13 @@
                     art_id: artId 
                 })
                     .then(function (res) {
-
+                        console.log(res.data.data);
+                        if(res.data.code == 0){
+                            self.newArtical =  res.data.data.new_articals;
+                            self.browseTopArtical = res.data.data.browse_top;
+                            self.comments = res.data.data.comments;
+                            self.articalData = res.data.data.artical_data[0];
+                        }
 
                     })
             }
@@ -112,6 +118,12 @@
 </script>
 
 <style scoped>
+    .artical{
+        border: 1px solid #F3F3F3;
+        padding: 10px;
+        margin: 20px auto 15px auto;
+        line-height: 23px
+    }
     .show-artical{
         background: url(../../images/reception/artical-back.jpg)  no-repeat right top #D6E0E1;
     }
@@ -193,19 +205,19 @@
         header{ width:96%; margin:auto}
     }
     @media screen and (min-width: 960px) and (max-width: 1023px) {
-        header,article{ width:96%; margin:auto}
+        header,.main-artical{ width:96%; margin:auto}
         .picbox ul{    width: 23%;}
         .picshowlist{ display:none}
         .tuijian,.guanzhu{ width:270px; }
     }
     @media screen and (min-width: 768px) and (max-width: 959px) {
-        header,article{ width:96%; margin:auto}
+        header,.main-artical{ width:96%; margin:auto}
         .picbox ul{    width: 23%;}
         .picshowlist{ display:none}
         .pagelist a { padding: 2px 3px;}
     }
     @media only screen and (min-width: 480px) and (max-width: 767px) {
-        header,article{ width:96%; margin:auto}
+        header,.main-artical{ width:96%; margin:auto}
         .logo{  width:100%;text-align:center}
         nav{ width:100%}
         nav li{ width:20%}
@@ -219,7 +231,7 @@
         .lmname,.view{ display:none}
     }
     @media only screen and (max-width: 479px) {
-        header,article{ width:96%; margin:auto}
+        header,.main-artical{ width:96%; margin:auto}
         .logo{  width:100%;text-align:center}
         nav{ width:100%}
         .l_box{ display:none}

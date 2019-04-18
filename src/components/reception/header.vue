@@ -1,21 +1,50 @@
 <template>
-    <header class="headers">
-        <div id="logo">
-            <a href="/"></a>
-        </div>
-        <nav class="topnav" id="topnav">
-            <router-link to="/"><span>首页</span><span class="en">Protal</span></router-link>
-            <router-link to="/artical"><span>文章</span><span class="en">Artical</span></router-link>
-            <router-link to="/album"><span>相册</span><span class="en">Album</span></router-link>
-            <router-link to="/messageBoard"><span>闲言碎语</span><span class="en">Doing</span></router-link>
-        </nav>
-    </header>
-
+    <div>
+        <header class="headers">
+            <div id="logo">
+                <a href="/"></a>
+            </div>
+            <nav class="topnav" id="topnav">
+                <router-link to="/"><span>首页</span><span class="en">Protal</span></router-link>
+                <router-link to="/artical"><span>文章</span><span class="en">Artical</span></router-link>
+                <router-link to="/album"><span>相册</span><span class="en">Album</span></router-link>
+                <router-link to="/messageBoard"><span>闲言碎语</span><span class="en">Doing</span></router-link>
+                <div id="login-register" v-if="!isLogin">
+                    <el-button type="text" @click="showModel(1)">登录</el-button>
+                    <el-button type="text" @click="showModel(2)">注册</el-button>
+                </div>
+                <div class="infor-content" v-if="isLogin">
+                    <ul class="infor-ul">
+                        <li><span class="font-span">{{ information.nick_name }}&nbsp;</span></li>
+                        <li><img id="head-img" src="../../images/reception/001.png"/></li>
+                    </ul>
+                    <el-button>退出</el-button>
+                </div>
+            </nav>
+        </header>
+        <login ref='login' @sendMessage = "loginChild"></login>
+        <register ref="register"></register>
+    </div>
 </template>
-
 <script>
     export default {
         name: "headers",
+        data() {
+            return {
+                information: {},
+                isLogin: false
+            }
+        },
+        methods: {
+            showModel(num) {
+                (num === 1) ? this.$refs.login.showLoginModel(true) : this.$refs.register.showRegisterModel(true);
+            },
+            loginChild(information){
+                console.log(information);
+                this.isLogin = true;
+                this.information = information;
+            }
+        }
     }
 </script>
 
@@ -47,9 +76,9 @@
     .right { float: right; }
     .blank { height: 5px; overflow: hidden; width: 100%; margin: auto; clear: both }
     .box{ width:1000px; margin:auto; overflow:hidden}
-    header { width: 1000px; margin: auto; height: 115px; position: relative; overflow: hidden }
+    header { width: 80%; margin: auto; height: 115px; position: relative; overflow: hidden }
     #logo a { width: 362px; height: 105px; position: absolute; background: url(../../images/reception/logo.png) no-repeat; display: block }
-    nav { float: right; width: 100%; margin: 50px 60px 0 0; text-align: right }
+    nav { float: right;  width: 57%; margin: 50px 0 0 0; text-align: right }
     nav a { position: relative; margin-right:2%;display: inline-block; font-size: 18px; font-family: "Î¢ÈíÑÅºÚ", Arial, Helvetica, sans-serif; }
     nav a:hover { text-decoration: none }
     .topnav a { margin: 0 20px; padding: 0 8px; }
@@ -60,4 +89,25 @@
     .en { color: #999; font-size: 12px; z-index: 1; display: block; }/* ie */
     article { width: 1000px; margin: 20px auto; overflow: hidden; text-align: left}
     aside { width: 250px; }
+    .infor-ul li{
+        float: left;
+    }
+    .infor-content, #login-register{
+        float: right;
+        width: 25%;
+    }
+    .infor-ul{
+        margin-bottom: 0;
+    }
+    #head-img{
+        width: 40px;
+        height: 40px;
+        background: #7fee1d;
+        -moz-border-radius: 60px;
+        -webkit-border-radius: 60px;
+        border-radius: 60px;
+    }
+    .font-span{
+        font-size: 23px;
+    }
 </style>

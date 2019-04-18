@@ -1,6 +1,5 @@
 <template>
     <div>
-        <myHeader></myHeader>
         <article class="jq22-container">
             <div class="htmleaf-content bgcolor-3">
                 <div id="div1">
@@ -14,7 +13,6 @@
                 </div>
             </div>
         </article>
-        <myFooter></myFooter>
     </div>
 </template>
 

@@ -37,6 +37,7 @@ Object.keys(base).forEach((key) => {
     Vue.prototype[key] = base[key]
 });
 
+
 /**
  * 状态码
  */

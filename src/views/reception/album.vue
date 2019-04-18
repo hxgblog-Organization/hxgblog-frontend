@@ -1,6 +1,5 @@
 <template>
 <div>
-    <myHeader></myHeader>
     <article>
         <div class="containers">
             <h2 class="ctitle"><b>清新相册</b> <span>好咖啡要和朋友一起品尝，好“照片”也要和同样喜欢它的人一起分享。</span></h2>
@@ -51,7 +50,6 @@
             <div class="page"><a title="Total record"><b>107</b> </a><b>1</b><a href="/news/index_2.html">2</a><a href="/news/index_3.html">3</a><a href="/news/index_4.html">4</a><a href="/news/index_5.html">5</a><a href="/news/index_2.html">&gt;</a><a href="/news/index_5.html">&gt;&gt;</a></div>
         </div>
     </article>
-    <myFooter></myFooter>
 </div>
 
 </template>

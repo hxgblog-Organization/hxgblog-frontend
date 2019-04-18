@@ -1,6 +1,5 @@
 <template>
     <div>
-        <myHeader></myHeader>
         <article>
             <div class="container">
                 <h2 class="ctitle"><b>留言板</b> <span>你，生命中最重要的过客，之所以是过客，因为你未曾为我停留。</span></h2>
@@ -83,8 +82,6 @@
                 </ul>
             </div>
         </article>
-
-        <myFooter></myFooter>
     </div>
     
 </template>

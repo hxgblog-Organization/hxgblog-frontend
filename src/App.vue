@@ -1,7 +1,9 @@
 <template>
   <div id="app">
-    <router-view/>
+    <myHeader></myHeader>
+    <router-view></router-view>
     <SCRIPT SRC=""></SCRIPT>
+    <myFooter></myFooter>
   </div>
 </template>
 

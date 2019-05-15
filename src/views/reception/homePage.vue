@@ -7,7 +7,7 @@
                 <p>As long as you feel, nothing is impossible!</p>
                 <p>To be or not to be, that's a question! —— Shakespeare</p>
             </ul>
-            <div class="avatar"><a href="#"><span>杨青</span></a></div>
+            <div class="avatar"><a href="#"><span>坏小哥</span></a></div>
         </section>
     </div>
     <div class="template">
@@ -16,12 +16,12 @@
                 <p><span>个人博客</span>~随便写写，记录点点滴滴！</p>
             </h3>
             <ul>
-                <li><a href="/"  target="_blank"><img src="../../images/reception/001.png"></a><span>仿新浪博客风格·梅——古典个人博客模板</span></li>
+                <li><a href="/" target="_blank"><img src="../../images/reception/001.png"></a><span>仿新浪博客风格·梅——古典个人博客模板</span></li>
                 <li><a href="/" target="_blank"><img src="../../images/reception/001.png"></a><span>黑色质感时间轴html5个人博客模板</span></li>
-                <li><a href="/"  target="_blank"><img src="../../images/reception/001.png"></a><span>Green绿色小清新的夏天-个人博客模板</span></li>
+                <li><a href="/" target="_blank"><img src="../../images/reception/001.png"></a><span>Green绿色小清新的夏天-个人博客模板</span></li>
                 <li><a href="/" target="_blank"><img src="../../images/reception/001.png"></a><span>女生清新个人博客网站模板</span></li>
-                <li><a href="/"  target="_blank"><img src="../../images/reception/001.png"></a><span>黑色质感时间轴html5个人博客模板</span></li>
-                <li><a href="/"  target="_blank"><img src="../../images/reception/001.png"></a><span>Green绿色小清新的夏天-个人博客模板</span></li>
+                <li><a href="/" target="_blank"><img src="../../images/reception/001.png"></a><span>黑色质感时间轴html5个人博客模板</span></li>
+                <li><a href="/" target="_blank"><img src="../../images/reception/001.png"></a><span>Green绿色小清新的夏天-个人博客模板</span></li>
             </ul>
         </div>
     </div>
@@ -35,19 +35,62 @@
             <figure><img src="../../images/reception/001.png"></figure>
             <ul>
                 <p>{{ item.arti_content }}</p>
-                <router-link :to="{ name: 'showArtical', query: {artId: item.arti_id}}" title="/"  target="_blank" class="readmore" @click="showArtical(item.arti_id)">阅读全文>></router-link>
+                <router-link :to="{ name: 'showArtical', query: {artId: item.arti_id}}" title="/"  target="_blank" class="readmore" >阅读全文>></router-link>
             </ul>
             <p class="dateview"><span>{{ item.arti_create_time}}</span><span>作者：张腾飞</span><span>个人博客：[<a href="/news/life/">坏小哥</a>]</span></p>
             </div>
         </div>
         <aside class="right">
-            <div class="weather"><iframe width="250" scrolling="no" height="60" frameborder="0" allowtransparency="true" src="http://i.tianqi.com/index.php?c=code&id=12&icon=1&num=1"></iframe></div>
+            <div class="today-weather">
+
+                <div class="wleft">
+                    <div class="wtname">
+                        <strong style="line-height:18px; font-family:'微软雅黑'">{{ todayWeather.date }}</strong>
+                        <a v-bind:href="weatherUrl" target="_blank" style="line-height:18px; font-family:'微软雅黑'">{{ city }}</a>
+                    </div>
+                    <div class="order-one">
+                        <a style=" font-family:'微软雅黑'">{{ todayWeather.type }}天</a>
+                    </div>
+                    <div class="order-two">
+                        <a style=" font-family:'微软雅黑'">后续四天如下:</a>
+                    </div>
+                </div>
+                <div class="wt">
+                    <div class="wt1">
+                        <div class="wtline">
+                            <strong style="font-family:'微软雅黑'">温度范围</strong>
+                        </div>
+                        <div class="wtline" style="font-family:'微软雅黑'">{{ todayWeather.temperature }}</div>
+                        <div class="wtline">
+                            <strong style="font-family:'微软雅黑'">风况</strong>
+                        </div>
+                        <div class="wtline" style="font-family:'微软雅黑'">{{ todayWeather.fengli }}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="weather" style="font-size: 2px">
+                    <el-table
+                            :data="weatherData"
+                            :height="height"
+                            stripe
+                            style="width: 100%;font-size: 5px">
+                        <el-table-column
+                                prop="temperature"
+                                label="温度范围">
+                        </el-table-column>
+                        <el-table-column
+                                prop="type"
+                                label="天气类型"
+                                :width="width">
+                        </el-table-column>
+                    </el-table>
+            </div>
             <div class="news">
                 <h3 class="ph">
                     <p>点击<span>排行</span></p>
                 </h3>
-                <ul class="paih" >
-                    <li v-for="items in browseTop" :key="items.id"><a href="/" title="items.arti_title+" target="_blank">{{ items.arti_title }}</a></li>
+                <ul class="paih">
+                    <li v-for="items in browseTop" :key="items.id"><a @click="showArtical(items.arti_id)" target="_blank">{{ items.arti_title }}</a></li>
                 </ul>
                 <h3 class="links">
                     <p>友情<span>链接</span></p>
@@ -73,7 +116,12 @@
             return {
                 articalData: {},
                 browseTop  : {},
-
+                weatherData: [],
+                todayWeather: {},
+                width: 100,
+                height: 236,
+                city: '',
+                weatherUrl: 'https://www.tianqi.com/',
             }
 
         },
@@ -84,15 +132,51 @@
                     .then(function (res) {
                         if(res.data.code == 0){
                             console.log( res.data.data);
-                            self.articalData = res.data.data.new_artical;
-                            self.browseTop = res.data.data.browse_top;
+                            let data = res.data.data;
+                            self.city = data.weather;
+                            self.weatherUrl = self.weatherUrl + pinyin.getFullChars(self.city).toLowerCase() + "/?tq";
+                            self.articalData = data.new_artical;
+                            self.browseTop = data.browse_top;
+                            $.ajax({
+                                type: 'GET',
+                                url: "http://wthrcdn.etouch.cn/weather_mini?city=" + self.city,
+                                success: function (data){
+                                    var date = new Date;
+                                    var reg =  /[\u4e00-\u9fa5]/g;
+                                    let month = date.getMonth() + 1;
+                                    self.weatherData  = JSON.parse(data).data.forecast;
+                                    self.todayWeather = JSON.parse(data).data.forecast[0];
+                                    self.todayWeather.date = month + '月' + self.todayWeather.date;
+                                    console.log(self.todayWeather.date);
+                                    self.todayWeather.low  = self.todayWeather.low.replace(reg, "");
+                                    self.todayWeather.high = self.todayWeather.high.replace(reg, "");
+                                    self.todayWeather.fengli = self.todayWeather.fengli.replace(/[^0-9]/ig,"");
+                                    if(self.todayWeather.fengli.length > 1){
+                                        self.todayWeather.fengli = self.todayWeather.fengli.charAt(0) + '-'
+                                            + self.todayWeather.fengli.charAt(1);
+                                    }
+                                    self.todayWeather.fengli = self.todayWeather.fengxiang + ',  ' + self.todayWeather.fengli + '级';
+                                    self.todayWeather['temperature'] = self.todayWeather.low + " ~ " + self.todayWeather.high;
+                                    console.log(self.todayWeather);
+                                    for(var index in self.weatherData){
+                                        self.weatherData[index].low  = self.weatherData[index].low.replace(reg, "");
+                                        self.weatherData[index].high = self.weatherData[index].high.replace(reg, "");
+                                        self.weatherData[index]['temperature'] = self.weatherData[index].low + " ~ " + self.weatherData[index].high;
+                                        delete  self.weatherData[index].low;
+                                        delete  self.weatherData[index].high;
+                                        delete  self.weatherData[index].fengxiang;
+                                        delete  self.weatherData[index].fengli;
+                                        delete  self.weatherData[index].date;
+                                    }
+                                    self.weatherData.shift();
+                                }
+                            });
                         }
                     })
             },
             showArtical(art_id){
-                this.$router.push({
-                    path: `/showArtical/${artId}`,
-                })
+                let path = `/showArtical?artId=${art_id}`;
+                window.open(path, '_blank');
             }
         },
         mounted(){
@@ -102,6 +186,49 @@
 </script>
 
 <style scoped>
+    .wleft{
+        width: 85px;
+        float: left;
+    }
+    .wtname{
+        width: 100%;
+        float: left;
+        margin-top: 8px;
+        height: 20px;
+    }
+    .order-one, order-two{
+        width: 100%;
+        float: left;
+        height: 20px;
+    }
+    .order-one{
+        margin-top: 20px;
+    }
+    .order-two{
+
+    }
+    .wt{
+        width: 104px;
+        float: right;
+        margin-top: 5px;
+    }
+    .wtpic{
+        line-height: 48px;
+        height: 48px;
+        width: 48px;
+        float: left;
+    }
+    .wt1{
+        width: 75px;
+        float: left;
+    }
+    .wtline{
+        width: 100%;
+        float: left;
+        height: 18px;
+        line-height: 18px;
+        margin-top: 3px;
+    }
     .banner {  margin-top:20px;height: 215px; overflow: hidden }
     .texts { width: 350px; line-height: 26px; margin: 40px 0 0 20px; float: left; font-size: 14px; }
     .texts p { -webkit-transform: translate(60px); -moz-transform: translate(60px); -o-transform: translate(60px); -ms-transform: translate(60px); transform: translate(60px); text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.8), 2px 2px 3px rgba(180, 151, 151, 0.3); }
@@ -285,7 +412,13 @@
     }
     .avatar { float: right; margin: 40px; width: 130px; height: 130px; border-radius: 100%; overflow: hidden; border: #FFF 4px solid }
     .avatar a { display: block; padding-top: 97px; width: 160px; background: url(../../images/reception/me.jpg) no-repeat; background-size: 130px 130px }
-    .avatar a span { display: block; margin-top: 63px; padding-top: 8px; width: 130px; height: 55px; text-align: center; line-height: 20px; color: #fff; background: rgba(0, 0, 0, .5); -webkit-transition: margin-top .2s ease-in-out; -moz-transition: margin-top .2s ease-in-out; -o-transition: margin-top .2s ease-in-out; transition: margin-top .2s ease-in-out; }
+    .avatar a span { display: block; margin-top: 63px; padding-top: 3px;
+        width: 130px; height: 55px; text-align: center;
+        line-height: 20px; color: #fff; background: rgba(0, 0, 0, .5);
+        -webkit-transition: margin-top .2s ease-in-out;
+        -moz-transition: margin-top .2s ease-in-out; -o-transition: margin-top .2s ease-in-out;
+        transition: margin-top .2s ease-in-out;
+    }
     .avatar a:hover span { display: block; margin-top: 0; }
     .template { background: #F1F0EE }
     .template h3 { border-bottom: #FFF 1px solid; width: 100%; overflow: hidden; font-size: 14px; margin: 0 0 10px; font-family: "Î¢ÈíÑÅºÚ"; display: block; clear: both; }
@@ -308,7 +441,13 @@
     .dateview span { margin: 0 10px; }
     .dateview span a { color: #099B43; }
     a.readmore { background: #fd8a61; color: #fff; padding: 5px 10px; float: right; margin: 20px 0 0 0 }
-    .weather { background: url(../../images/reception/weather_bg.jpg) no-repeat; height: 88px; margin: 20px 0;padding: 20px 0 0 75px; }
+    .today-weather{
+        background: url(../../images/reception/weather_bg.jpg) no-repeat; height: 88px; padding: 0 0 0 55px;
+    }
+    .news{
+        margin-top: 30px;
+    }
+    .weather { }
     .news h3 { font-size: 14px; background: url(../../images/reception/r_title_bg.jpg) repeat-x center }
     .news h3 p { background: #fff; width: 70px }
     .news h3 span { color: #65b020 }
@@ -319,7 +458,7 @@
     .rank li { height: 25px; line-height: 25px; clear: both; padding-left: 5px; overflow: hidden; padding-left: 15px; background: url(../../images/reception/li.jpg) no-repeat left center; }
     .rank { margin: 10px 0 }
     .rank li a { color: #333; }
-    .paih { background: url(../../images/reception/ph.jpg) no-repeat left 8px; margin: 10px 0 }
+    .paih { margin: 10px 0 }
     .paih li { line-height: 30px; height: 30px; overflow: hidden; padding-left: 24px; border-bottom: #CCC dotted 1px }
     .website { margin: 10px 0; background: #F3F3F3; border-radius: 50%; text-align: center; }
     .website li { line-height: 26px; text-shadow: #fff 1px 1px 1px; height: 26px; }

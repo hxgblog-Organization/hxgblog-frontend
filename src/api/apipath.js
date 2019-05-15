@@ -1,8 +1,8 @@
 import homePage from './reception/homePage'
 import artical from './reception/artical'
-import login from './reception/login'
+import common from './commen/commen'
 export default {
     homePage,
     artical,
-    login
+    common
 }

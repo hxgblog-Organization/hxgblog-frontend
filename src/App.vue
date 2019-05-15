@@ -10,16 +10,14 @@
 <script>
     export default {
         name: 'App',
-        methods:{
-            judgeLogin(){
-                let isLogin = store.state.user;
-                if(isLogin){
-
-                }
+        created() {
+            let self = this;
+            //前台登录,但是后台没有登录
+            if(self.checkFrontLogin()){
+                this.checkBackLogin().then(function (res) {
+                    if(!res) self.$message.warning("请你重新登录!first");
+                });
             }
-        },
-        created(){
-            this.judgeLogin();
         }
     }
 </script>
@@ -32,6 +30,13 @@
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  height: 100%;
   /*margin-top: 20px;*/
+}
+button:focus{
+  outline: 0;
+}
+button, a{
+  cursor: pointer;
 }
 </style>

@@ -5,25 +5,38 @@
                 <a href="/"></a>
             </div>
             <nav class="topnav" id="topnav">
-                <router-link to="/"><span>首页</span><span class="en">Protal</span></router-link>
-                <router-link to="/artical"><span>文章</span><span class="en">Artical</span></router-link>
-                <router-link to="/album"><span>相册</span><span class="en">Album</span></router-link>
-                <router-link to="/messageBoard"><span>闲言碎语</span><span class="en">Doing</span></router-link>
                 <div id="login-register" v-if="!isLogin">
                     <el-button type="text" @click="showModel(1)">登录</el-button>
                     <el-button type="text" @click="showModel(2)">注册</el-button>
                 </div>
                 <div class="infor-content" v-if="isLogin">
                     <ul class="infor-ul">
+                        <li>
+                        <el-col :span="12">
+                            <el-dropdown>
+                            <span class="el-dropdown-link">
+                                 <img :src="headPortraitUrl" alt="无法加载" class="el-dropdown-link" id="head-img"/>
+                                 <!--<i class="el-icon-arrow-down el-icon&#45;&#45;right"></i>-->
+                            </span>
+                            <el-dropdown-menu slot="dropdown">
+                                <el-dropdown-item icon="el-icon-plus"  @click.native="showUpdateModel">修改信息</el-dropdown-item>
+                                <el-dropdown-item icon="el-icon-circle-plus" @click.native="showPasswordModel">修改密码</el-dropdown-item>
+                            </el-dropdown-menu>
+                            </el-dropdown>
+                        </el-col>
+                        </li>
                         <li><span class="font-span">{{ information.nick_name }}&nbsp;</span></li>
-                        <li><img id="head-img" src="../../images/reception/001.png"/></li>
                     </ul>
-                    <el-button>退出</el-button>
+                    <el-button @click="loginOut">退出</el-button>
                 </div>
+                <router-link to="/"><span>首页</span><span class="en">Protal</span></router-link>
+                <router-link to="/artical"><span>文章</span><span class="en">Artical</span></router-link>
+                <router-link to="/album"><span>相册</span><span class="en">Album</span></router-link>
+                <router-link to="/messageBoard"><span>闲言碎语</span><span class="en">Doing</span></router-link>
             </nav>
         </header>
         <login ref='login' @sendMessage = "loginChild"></login>
-        <register ref="register"></register>
+        <infor ref="infor"></infor>
     </div>
 </template>
 <script>
@@ -32,23 +45,70 @@
         data() {
             return {
                 information: {},
-                isLogin: false
+                isLogin: store.state.user,
+                headPortraitUrl: ''
             }
         },
         methods: {
             showModel(num) {
-                (num === 1) ? this.$refs.login.showLoginModel(true) : this.$refs.register.showRegisterModel(true);
+                (num === 1) ? this.$refs.login.showLoginModel(true) : this.$refs.infor.showInforModel(true, 1);
             },
-            loginChild(information){
+            showUpdateModel(){
+                console.log(store.state.user);
+                let self = this;
+                //先检查前台登录状态
+                if(!self.checkFrontLogin()) return self.$message.warning("请你先登录");
+                //后台登录状态没有消失，再去请求用户信息
+                this.checkBackLogin()
+                    .then(function (res) {
+                        (res) ? self.$refs.infor.showInforModel(true, 2) : self.$message.warning("请你重新登录!222");
+                    })
+            },
+            showPasswordModel(){
+
+            },
+            loginChild(information) {
                 console.log(information);
                 this.isLogin = true;
                 this.information = information;
+                this.headPortraitUrl = ApiPath.common.getHeadPortrait + information.head_portrait;
+            },
+            loginOut() {
+                let self = this;
+                self.GET(ApiPath.common.frontLogout)
+                    .then(function (res) {
+                        if(res.data.code == 0){
+                            self.emptyUserInformation();
+                            self.isLogin = store.state.user;
+                        }
+                    })
+            }
+        },
+        mounted() {
+            if(this.isLogin){
+                this.information = store.state.user;
+                // this.information = JSON.parse(sessionStorage.getItem('user'));
+                console.log(this.information);
+                this.headPortraitUrl = ApiPath.common.getHeadPortrait + this.information.head_portrait;
             }
         }
     }
 </script>
 
 <style>
+    .el-dropdown-link {
+        cursor: pointer;
+        color: #409EFF;
+    }
+    .el-icon-arrow-down {
+        font-size: 12px;
+    }
+    .demonstration {
+        display: block;
+        color: #8492a6;
+        font-size: 14px;
+        margin-bottom: 20px;
+    }
     * { margin: 0; padding: 0 }
     body { font: 12px "ËÎÌå", Arial, Helvetica, sans-serif; color: #756F71 }
     img { border: 0; display: block }
@@ -94,7 +154,7 @@
     }
     .infor-content, #login-register{
         float: right;
-        width: 25%;
+        width: 30%;
     }
     .infor-ul{
         margin-bottom: 0;
@@ -108,6 +168,6 @@
         border-radius: 60px;
     }
     .font-span{
-        font-size: 23px;
+        font-size: 15px;
     }
 </style>

@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div @keyup.enter="login">
         <el-dialog width="35%" title="登录" :visible.sync="dialogFormVisible">
             <el-tabs v-model="activeName" @tab-click="handleClick">
                 <el-tab-pane class="tab" label="账号和密码" name="pwd"></el-tab-pane>
@@ -10,7 +10,7 @@
                     <el-input v-model="phone" autocomplete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="密码:" :label-width="formLabelWidth">
-                    <el-input  v-model="passwordForm.password" autocomplete="off"></el-input>
+                    <el-input type="password" v-model="passwordForm.password" autocomplete="off"></el-input>
                 </el-form-item>
             </el-form>
             <el-form v-else :model="codeForm">
@@ -23,12 +23,7 @@
                 </el-form-item>
             </el-form>
             <span>其他登录方式</span>
-            <ul class="login-ul">
-                <li><img src="../../images/reception/qq.png"/></li>
-                <li><img src="../../images/reception/wei_xin.png"/></li>
-                <li><img src="../../images/reception/wei_bo.png"/></li>
-                <li><img src="../../images/reception/alipay.png"/></li>
-            </ul>
+            <third-party></third-party>
             <div slot="footer" class="dialog-footer" style="text-align: center">
                 <el-button style="width: 100%" type="primary" @click="login">登录</el-button>
             </div>
@@ -54,21 +49,24 @@
                 selectIndex: '0',
             };
         },
-        methods:{
-            showLoginModel(visible){
+        methods: {
+            showLoginModel(visible) {
                 this.dialogFormVisible = visible;
             },
-            login(){
+            login() {
+                console.log("sdds");
                 let self = this;
                 self.passwordForm.phone = self.phone;
-                if(self.selectIndex === '0'){
-                    if(!self.loginValidate(self.passwordForm)) return false;
-                    self.POST(ApiPath.login.frontLogin, self.passwordForm)
+                //账号密码登录
+                if (self.selectIndex === '0') {
+                    if (!self.loginValidate(self.passwordForm)) return false;
+                    self.POST(ApiPath.common.frontLogin, self.passwordForm)
                         .then(function (res) {
-                            if(res.data.code == 0){
+                            if (res.data.code == 0) {
                                 self.$message.success(res.data.msg);
                                 self.dialogFormVisible = false;      //隐藏模态框
                                 self.sendMessage(res.data.data);     //告诉父组件，用户登录成功
+                                store.commit(types.USER, res.data.data);
                             } else {
                                 self.$message.error(res.data.msg);
                             }
@@ -76,14 +74,13 @@
                     return true;
                 }
             },
-            sendMessage(data){
-                this.$emit("sendMessage",data);
+            sendMessage(data) {
+                this.$emit("sendMessage", data);
             },
-            handleClick(tab){
+            handleClick(tab) {
                 this.selectIndex = tab.index;
-            }
-        }
-
+            },
+        },
     }
 </script>
 <style>
@@ -100,13 +97,6 @@
     }
     .tab{
         margin-left: 60%;
-    }
-    .login-ul{
-        margin-top: 2%;
-    }
-    .login-ul li{
-        float: left;
-        margin-left: 12%;
     }
     .code-input{
         width: 50%;

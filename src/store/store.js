@@ -12,6 +12,7 @@ export default new Vuex.Store({
             state.user = data;
         },
         [types.LOGOUT]: (state) => {                   //用户退出，清除sessionStorage
+            console.log("dsds333333333");
             sessionStorage.removeItem('user');
             state.user = null;
         }

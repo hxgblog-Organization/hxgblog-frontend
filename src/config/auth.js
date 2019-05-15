@@ -6,7 +6,9 @@ import router from "./index";
  * 权限拦截验证
  * @type {*|void|any|{now}}
  */
-var instance = axios.create({ timeout: 1000 * 12});
+var instance = axios.create({
+    timeout: 1000 * 120,
+});
 instance.defaults.withCredentials = true; //跨域
 // instance.defaults.baseURL = 'http://doclever.cn:8090/mock/5c3d98703dce46264b246eb3';// 设置默认请求url
 instance.defaults.baseURL = 'http://localhost:88';
@@ -20,8 +22,8 @@ instance.interceptors.request.use(
     }
 );
 
-//
-instance.interceptors.request.use(
+//当api_token在后台更新后，前台直接截获重新给localstorage里的api_token重新赋值
+instance.interceptors.response.use(
     response => {
         if (response.headers.api_token){
             let user = store.state.user;

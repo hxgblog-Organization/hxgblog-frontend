@@ -112,6 +112,7 @@
             }
         },
         mounted() {
+            console.log(this.$route.query.artId);
             this.getArticalInfor(this.$route.query.artId);
         }
     }

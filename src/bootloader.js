@@ -69,6 +69,9 @@ window.router = router;
 import api from './api/apipath'
 window.ApiPath = api;
 
+
+import pinyin from 'js-pinyin'
+window.pinyin = pinyin;
 /**
  * 设置mock请求
  */

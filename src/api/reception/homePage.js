@@ -4,6 +4,5 @@ export default {
      */
     showBriefly: 'showBriefly',
     showMain:    'mainPage',
-
-
+    register:    'registerUser',
 }

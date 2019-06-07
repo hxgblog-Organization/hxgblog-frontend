@@ -4,9 +4,11 @@ import JSEncrypt from 'jsencrypt/bin/jsencrypt'
 export default {
     //get请求
     GET: function (url, param = {}) {
+        console.log(store.state.user);
         if(store.state.user){      //用户只要处于登录状态，每一次get请求都要带着api_token
             param['api_token'] = store.state.user.api_token;
         }
+        console.log(param);
         return new Promise((resolve, reject) => {
             axios({
                 method: 'get',
@@ -28,6 +30,7 @@ export default {
                 param['api_token'] = store.state.user.api_token;
             }
         }
+        console.log(store.state.user);
         return new Promise((resolve, reject) => {
             axios({
                 method: 'post',

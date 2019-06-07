@@ -27,6 +27,7 @@
 <script>
     export default {
         name: "artical",
+        inject: ['reload'],
         data () {
             return {
                 articalTypes : [],

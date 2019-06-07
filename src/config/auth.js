@@ -7,7 +7,7 @@ import router from "./index";
  * @type {*|void|any|{now}}
  */
 var instance = axios.create({
-    timeout: 1000 * 120,
+    timeout: 1000 * 1200,
 });
 instance.defaults.withCredentials = true; //跨域
 // instance.defaults.baseURL = 'http://doclever.cn:8090/mock/5c3d98703dce46264b246eb3';// 设置默认请求url

@@ -6,5 +6,7 @@ export  default {
     byTypeSelectArtical: 'byTypeSelectArtical',
     showArticalDetail: 'showArticalDetail',
     byNameSelectArtical: 'byNameSelectArtical',
+    byTopIdselectAllComment: 'byTopIdselectAllComment',
+    sendReplayComment: 'sendReplayComment',
 
 }

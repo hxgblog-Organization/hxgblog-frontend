@@ -54,7 +54,6 @@
                 this.dialogFormVisible = visible;
             },
             login() {
-                console.log("sdds");
                 let self = this;
                 self.passwordForm.phone = self.phone;
                 //账号密码登录
@@ -65,8 +64,8 @@
                             if (res.data.code == 0) {
                                 self.$message.success(res.data.msg);
                                 self.dialogFormVisible = false;      //隐藏模态框
-                                self.sendMessage(res.data.data);     //告诉父组件，用户登录成功
                                 store.commit(types.USER, res.data.data);
+                                self.sendMessage(res.data.data);     //告诉父组件，用户登录成功
                             } else {
                                 self.$message.error(res.data.msg);
                             }
@@ -74,7 +73,7 @@
                     return true;
                 }
             },
-            sendMessage(data) {
+            sendMessage(data) {                    //登录成功
                 this.$emit("sendMessage", data);
             },
             handleClick(tab) {

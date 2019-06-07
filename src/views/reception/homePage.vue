@@ -171,6 +171,8 @@
                                     self.weatherData.shift();
                                 }
                             });
+                        }else {
+                            self.$message.error("没有得到任何信息");
                         }
                     })
             },

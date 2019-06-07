@@ -42,6 +42,7 @@
 <script>
     export default {
         name: "headers",
+        inject: ['reload'],
         data() {
             return {
                 information: {},
@@ -71,6 +72,8 @@
                 console.log(information);
                 this.isLogin = true;
                 this.information = information;
+                location.reload();
+                console.log(store.state.user);
                 this.headPortraitUrl = ApiPath.common.getHeadPortrait + information.head_portrait;
             },
             loginOut() {
@@ -80,6 +83,7 @@
                         if(res.data.code == 0){
                             self.emptyUserInformation();
                             self.isLogin = store.state.user;
+                            location.reload();
                         }
                     })
             }

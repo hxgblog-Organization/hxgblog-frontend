@@ -36,47 +36,80 @@
             </div>
 
             <div class="infosbox">
-            <div class="newsview">
-                <h3 class="news_title">个人博客，属于我的小世界！</h3>
-                <div class="bloginfo">
-                    <ul>
-                        <li class="author">作者：<a href="/">坏小哥</a></li>
-                        <li class="lmname"><a href="/">学无止境</a></li>
-                        <li class="timer">时间：{{ articalData.years + "-" + articalData.monthDay }}</li>
-                        <li class="view">{{ articalData.arti_browse }}人已阅读</li>
-                    </ul>
+                <div class="newsview">
+                    <h3 class="news_title">个人博客，属于我的小世界！</h3>
+                    <div class="bloginfo">
+                        <ul>
+                            <li class="author">作者：<a href="/">坏小哥</a></li>
+                            <li class="lmname"><a href="/">学无止境</a></li>
+                            <li class="timer">时间：{{ articalData.years + "-" + articalData.monthDay }}</li>
+                            <li class="view">{{ articalData.arti_browse }}人已阅读</li>
+                        </ul>
+                    </div>
+                    <div class="tags">
+                        <a href="/" target="_blank">个人博客</a> &nbsp;
+                        <a href="/" target="_blank">小世界</a>
+                    </div>
+                    <div class="news_about"><strong>简介</strong>个人博客，用来做什么？我刚开始就把它当做一个我吐槽心情的地方，也就相当于一个网络记事本，写上一些关于自己生活工作中的小情小事，也会放上一些照片，音乐。每天工作回家后就能访问自己的网站，一边听着音乐，一边写写文章。</div>
+                    <div class="news_con">
+                        <p id="artical" :rel="articalData.arti_id">
+                            {{ articalData.arti_content }}
+                        </p>
+                    </div>
                 </div>
-                <div class="tags">
-                    <a href="/" target="_blank">个人博客</a> &nbsp;
-                    <a href="/" target="_blank">小世界</a>
-                </div>
-                <div class="news_about"><strong>简介</strong>个人博客，用来做什么？我刚开始就把它当做一个我吐槽心情的地方，也就相当于一个网络记事本，写上一些关于自己生活工作中的小情小事，也会放上一些照片，音乐。每天工作回家后就能访问自己的网站，一边听着音乐，一边写写文章。</div>
-                <div class="news_con">
-                    <p class="artical">
-                        {{ articalData.arti_content }}
-                    </p>
+                <div class="news_pl">
+                    <h2>文章评论</h2>
+                    <div>
+                        <ul v-for="com in comments">
+                            <li class="content" :rel="com.come_id" @mouseenter="commentButtonStatus(1, $event)" @mouseleave="commentButtonStatus(2, $event)">
+                                <a class="head">
+                                    <img class="user-head-portrait" :src="headPortraiBasetUrl + com.head_portrait"/>
+                                </a>
+                                <div class="gbko">
+                                    <div>
+                                        <span>{{ com.nick_name }}:</span>
+                                        <span>{{ com.come_content }}</span>
+                                        <span>{{ com.created_at }}</span>
+                                        <span class="comment-btn">
+                                            <span v-if="com.come_count != 0" class="see-comment">
+                                            <a @click="commentStatus(com.come_id, $event, true)">查看回复({{ com.come_count }})</a>
+                                            <a class="close-comment" @click="commentStatus(com.come_id, $event, false)">收起回复</a>
+                                            </span>
+                                            <span class="dl-replay-btn">
+                                                <a @click="showCommentTextarea($event)">回复</a>
+                                                <a v-if="com.is_mine">删除</a>
+                                            </span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="replay-box" :id="com.come_id" v-if="com.comment_count != 0">
+                                <ul class="comment-list">
+                                    <li v-for="data in com.child_comment" :key="data.come_id" :rel="data.come_id" class="content"
+                                        @mouseenter="commentButtonStatus(1, $event)" @mouseleave="commentButtonStatus(2, $event)">
+                                        <a class="head">
+                                            <img class="user-head-portrait" :src="headPortraiBasetUrl + data.head_portrait"/>
+                                        </a>
+                                        <div class="gbko">
+                                            <div>
+                                                <span>{{ data.nick_name }}</span>
+                                                <span>回复</span>
+                                                <span>{{ data.father_nick_name }}:</span>
+                                                <span>{{ data.come_content }}</span>
+                                                <span>{{ data.created_at }}</span>
+                                                <span class="dl-replay-btn">
+                                                    <a @click="showCommentTextarea($event)">回复</a>
+                                                    <a v-if="data.is_mine">删除</a>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
-            <div class="news_pl">
-                <h2>文章评论</h2>
-                <ul v-for="com in comments" :key="com.arti_id">
-                    <li >
-                        <a>
-                            <img src=""/>
-                        </a>
-                        <div class="gbko">
-                            <div>
-                                <span>{{ com.come_content }}</span>
-                                <span>{{ com.created_at }}</span>
-                                <span>
-                                    <a>查看回复</a>
-                                </span>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-        </div>
         </article>
     </div>
 </template>
@@ -89,8 +122,12 @@
                 browseTopArtical: [],
                 newArtical: [],
                 comments: [],
-                articalData: {}
-
+                articalData: {},
+                headPortraiBasetUrl:ApiPath.common.getHeadPortrait,
+                isLogin: store.state.user,
+                num: 0,
+                isRegister: false,
+                content: "",
             }
         },
         methods: {
@@ -102,24 +139,140 @@
                     .then(function (res) {
                         console.log(res.data.data);
                         if(res.data.code == 0){
-                            self.newArtical =  res.data.data.new_articals;
+                            self.newArtical       = res.data.data.new_articals;
                             self.browseTopArtical = res.data.data.browse_top;
-                            self.comments = res.data.data.comments;
-                            self.articalData = res.data.data.artical_data[0];
+                            self.comments         = res.data.data.comments;
+                            self.articalData      = res.data.data.artical_data[0];
                         }
-
                     })
+            },
+            commentStatus(childCommentId, event, status) {
+                $(event.currentTarget).hide();
+                if(status){
+                    $(event.currentTarget).next().show();
+                    $('#' + childCommentId).show();
+                    return true;
+                }
+                $(event.currentTarget).prev().show();
+                $('#'+ childCommentId).hide();
+                if($('#' + childCommentId).find("#replay-div").length > 0) this.closeCommentDiv();
+                return true;
+            },
+            commentButtonStatus(status, event){
+                let buttonDom = $(event.currentTarget).find(".dl-replay-btn");
+                (status === 1) ? $(buttonDom).show() : $(buttonDom).hide();
+            },
+            showCommentTextarea(event){
+                this.closeCommentDiv();
+                $(event.currentTarget).parents(".content").after(
+                    "<div id='replay-div' style='padding: 0 10px;'> " +
+                        "<textarea id='text-comment' class='form-control' placeholder='请你留下你的足迹......' rows='3'>" +
+                        "</textarea>" +
+                        "<button  id='send-replay-btn' style='float: right;height: 31px;width: 53px;font-size: 14px;margin: 4px 10px 0 0;' type='button' " +
+                        "class='btn btn-primary btn-xs replay-btn'>回复" +
+                        "</button>" +
+                    "</div>"
+                );
+                let self = this;
+                $("#send-replay-btn").click(function (e) {
+                    self.sendReplay(e);
+                });
+                if(this.isRegister) return;
+                this.registerEvent();
+                this.isRegister = true;
+            },
+            registerEvent() {
+                let self = this;
+                $("body").click(function (e) {
+                    self.num++;
+                    if($("#replay-div").prev().attr("class") == $(e.target).parents(".content").attr("class")) return;
+                    let is_inDiv = ['replay-div', 'text-comment', 'send-replay-btn'];
+                    if($.inArray($(e.target).attr("id"), is_inDiv) !== -1) return;
+                    if($("#text-comment").val()) return ;
+                    if(self.num === 1) return;
+                    $("#replay-div").remove();
+                    self.num = 0;
+                });
+            },
+            validateCommentContent() {
+                var  reg = /<\/?[^>]*>/g;
+                if(reg.test(this.content)){
+                    this.$message.error("你输入的字符非法！");
+                }
+                this.content = this.content.replace(/<\/?[^>]*>/g, ''); //去除HTML Tag
+                this.content = this.content.replace(/[|]*\n/, '');          //去除行尾空格
+                this.content = this.content.replace(/&npsp;/ig, '');        //去掉npsp——转义字符
+            },
+            closeCommentDiv() {
+                if($("#replay-div").length > 0)  $("#replay-div").remove();
+            },
+            sendReplay(obj) {
+                let self = this;
+                if(!self.isLogin){
+                    self.$message.error("亲，你没有登录");
+                    return false;
+                }
+                self.content = $("#text-comment").val();
+                this.validateCommentContent(self.content);
+                let topLevelId;
+                obj = $(obj.target).parents(".replay-box");
+                (obj.length !== 0) ? topLevelId = obj.attr("id") : topLevelId = $("#replay-div").prev().attr("rel") ;
+                self.POST(ApiPath.artical.sendReplayComment,{
+                    top_level_id: topLevelId,
+                    father_id: $("#replay-div").prev().attr("rel"),
+                    art_id: $("#artical").attr("rel"),
+                    comment_content: self.content
+                })
+                    .then(function (res) {
+                        console.log(res.data);
+
+                    });
             }
         },
         mounted() {
-            console.log(this.$route.query.artId);
             this.getArticalInfor(this.$route.query.artId);
-        }
+        },
     }
 </script>
 
 <style scoped>
-    .artical{
+    .comment-btn{
+        float: right;
+        margin-left: 20px;
+    }
+    .dl-replay-btn{
+        display: none;
+    }
+    .dl-replay-btn a{
+        margin-left: 10px;
+    }
+    .close-comment{
+        display: none;
+    }
+    .content{
+        display: flex;
+        line-height: 50px;
+        align-items: center;
+    }
+    .replay-box{
+        display: none;
+        margin: 12px 0 0 32px;
+        padding-left: 8px;
+        border-left: 4px solid #c5c5c5;
+    }
+    .head{
+        width: 50px !important;
+    }
+    .user-head-portrait{
+        width: 40px;
+        height: 40px;
+        background: #7fee1d;
+        -moz-border-radius: 60px;
+        -webkit-border-radius: 60px;
+        border-radius: 60px;
+        margin-left: 5px;
+    }
+    #artical{
         border: 1px solid #F3F3F3;
         padding: 10px;
         margin: 20px auto 15px auto;
@@ -186,7 +339,7 @@
     .news_content p { overflow: hidden; padding-bottom: 4px; padding-top: 6px; word-wrap: break-word; }
     .tags a { background: #F4650E; padding: 3px 8px; margin: 0 5px 0 0; color: #fff; }
     .tags { margin: 10px 0; }
-    .infosbox img { max-width: 650px; height: auto; width:100% }
+    /*.infosbox img { max-width: 650px; height: auto; width:100% }*/
     .share { padding: 20px; }
     .nextinfo { line-height: 24px; width: 100%; overflow: hidden; margin: 20px 0 }/*ÉÏÒ»ÆªÏÂÒ»Æª*/
     .nextinfo p { padding: 4px 10px; border-radius: 5px; }

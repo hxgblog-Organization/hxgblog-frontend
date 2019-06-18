@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <myHeader></myHeader>
-    <router-view></router-view>
+    <myHeader v-if="isRouterAlive"></myHeader>
+    <router-view v-if="isRouterAlive"></router-view>
     <SCRIPT SRC=""></SCRIPT>
     <myFooter></myFooter>
   </div>
@@ -33,7 +33,8 @@
             //前台登录,但是后台没有登录
             if(self.checkFrontLogin()){
                 this.checkBackLogin().then(function (res) {
-                    if(!res) self.$message.warning("请你重新登录!first");
+                    if(res) return true;
+                    self.$message.warning("请你重新登录!first");
                     self.emptyUserInformation();   //清空前台的登录状态
                 });
             }

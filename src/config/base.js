@@ -8,7 +8,6 @@ export default {
         if(store.state.user){      //用户只要处于登录状态，每一次get请求都要带着api_token
             param['api_token'] = store.state.user.api_token;
         }
-        console.log(param);
         return new Promise((resolve, reject) => {
             axios({
                 method: 'get',
@@ -21,7 +20,6 @@ export default {
     },
     //post请求
     POST: function (url, param = {}) {
-        console.log(param);
         if(store.state.user){      //用户只要处于登录状态，每一次post请求都要带着api_token
             //如果传来的对象为FormData,需要需要添加api_token
             if(Object.prototype.toString.call(param) === '[object FormData]'){
@@ -30,7 +28,6 @@ export default {
                 param['api_token'] = store.state.user.api_token;
             }
         }
-        console.log(store.state.user);
         return new Promise((resolve, reject) => {
             axios({
                 method: 'post',
@@ -78,6 +75,7 @@ export default {
     emptyUserInformation: function () {
         console.log("empty");
         store.commit(types.LOGOUT);
+        this.reload();
         // this.$router.go(0);
         // window.reload();
     },
@@ -91,7 +89,6 @@ export default {
                     if(res.data.code === 1){
                         console.log(res.data.data);
                         self.emptyUserInformation();  //清空前台信息
-                        self.$message.warning("请你重新登录!asdasd");
                         return false;
                     }else {
                         return true;

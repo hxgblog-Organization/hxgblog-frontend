@@ -33,6 +33,7 @@
 
 <script>
     export default {
+        inject: ['reload'],
         name: "login",
         data() {
             return {
@@ -65,6 +66,7 @@
                                 self.$message.success(res.data.msg);
                                 self.dialogFormVisible = false;      //隐藏模态框
                                 store.commit(types.USER, res.data.data);
+                                self.reload();
                                 self.sendMessage(res.data.data);     //告诉父组件，用户登录成功
                             } else {
                                 self.$message.error(res.data.msg);

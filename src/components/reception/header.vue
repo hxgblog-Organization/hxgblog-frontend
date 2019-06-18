@@ -5,34 +5,34 @@
                 <a href="/"></a>
             </div>
             <nav class="topnav" id="topnav">
-                <div id="login-register" v-if="!isLogin">
-                    <el-button type="text" @click="showModel(1)">登录</el-button>
-                    <el-button type="text" @click="showModel(2)">注册</el-button>
-                </div>
-                <div class="infor-content" v-if="isLogin">
-                    <ul class="infor-ul">
-                        <li>
-                        <el-col :span="12">
-                            <el-dropdown>
-                            <span class="el-dropdown-link">
-                                 <img :src="headPortraitUrl" alt="无法加载" class="el-dropdown-link" id="head-img"/>
-                                 <!--<i class="el-icon-arrow-down el-icon&#45;&#45;right"></i>-->
-                            </span>
-                            <el-dropdown-menu slot="dropdown">
-                                <el-dropdown-item icon="el-icon-plus"  @click.native="showUpdateModel">修改信息</el-dropdown-item>
-                                <el-dropdown-item icon="el-icon-circle-plus" @click.native="showPasswordModel">修改密码</el-dropdown-item>
-                            </el-dropdown-menu>
-                            </el-dropdown>
-                        </el-col>
-                        </li>
-                        <li><span class="font-span">{{ information.nick_name }}&nbsp;</span></li>
-                    </ul>
-                    <el-button @click="loginOut">退出</el-button>
-                </div>
                 <router-link to="/"><span>首页</span><span class="en">Protal</span></router-link>
                 <router-link to="/artical"><span>文章</span><span class="en">Artical</span></router-link>
                 <router-link to="/album"><span>相册</span><span class="en">Album</span></router-link>
                 <router-link to="/messageBoard"><span>闲言碎语</span><span class="en">Doing</span></router-link>
+                <div class="infor-content" v-if="isLogin">
+                    <ul class="infor-ul">
+                        <li>
+                            <el-col :span="12">
+                                <el-dropdown>
+                            <span class="el-dropdown-link">
+                                 <img :src="headPortraitUrl" alt="无法加载" class="el-dropdown-link" id="head-img"/>
+                                <!--<i class="el-icon-arrow-down el-icon&#45;&#45;right"></i>-->
+                            </span>
+                                    <el-dropdown-menu slot="dropdown">
+                                        <el-dropdown-item icon="el-icon-plus"  @click.native="showUpdateModel">修改信息</el-dropdown-item>
+                                        <el-dropdown-item icon="el-icon-circle-plus" @click.native="showPasswordModel">修改密码</el-dropdown-item>
+                                    </el-dropdown-menu>
+                                </el-dropdown>
+                            </el-col>
+                        </li>
+                        <li><span class="font-span">{{ information.nick_name }}&nbsp;</span></li>
+                        <el-button id="exit-btn"  @click="loginOut">退出</el-button>
+                    </ul>
+                </div>
+                <div id="login-register" v-if="!isLogin">
+                    <el-button type="text" @click="showModel(1)">登录</el-button>
+                    <el-button type="text" @click="showModel(2)">注册</el-button>
+                </div>
             </nav>
         </header>
         <login ref='login' @sendMessage = "loginChild"></login>
@@ -69,10 +69,10 @@
 
             },
             loginChild(information) {
-                console.log(information);
+                // console.log(information);
                 this.isLogin = true;
                 this.information = information;
-                location.reload();
+                // location.reload();
                 console.log(store.state.user);
                 this.headPortraitUrl = ApiPath.common.getHeadPortrait + information.head_portrait;
             },
@@ -80,11 +80,14 @@
                 let self = this;
                 self.GET(ApiPath.common.frontLogout)
                     .then(function (res) {
-                        if(res.data.code == 0){
-                            self.emptyUserInformation();
-                            self.isLogin = store.state.user;
-                            location.reload();
+                        let data = res.data;
+                        self.emptyUserInformation();
+                        self.isLogin = store.state.user;
+                        if(data.code === 2 || data.code === 3){
+                            self.$message.error(res.data.msg);
+                            return false;
                         }
+                        location.reload();
                     })
             }
         },
@@ -92,7 +95,7 @@
             if(this.isLogin){
                 this.information = store.state.user;
                 // this.information = JSON.parse(sessionStorage.getItem('user'));
-                console.log(this.information);
+                // console.log(this.information);
                 this.headPortraitUrl = ApiPath.common.getHeadPortrait + this.information.head_portrait;
             }
         }
@@ -100,6 +103,9 @@
 </script>
 
 <style>
+    #exit-btn{
+        margin-left: 80px;
+    }
     .el-dropdown-link {
         cursor: pointer;
         color: #409EFF;
@@ -142,7 +148,7 @@
     .box{ width:1000px; margin:auto; overflow:hidden}
     header { width: 80%; margin: auto; height: 115px; position: relative; overflow: hidden }
     #logo a { width: 362px; height: 105px; position: absolute; background: url(../../images/reception/logo.png) no-repeat; display: block }
-    nav { float: right;  width: 57%; margin: 50px 0 0 0; text-align: right }
+    nav { float: right;  width: 57%; margin: 50px 0 0 0; text-align: right;display: flex;align-items: center; }
     nav a { position: relative; margin-right:2%;display: inline-block; font-size: 18px; font-family: "Î¢ÈíÑÅºÚ", Arial, Helvetica, sans-serif; }
     nav a:hover { text-decoration: none }
     .topnav a { margin: 0 20px; padding: 0 8px; }
@@ -158,9 +164,12 @@
     }
     .infor-content, #login-register{
         float: right;
-        width: 30%;
+        width: 38%;
     }
     .infor-ul{
+        margin-left: 24px;
+        align-items: center;
+        display: flex;
         margin-bottom: 0;
     }
     #head-img{

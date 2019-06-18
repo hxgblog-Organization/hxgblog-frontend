@@ -26,6 +26,7 @@ instance.interceptors.request.use(
 instance.interceptors.response.use(
     response => {
         if (response.headers.api_token){
+            console.log(response.headers.api_token);
             let user = store.state.user;
             user.api_token = response.headers.api_token;
             store.commit(types.USER, user);
@@ -36,7 +37,7 @@ instance.interceptors.response.use(
         if (error.response) {
             switch (error.response.status) {
                 case 401:
-                    store.commit(types.LOGOUT);
+                    // store.commit(types.LOGOUT);
                     //只有在当前路由，不是在登录页面才跳转
                     router.currentRoute.path !== this.LOGINURL() && router.replace({
                         path: this.LOGINURL(),

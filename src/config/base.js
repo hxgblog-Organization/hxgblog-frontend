@@ -4,7 +4,6 @@ import JSEncrypt from 'jsencrypt/bin/jsencrypt'
 export default {
     //get请求
     GET: function (url, param = {}) {
-        console.log(store.state.user);
         if(store.state.user){      //用户只要处于登录状态，每一次get请求都要带着api_token
             param['api_token'] = store.state.user.api_token;
         }
@@ -74,20 +73,25 @@ export default {
     //清空本地用户信息，让用户重新登录
     emptyUserInformation: function () {
         console.log("empty");
-        store.commit(types.LOGOUT);
-        this.reload();
-        // this.$router.go(0);
-        // window.reload();
+        let self = this;
+        self.GET(ApiPath.common.checkUserOrAdminLogin).then(function (res) {
+            console.log(res.data);
+            if(res.data.code === 2){  //后台管理员与前台用户都不在线，清空前台信息
+                store.commit(types.LOGOUT);
+            }
+        });
     },
     //检查用户后台的登录状态
-    checkBackLogin: function () {
+    checkBackLogin: function (status = 1) {
         return new Promise((resolve, reject) => {
             let self = this;
-            self.GET(ApiPath.common.checkLogin)
+            self.GET(ApiPath.common.checkLogin, {
+                status: status
+            })
                 .then(function (res) {
                     console.log(res.data);
-                    if(res.data.code === 1){
-                        console.log(res.data.data);
+                    if(res.data.code === 2){
+                        console.log(res.data);
                         self.emptyUserInformation();  //清空前台信息
                         return false;
                     }else {
@@ -110,5 +114,33 @@ export default {
         }
         sessionStorage.user = JSON.stringify(store.state.user);   //更新本地的sessionStorage
         this.$router.go(0);
+    },
+    validateContent: function (content) {                         //验证用户输入的内容是否合法
+        var  reg = /<\/?[^>]*>/g;
+        if(reg.test(content)){
+            this.$message.error("你输入的字符非法！");
+            return false;
+        }
+       return true;
+    },
+    filterContent: function (content) {                                  //过滤用户输入的不合法的内容
+        content = content.replace(/<\/?[^>]*>/g, ''); //去除HTML Tag
+        content = content.replace(/[|]*\n/, '');      //去除行尾空格
+        content = content.replace(/&npsp;/ig, '');    //去掉npsp——转义字符
+        return content;
+
+    },
+    validatePhoto: function (file) {                  //判断用户上传的照片是否合法
+        let imageType = ['jpeg','JPEG','png','PNG','jpg','JPG'];
+        let type = file.type.split('/');
+        const isJPG = imageType.indexOf(type[1]) === -1 ? false : true;
+        const isLt2M = file.size / 1024 / 1024 < 2;
+        if (!isJPG) {
+            this.$message.error('上传图片只能是 JPG 格式!');
+        }
+        if (!isLt2M) {
+            this.$message.error('上传图片大小不能超过 2MB!');
+        }
+        return isJPG && isLt2M;
     }
 }

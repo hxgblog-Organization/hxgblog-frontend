@@ -105,23 +105,13 @@
             },
             addHeadPortrait(file){
                 let imageFile = file.raw;
-                if(!this.beforeAvatarUpload(imageFile))   return ;
+                if(!this.beforePhotoUpload(imageFile))   return ;
                 this.formData.delete('headPortrait');
                 this.formData.append('headPortrait', imageFile);
                 this.imageUrl = URL.createObjectURL(imageFile);
             },
             beforeAvatarUpload(file) {
-                let imageType = ['jpeg','JPEG','png','PNG','jpg','JPG'];
-                let type = file.type.split('/');
-                const isJPG = imageType.indexOf(type[1]) === -1 ? false : true;
-                const isLt2M = file.size / 1024 / 1024 < 2;
-                if (!isJPG) {
-                    this.$message.error('上传头像图片只能是 JPG 格式!');
-                }
-                if (!isLt2M) {
-                    this.$message.error('上传头像图片大小不能超过 2MB!');
-                }
-                return isJPG && isLt2M;
+                return this.validatePhoto(file);
             },
             submitValidate(formName) {
                 let self = this;

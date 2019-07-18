@@ -14,7 +14,7 @@
                     <div class="cbp_tmicon"></div>
                     <div class="cbp_tmlabel" data-scroll-reveal="enter right over 1s" >
                         <h2>{{ artical.arti_title }}</h2>
-                        <p><span class="blogpic"><a href="/"><img src="../../images/reception/001.png"></a></span><span>{{ artical.arti_content }}</span></p>
+                        <p><span class="blogpic"><a href="#"><img :src="getArticalCover + artical.arti_cover"></a></span><span>{{ artical.arti_content }}</span></p>
                         <router-link :to="{ name: 'showArtical', query: { artId: artical.arti_id } }" target="_blank" class="readmore">阅读全文&gt;&gt;</router-link>
                     </div>
                 </li>
@@ -36,12 +36,13 @@
                 active : '',
                 page: 0,
                 isHave: true,
-
+                getArticalCover: ApiPath.common.getArticalCover,
+                isGetArtData: true,
             }
         },
         methods:{
             handleScrolls() {
-                if(!this.isHave) return ;
+                if(!this.isHave || ! this.isGetArtData) return ;
                 // 可视区高度
                 var windowHeight = document.documentElement.clientHeight;
                 //滚动条的高度
@@ -55,6 +56,7 @@
             },
             getArtical(getStatus) {
                 let self = this;
+                self.isGetArtData = false;
                 self.GET(ApiPath.artical.byTypeSelectArtical, {
                     'type_id': self.typeId,
                     'page'   : self.page
@@ -66,6 +68,7 @@
                                 self.isHave = false;
                                 return ;
                             }
+                            self.isGetArtData = true;
                             if(getStatus === 3) {
                                 self.articalDatas = self.articalDatas.concat(data);
                                 return ;
@@ -78,6 +81,9 @@
                 this.typeId = typeId;
                 this.active = typeName;
                 this.page = 0;
+                this.articalDatas = [];
+                console.log(typeId + "sdsd"  + typeName);
+                console.log(this.articalDatas);
                 this.getArtical(2);
             },
         },

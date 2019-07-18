@@ -15,7 +15,7 @@
                     <h2>站长推荐</h2>
                     <ul>
                         <li v-for="newItem in newArtical" :key="newItem.id">
-                            <a href="/">{{ newItem.arti_title }}</a>
+                            <a :href="'/showArtical?artId='+ newItem.arti_id" target="_blank">{{ newItem.arti_title }}</a>
                         </li>
                     </ul>
                 </div>
@@ -23,7 +23,7 @@
                     <h2>点击排行</h2>
                     <ul>
                         <li v-for="browseItem in browseTopArtical" :key="browseItem.id">
-                            <a href="/">{{ browseItem.arti_title }}</a>
+                            <a :href="'/showArtical?artId='+ browseItem.arti_id" target="_blank">{{ browseItem.arti_title }}</a>
                         </li>
                     </ul>
                 </div>
@@ -34,10 +34,9 @@
                     </ul>
                 </div>
             </div>
-
             <div class="infosbox">
                 <div class="newsview">
-                    <h3 class="news_title">个人博客，属于我的小世界！</h3>
+                    <h3 class="news_title">{{ articalData.arti_title }}</h3>
                     <div class="bloginfo">
                         <ul>
                             <li class="author">作者：<a href="/">坏小哥</a></li>
@@ -47,8 +46,7 @@
                         </ul>
                     </div>
                     <div class="tags">
-                        <a href="/" target="_blank">个人博客</a> &nbsp;
-                        <a href="/" target="_blank">小世界</a>
+                        <a v-for="type in articalTypes" href="#" target="_blank">{{ type.type_name }}</a> &nbsp;
                     </div>
                     <div class="news_about"><strong>简介</strong>个人博客，用来做什么？我刚开始就把它当做一个我吐槽心情的地方，也就相当于一个网络记事本，写上一些关于自己生活工作中的小情小事，也会放上一些照片，音乐。每天工作回家后就能访问自己的网站，一边听着音乐，一边写写文章。</div>
                     <div class="news_con">
@@ -56,8 +54,12 @@
                             {{ articalData.arti_content }}
                         </p>
                         <div id="ico-div">
-                            <span id="praise-ico" class="glyphicon glyphicon-thumbs-up"></span>
-                            <span id="trample-ico" class="glyphicon glyphicon-thumbs-down"></span>
+                            <span v-if="praise" @click="praiseOrTrample(1, $event)" class="hand-ico light-praise fa fa-thumbs-o-up"></span>
+                            <span v-else @click="praiseOrTrample(1, $event)" class="hand-ico fa fa-thumbs-o-up"></span>
+                            <span>&nbsp;: {{ articalData.arti_praise_points }}</span>
+                            <span v-if="trample" @click="praiseOrTrample(2, $event)" id="trample-ico" class="hand-ico praise fa fa-thumbs-o-down"></span>
+                            <span v-else @click="praiseOrTrample(2, $event)" class="hand-ico praise fa fa-thumbs-o-down"></span>
+                            <span>&nbsp;: {{ articalData.arti_trample_points }}</span>
                         </div>
                     </div>
                 </div>
@@ -65,8 +67,8 @@
                     <h2>文章评论</h2>
                     <div>
                         <div id="publish-div">
-                        <textarea v-model="publishContent" class='form-control' placeholder='请你留下你的足迹......' rows='3'></textarea>
-                        <button type='button' @click="publishComment" class='btn btn-primary btn-xs publish-btn'>发表评论</button>
+                            <textarea v-model="publishContent" class='form-control' placeholder='请你留下你的足迹......' rows='3'></textarea>
+                            <button type='button' @click="publishComment" class='btn btn-primary btn-xs publish-btn'>发表评论</button>
                         </div>
                         <ul v-for="com in comments">
                             <li class="content" :rel="com.come_id" @mouseenter="commentButtonStatus(1, $event)" @mouseleave="commentButtonStatus(2, $event)">
@@ -84,14 +86,14 @@
                                             <a class="close-comment" @click="commentStatus(com.come_id, $event, false)">收起回复</a>
                                             </span>
                                             <span v-if="isLogin" class="dl-replay-btn">
-                                                <a @click="showCommentTextarea($event)">回复</a>
+                                                <a @click="showCommentTextarea($event, com.come_id, com.come_id)">回复</a>
                                                 <a v-if="com.is_mine" @click="deleteArticalComment($event)">删除</a>
                                             </span>
                                         </span>
                                     </div>
                                 </div>
                             </li>
-                            <li class="replay-box" :id="com.come_id" v-if="com.comment_count != 0">
+                            <li class="replay-box" :id="com.come_id" v-if="com.come_count != 0">
                                 <ul class="comment-list">
                                     <li v-for="data in com.child_comment" :key="data.come_id" :rel="data.come_id" class="content"
                                         @mouseenter="commentButtonStatus(1, $event)" @mouseleave="commentButtonStatus(2, $event)">
@@ -106,7 +108,7 @@
                                                 <span>{{ data.come_content }}</span>
                                                 <span>{{ data.created_at }}</span>
                                                 <span v-if="isLogin" class="dl-replay-btn">
-                                                    <a @click="showCommentTextarea($event)">回复</a>
+                                                    <a @click="showCommentTextarea($event, data.come_id, com.come_id)">回复</a>
                                                     <a v-if="data.is_mine" @click="deleteArticalComment($event)">删除</a>
                                                 </span>
                                             </div>
@@ -138,6 +140,11 @@
                 isRegister: false,
                 replayContent: "",
                 publishContent:"",
+                praise: false,
+                trample: false,
+                articalTypes: [],
+                fatherCommentId: '',
+                topId: '',
             }
         },
         methods: {
@@ -147,12 +154,16 @@
                     art_id: artId 
                 })
                     .then(function (res) {
-                        console.log(res.data.data);
-                        if(res.data.code === 0){
-                            self.newArtical       = res.data.data.new_articals;
-                            self.browseTopArtical = res.data.data.browse_top;
-                            self.comments         = res.data.data.comments;
-                            self.articalData      = res.data.data.artical_data[0];
+                        console.log(res.data);
+                        let data  = res.data;
+                        if(data.code === 0){
+                            self.newArtical       = data.data.new_articals;
+                            self.browseTopArtical = data.data.browse_top;
+                            self.comments         = data.data.comments;
+                            self.articalData      = data.data.artical_data[0];
+                            self.praise           = data.data.praise_trample_status.praise;
+                            self.trample          = data.data.praise_trample_status.trample;
+                            self.articalTypes     = data.data.artical_types;
                         }
                     })
             },
@@ -172,7 +183,9 @@
                 let buttonDom = $(event.currentTarget).find(".dl-replay-btn");
                 (status === 1) ? $(buttonDom).show() : $(buttonDom).hide();
             },
-            showCommentTextarea(event){
+            showCommentTextarea(event, fatherCommentId, topId){
+                this.fatherCommentId = fatherCommentId;
+                this.topId = topId;
                 this.closeCommentDiv();
                 $(event.currentTarget).parents(".content").after(
                     "<div id='replay-div' style='padding: 0 10px;'> " +
@@ -188,10 +201,10 @@
                     self.sendReplay(e);
                 });
                 if(this.isRegister) return;
-                this.registerEvent();
+                this.registerCommentEvent();
                 this.isRegister = true;
             },
-            registerEvent() {
+            registerCommentEvent() {
                 let self = this;
                 $("body").click(function (e) {
                     self.num++;
@@ -204,20 +217,12 @@
                     self.num = 0;
                 });
             },
-            validateCommentContent() {
-                var  reg = /<\/?[^>]*>/g;
-                if(reg.test(this.replayContent)){
-                    this.$message.error("你输入的字符非法！");
-                }
-                this.replayContent = this.replayContent.replace(/<\/?[^>]*>/g, ''); //去除HTML Tag
-                this.replayContent = this.replayContent.replace(/[|]*\n/, '');      //去除行尾空格
-                this.replayContent = this.replayContent.replace(/&npsp;/ig, '');    //去掉npsp——转义字符
-            },
             closeCommentDiv() {
                 if($("#replay-div").length > 0)  $("#replay-div").remove();
             },
             sendReplay(obj) {                                   //回复评论
                 let self = this;
+                //检查前台是否登录
                 if(! self.checkFrontLogin()){
                     self.$message.error("亲，你没有登录");
                     return false;
@@ -228,39 +233,37 @@
                         self.$message.error("亲，你需要重新登录一下呐!");
                         return false;
                     }
-                });
-                self.replayContent = $("#text-comment").val();
-                this.validateCommentContent(self.replayContent);
-                let topLevelId;
-                obj = $(obj.target).parents(".replay-box");
-                let isChildrenComment = (obj.length !== 0);
-                (isChildrenComment) ? topLevelId = obj.attr("id") : topLevelId = $("#replay-div").prev().attr("rel") ;
-                self.POST(ApiPath.artical.sendReplayComment,{
-                    top_level_id: topLevelId,
-                    father_id: $("#replay-div").prev().attr("rel"),
-                    art_id: self.articalData.arti_id,
-                    replay_content: self.replayContent
-                })
-                    .then(function (res) {
-                        let data = res.data;
-                        if(data.code === 0) {
-                            self.comments = data.data;
-                            if(! isChildrenComment) {    //显示回复内容列表
-                                let parent = $(obj.target).parent();
-                                $(parent.prev().find(".close-comment")).show();
-                                $(parent.prev().find(".close-comment")).prev().hide();
-                                $(parent).next().show();
-                                return ;
+                    self.replayContent = $("#text-comment").val();
+                    if(! this.validateContent(self.replayContent))  return ;
+                    self.replayContent = this.filterContent(self.replayContent);
+                    obj = $(obj.target).parents(".replay-box");
+                    self.POST(ApiPath.artical.sendReplayComment,{
+                        top_level_id: self.topId,
+                        father_id: self.fatherCommentId,
+                        art_id: self.articalData.arti_id,
+                        replay_content: self.replayContent
+                    })
+                        .then(function (res) {
+                            let data = res.data;
+                            if(data.code === 0) {
+                                self.comments = data.data;
+                                if(! self.topId === self.fatherMsgId) {    //显示回复内容列表
+                                    let parent = $(obj.target).parent();
+                                    $(parent.prev().find(".close-comment")).show();
+                                    $(parent.prev().find(".close-comment")).prev().hide();
+                                    $(obj).show();
+                                    return ;
+                                }
+                                return true;
                             }
-                            return true;
-                        }
-                        self.$message.error(data.msg);
-                        if(data.code === 2 || data.code === 3){
-                            self.emptyUserInformation();
-                            self.reload();
-                        }
-                        console.log(data);
-                    });
+                            self.$message.error(data.msg);
+                            if(data.code === 2 || data.code === 3){
+                                self.emptyUserInformation();
+                                self.reload();
+                            }
+                            console.log(data);
+                        });
+                });
             },
             publishComment() {                             //发表评论
                 let self = this;
@@ -276,6 +279,8 @@
                         return false;
                     }
                 });
+                if(! this.validateContent(self.publishContent))  return ;
+                self.replayContent = this.filterContent(self.publishContent);
                 self.POST(ApiPath.artical.addPublishComment, {
                     publish_content: self.publishContent,
                     art_id: self.articalData.arti_id
@@ -316,6 +321,43 @@
                         return false;
                     });
             },
+            praiseOrTrample(status, event){
+                console.log(status);
+                let obj = event.currentTarget;
+                let self = this;
+                if(! self.checkFrontLogin()){
+                    self.$message.error("亲，你没有登录");
+                    return false;
+                }
+                self.POST(ApiPath.artical.praiseOrTrampleArtical,{
+                    praise_trample_status: status,
+                    art_id: self.articalData.arti_id,
+                })
+                    .then(function (res) {
+                        let data = res.data;
+                        if(data.code === 0){
+                            self.articalData.arti_praise_points = data.data.num.arti_praise_points;
+                            self.articalData.arti_trample_points = data.data.num.arti_trample_points;
+                            if(data.data.is_same){         //和上次的操作一样
+                                (status === 1) ? self.praise = false : self.trample = false;
+                                return;
+                            }
+                            if(data.data.is_first){        //第一次赞/踩
+                                (status === 1) ? self.praise = true : self.trample = true;
+                                return ;
+                            }
+                            if(status === 1){
+                                self.praise = true;
+                                self.trample = false;
+                            } else {
+                                self.praise = false;
+                                self.trample = true;
+                            }
+                            return ;
+                        }
+                        self.$message.error(data.msg);
+                    })
+            },
         },
         mounted() {
             this.getArticalInfor(this.$route.query.artId);
@@ -324,12 +366,21 @@
 </script>
 
 <style scoped>
-    #praise-ico,#trample-ico{
-        width: 50px;
-        height: 50px;
+    .hand-ico{
+        cursor: pointer;
+    }
+    .light-praise{
+        color: yellow;
+    }
+    #trample-ico{
+        color: yellow;
+    }
+    .praise{
+        margin-left: 10px;
     }
     #ico-div{
-        width: 100px;
+        float: right;
+        width: auto;
         height: 50px;
     }
     #publish-div{

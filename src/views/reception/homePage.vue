@@ -96,12 +96,10 @@
                     <p>友情<span>链接</span></p>
                 </h3>
                 <ul class="website">
-                    <li><a href="/">个人博客</a></li>
                     <li><a href="/">个人CSDN博客</a></li>
+                    <li><a href="/">GitHub code</a></li>
                     <li><a href="/">爱民博客</a></li>
                     <li><a href="/">李静博客</a></li>
-                    <li><a href="/">XXXX博客</a></li>
-                    <li><a href="/">XXXX博客</a></li>
                 </ul>
             </div>
             <a href="/" class="wei-xin"> </a></aside>
@@ -464,5 +462,5 @@
     .paih li { line-height: 30px; height: 30px; overflow: hidden; padding-left: 24px; border-bottom: #CCC dotted 1px }
     .website { margin: 10px 0; background: #F3F3F3; border-radius: 50%; text-align: center; }
     .website li { line-height: 26px; text-shadow: #fff 1px 1px 1px; height: 26px; }
-    .wei-xin { background: url(../../images/reception/hxg-gzh.jpg) no-repeat; width: 100%; display: inline-block; height: 274px; overflow: hidden; margin: 10px 0; clear: both }
+    .wei-xin { background: url(../../images/reception/hxg-gzh.jpg) no-repeat; width: 100%; display: inline-block; height: 274px; overflow: hidden; clear: both }
 </style>

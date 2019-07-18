@@ -5,10 +5,10 @@
                 <a href="/"></a>
             </div>
             <nav class="topnav" id="topnav">
-                <router-link to="/"><span>首页</span><span class="en">Protal</span></router-link>
-                <router-link to="/artical"><span>文章</span><span class="en">Artical</span></router-link>
-                <router-link to="/album"><span>相册</span><span class="en">Album</span></router-link>
-                <router-link to="/messageBoard"><span>闲言碎语</span><span class="en">Doing</span></router-link>
+                <router-link target="_blank" to="/" id="main-page"><span>首页</span><span class="en">Protal</span></router-link>
+                <router-link target="_blank" to="artical" id="artical"><span>文章</span><span class="en">Artical</span></router-link>
+                <router-link target="_blank" to="album" id="album"><span>相册</span><span class="en">Album</span></router-link>
+                <router-link target="_blank" to="messageBoard" id="speach"><span>闲言碎语</span><span class="en">Doing</span></router-link>
                 <div class="infor-content" v-if="isLogin">
                     <ul class="infor-ul">
                         <li>
@@ -35,24 +35,24 @@
                 </div>
             </nav>
         </header>
-        <login ref='login' @sendMessage = "loginChild"></login>
+        <frontLogin ref='frontLogin' @sendFatherMsg = "loginChild"></frontLogin>
         <infor ref="infor"></infor>
     </div>
 </template>
 <script>
     export default {
-        name: "headers",
+        name: "myHeader",
         inject: ['reload'],
         data() {
             return {
                 information: {},
                 isLogin: store.state.user,
-                headPortraitUrl: ''
+                headPortraitUrl: '',
             }
         },
         methods: {
             showModel(num) {
-                (num === 1) ? this.$refs.login.showLoginModel(true) : this.$refs.infor.showInforModel(true, 1);
+                (num === 1) ? this.$refs.frontLogin.showLoginModel(true) : this.$refs.infor.showInforModel(true, 1);
             },
             showUpdateModel(){
                 console.log(store.state.user);
@@ -69,15 +69,14 @@
 
             },
             loginChild(information) {
-                // console.log(information);
+                console.log(information);
                 this.isLogin = true;
                 this.information = information;
-                // location.reload();
-                console.log(store.state.user);
-                this.headPortraitUrl = ApiPath.common.getHeadPortrait + information.head_portrait;
+                this.reload();
             },
             loginOut() {
                 let self = this;
+                self.isLogin = false;
                 self.GET(ApiPath.common.frontLogout)
                     .then(function (res) {
                         let data = res.data;
@@ -87,11 +86,32 @@
                             self.$message.error(res.data.msg);
                             return false;
                         }
-                        location.reload();
+                        self.reload();
                     })
+            },
+            rushRouter:function(){
+                setTimeout(() => {
+                    let path = this.$route.matched[1].path;
+                    if (path === "/home") {
+                        $('#main-page').css('color','deepskyblue');
+                    } else if(path === "/artical" || path === "/showArtical") {
+                        $('#artical').css('color','deepskyblue');
+                    } else if(path === "/album" || path === "/showPhoto") {
+                        $('#album').css('color','deepskyblue');
+                    } else if(path === "/messageBoard") {
+                        $('#speach').css('color','deepskyblue');
+                    }
+                }, 1000);
+
+            },
+        },
+        watch:{
+            $router() {
+                this.rushRouter();
             }
         },
         mounted() {
+            this.rushRouter();
             if(this.isLogin){
                 this.information = store.state.user;
                 // this.information = JSON.parse(sessionStorage.getItem('user'));
@@ -148,9 +168,9 @@
     .box{ width:1000px; margin:auto; overflow:hidden}
     header { width: 80%; margin: auto; height: 115px; position: relative; overflow: hidden }
     #logo a { width: 362px; height: 105px; position: absolute; background: url(../../images/reception/logo.png) no-repeat; display: block }
-    nav { float: right;  width: 57%; margin: 50px 0 0 0; text-align: right;display: flex;align-items: center; }
+    nav { float: right;  width: 60%; margin: 50px 0 0 0; text-align: right;display: flex;align-items: center; }
     nav a { position: relative; margin-right:2%;display: inline-block; font-size: 18px; font-family: "Î¢ÈíÑÅºÚ", Arial, Helvetica, sans-serif; }
-    nav a:hover { text-decoration: none }
+    nav a:hover { text-decoration: none; color: #37ccca}
     .topnav a { margin: 0 20px; padding: 0 8px; }
     .topnav a span:first-child { z-index: 2; display: block; }
     .topnav a span:last-child { z-index: 1; display: block; color: #999; font: 12px Georgia, serif; opacity: 0; -webkit-transition: -webkit-transform 0.3s, opacity 0.3s; -moz-transition: -moz-transform 0.3s, opacity 0.3s; transition: transform 0.3s, opacity 0.3s; -webkit-transform: translateY(-100%); -moz-transform: translateY(-100%); transform: translateY(-100%); text-align: center }
@@ -175,7 +195,6 @@
     #head-img{
         width: 40px;
         height: 40px;
-        background: #7fee1d;
         -moz-border-radius: 60px;
         -webkit-border-radius: 60px;
         border-radius: 60px;

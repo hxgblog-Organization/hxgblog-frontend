@@ -1,310 +1,159 @@
 <template>
     <div>
-        <article class="jq22-container">
-            <div class="htmleaf-content bgcolor-3">
-                <div id="div1">
-                    <div class="box"><img src="../../images/reception/001.png" alt=""></div>
-                    <div class="box"><img src="../../images/reception/001.png" alt=""></div>
-                    <div class="box"><img src="../../images/reception/001.png" alt=""></div>
-                    <div class="box"><img src="../../images/reception/001.png" alt=""></div>
-                    <div class="box"><img src="../../images/reception/001.png" alt=""></div>
-                    <div class="box"><img src="../../images/reception/001.png" alt=""></div>
-                    <div class="box"><img src="../../images/reception/001.png" alt=""></div>
+        <p class="album-title-fir">即使行动导致错误，却也带来了学习与成长;不行动则是停滞与萎缩。</p>
+        <p class="album-title-sec">在生活中，我跌倒过。我在嘲笑声中站起来，虽然衣服脏了，但那是暂时的，它可以洗净。</p>
+        <p class="album-title-thi">放弃该放弃的是无奈，放弃不该放弃的是无能;不放弃该放弃的是无知，不放弃不该放弃的是执着。</p>
+        <div class="jq22-container">
+            <div class="demo">
+                <div class="grid">
                 </div>
             </div>
-        </article>
+
+        </div>
     </div>
+
 </template>
 
 <script>
-    import '../../assets/js/jquery.waterfall'
+    import  '../../assets/waterfall/js/jquery-1.11.1.min';
+    import  { minigrid } from '../../assets/waterfall/js/minigrid';
     export default {
         name: "showPhoto",
         data() {
             return {
                 imgsArr: [],
-                group: 0, // request param
+                page: 0,
+                albumId: 0,
+                is_has_photo: true,
+                getPhotoBaseUrl: ApiPath.common.getAlbumPhoto,
+                data:[],
+                isHave: true
             }
         },
+
         methods: {
-
-        },
-
-    }
-    $("#div1").waterfall({
-        itemClass: ".box",
-        minColCount: 2,
-        spacingHeight: 10,
-        resizeable: true,
-        ajaxCallback: function(success, end) {
-            var data = {"data": [
-                    { "src": "03.jpg" }, { "src": "04.jpg" }, { "src": "02.jpg" }, { "src": "05.jpg" }, { "src": "01.jpg" }, { "src": "06.jpg" }
-                ]};
-            var str = "";
-            var templ = '<div class="box" style="opacity:0;filter:alpha(opacity=0);"><div class="pic"><img src="img/{{src}}" /></div></div>';
-
-            for(var i = 0; i < data.data.length; i++) {
-                str += templ.replace("{{src}}", data.data[i].src);
+            getImage(){
+                let self = this;
+                self.GET(ApiPath.album.byAlbumIdSelectPhoto, {
+                    album_id: self.albumId,
+                    page: self.page
+                })
+                    .then(function (res) {
+                        if(res.data.data.length === 0){
+                            self.isHave = false;
+                            return ;
+                        }
+                        self.data = res.data.data;
+                        for(var i = 0; i < self.data.length; i++){
+                            //生成一个div盒子对象
+                            var oDiv = document.createElement("div");
+                            oDiv.className = "grid-item";
+                            //生成一个图片对象
+                            var oImg = new Image();
+                            oImg.src = self.getPhotoBaseUrl + self.data[i].phot_path;
+                            //把图片放入div盒子
+                            oDiv.appendChild(oImg);
+                            //把div放入大盒子
+                            $(".grid").append(oDiv);
+                            (function(oImg){
+                                setTimeout(function(){
+                                    oImg.style.cssText = "opacity:1;transform:scale(1);";
+                                },100);
+                            })(oImg); //立马调用
+                        }
+                        var done = function (){
+                            var d = document.querySelector('.demo');
+                            d.style.opacity = 1;
+                        };
+                        minigrid('.grid', '.grid-item', 6, null,done);//调用外部文件
+                    })
+            },
+            scrollGetImage() {
+                if (! this.isHave) return ;
+                //滚动滚动条的时候调用的事件
+                var scrollH = '';//文档高度
+                var scrollT = '';//滚动条高度
+                var _height = $(window).height();
+                scrollH = document.body.scrollHeight;
+                scrollT = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
+                // console.log(_height+" a "+scrollT+" b "+150+"  "+scrollH);
+                if(_height +scrollT + 20 > scrollH) {
+                    this.page++;
+                    this.getImage();
+                }
             }
-            $(str).appendTo($("#div1"));
-            success();
-            end();
+        },
+        mounted() {
+            this.albumId = this.$route.query.albumId;
+            this.getImage();
+            window.addEventListener('scroll', this.scrollGetImage);
+            window.addEventListener('resize', function(){
+                minigrid('.grid', '.grid-item');
+            });
         }
-    });
-
+    }
 </script>
-
-<style scoped>
-    #div1 { margin:auto; position:relative;    height: 1715px; }
-    .box { float:left; padding:10px; border:1px solid #ccc; background:#f7f7f7; box-shadow:0 0 8px #ccc; }
-    .box:hover { box-shadow:0 0 10px #999; }
-    .box img { width:200px; }
-
-    .box{
-
-        opacity: 1;
-        float: left;
-        padding: 10px;
-        border: 1px solid #ccc;
-        background: #f7f7f7;
-        box-shadow: 0 0 8px #ccc;
+<style>
+    .album-title-fir{
+        margin-top: 40px;
+        margin-right: 350px;
+        font-size: 20px;
+        color: darkblue;
     }
-
-    [class^="icon-"], [class*=" icon-"] {
-        font-family: 'icomoon';
-        speak: none;
-        font-style: normal;
-        font-weight: normal;
-        font-variant: normal;
-        text-transform: none;
-        line-height: 1;
-
-        /* Better Font Rendering =========== */
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
+    .album-title-sec{
+        margin-top: 20px;
+        margin-right: 50px;
+        font-size: 20px;
+        color: darkblue;
     }
-
-    body, html { font-size: 100%; 	padding: 0; margin: 0;}
-
-    /* Reset */
-    *,
-    *:after,
-    *:before {
-        -webkit-box-sizing: border-box;
-        -moz-box-sizing: border-box;
-        box-sizing: border-box;
+    .album-title-thi{
+        margin-top: 20px;
+        margin-left: 110px;
+        font-size: 20px;
+        color: darkblue;
     }
-
-    /* Clearfix hack by Nicolas Gallagher: http://nicolasgallagher.com/micro-clearfix-hack/ */
-    .clearfix:before,
-    .clearfix:after {
-        content: " ";
-        display: table;
+    .jq22-container{
+        min-height: 600px;
+        width: 80%;
+        margin: auto;
+        border-radius:15px;
+        border-style:ridge;
+        border-width:20px;
     }
-
-    .clearfix:after {
-        clear: both;
-    }
-
-    body{
-        background: #f9f7f6;
-        color: #404d5b;
-        font-weight: 500;
-        font-size: 1.05em;
-        font-family: "Segoe UI", "Lucida Grande", Helvetica, Arial, "Microsoft YaHei", FreeSans, Arimo, "Droid Sans", "wenquanyi micro hei", "Hiragino Sans GB", "Hiragino Sans GB W3", "FontAwesome", sans-serif;
-    }
-    a{color: #2fa0ec;text-decoration: none;outline: none;}
-    a:hover,a:focus{color:#74777b;}
-
-    .htmleaf-container{
-        margin: 0 auto;
-        text-align: center;
-        overflow: hidden;
-    }
-    .htmleaf-content {
-        font-size: 150%;
-        padding: 1em 0;
-    }
-
-    .htmleaf-content h2 {
-        margin: 0 0 2em;
-        opacity: 0.1;
-    }
-
-    .htmleaf-content p {
-        margin: 1em 0;
-        padding: 5em 0 0 0;
-        font-size: 0.65em;
-    }
-    .bgcolor-1 { background: #f0efee; }
-    .bgcolor-2 { background: #f9f9f9; }
-    .bgcolor-3 { background: #e8e8e8; }/*light grey*/
-    .bgcolor-4 { background: #2f3238; color: #fff; }/*Dark grey*/
-    .bgcolor-5 { background: #df6659; color: #521e18; }/*pink1*/
-    .bgcolor-6 { background: #2fa8ec; }/*sky blue*/
-    .bgcolor-7 { background: #d0d6d6; }/*White tea*/
-    .bgcolor-8 { background: #3d4444; color: #fff; }/*Dark grey2*/
-    .bgcolor-9 { background: #ef3f52; color: #fff;}/*pink2*/
-    .bgcolor-10{ background: #64448f; color: #fff;}/*Violet*/
-    .bgcolor-11{ background: #3755ad; color: #fff;}/*dark blue*/
-    .bgcolor-12{ background: #3498DB; color: #fff;}/*light blue*/
-    /* Header */
-    .htmleaf-header{
-        padding: 1em 190px 1em;
-        letter-spacing: -1px;
-        text-align: center;
-    }
-    .htmleaf-header h1 {
-        font-weight: 600;
-        font-size: 2em;
-        line-height: 1;
-        margin-bottom: 0;
-        font-family: "Segoe UI", "Lucida Grande", Helvetica, Arial, "Microsoft YaHei", FreeSans, Arimo, "Droid Sans", "wenquanyi micro hei", "Hiragino Sans GB", "Hiragino Sans GB W3", "FontAwesome", sans-serif;
-    }
-    .htmleaf-header h1 span {
-        font-family: "Segoe UI", "Lucida Grande", Helvetica, Arial, "Microsoft YaHei", FreeSans, Arimo, "Droid Sans", "wenquanyi micro hei", "Hiragino Sans GB", "Hiragino Sans GB W3", "FontAwesome", sans-serif;
-        display: block;
-        font-size: 60%;
-        font-weight: 400;
-        padding: 0.8em 0 0.5em 0;
-        color: #c3c8cd;
-    }
-    /*nav*/
-    .htmleaf-demo a{color: #1d7db1;text-decoration: none;}
-    .htmleaf-demo{width: 100%;padding-bottom: 1.2em;}
-    .htmleaf-demo a{display: inline-block;margin: 0.5em;padding: 0.6em 1em;border: 3px solid #1d7db1;font-weight: 700;}
-    .htmleaf-demo a:hover{opacity: 0.6;}
-    .htmleaf-demo a.current{background:#1d7db1;color: #fff; }
-    /* Top Navigation Style */
-    .htmleaf-links {
+    .demo {
         position: relative;
-        display: inline-block;
-        white-space: nowrap;
-        font-size: 1.5em;
-        text-align: center;
+        opacity: 1;
+        transition: .2s ease;
+        margin-bottom: 60px;
     }
-
-    .htmleaf-links::after {
+    .grid {
+        position: relative;
+        /* fluffy */
+        margin: 0 auto;
+        width: 98%;
+        /* end fluffy */
+    }
+    .grid-item {
         position: absolute;
         top: 0;
-        left: 50%;
-        margin-left: -1px;
-        width: 2px;
-        height: 100%;
-        background: #dbdbdb;
-        content: '';
-        -webkit-transform: rotate3d(0,0,1,22.5deg);
-        transform: rotate3d(0,0,1,22.5deg);
-    }
-
-    .htmleaf-icon {
-        display: inline-block;
-        margin: 0.5em;
-        padding: 0em 0;
-        width: 1.5em;
-        text-decoration: none;
-    }
-
-    .htmleaf-icon span {
-        display: none;
-    }
-
-    .htmleaf-icon:before {
-        margin: 0 5px;
-        text-transform: none;
-        font-weight: normal;
-        font-style: normal;
-        font-variant: normal;
-        font-family: 'icomoon';
-        line-height: 1;
-        speak: none;
-        -webkit-font-smoothing: antialiased;
-    }
-    /* footer */
-    .htmleaf-footer{width: 100%;padding-top: 10px;}
-    .htmleaf-small{font-size: 0.8em;}
-    .center{text-align: center;}
-    /****/
-    .related {
-        color: #fff;
-        background: #333;
-        text-align: center;
-        font-size: 1.25em;
-        padding: 0.5em 0;
+        left: 0;
+        /* fluffy */
+        width: 180px;
+        border-radius: 30px;
+        background-color: #EDEDED;
+        /* end fluffy */
+        -webkit-transition: .3s ease-in-out;
+        -o-transition: .3s ease-in-out;
+        transition: .3s ease-in-out;
+        border: 1px solid #ADADAD;
         overflow: hidden;
     }
-
-    .related > a {
-        vertical-align: top;
-        width: calc(100% - 20px);
-        max-width: 340px;
-        display: inline-block;
-        text-align: center;
-        margin: 20px 10px;
-        padding: 25px;
-        font-family: "Segoe UI", "Lucida Grande", Helvetica, Arial, "Microsoft YaHei", FreeSans, Arimo, "Droid Sans", "wenquanyi micro hei", "Hiragino Sans GB", "Hiragino Sans GB W3", "FontAwesome", sans-serif;
-    }
-    .related a {
-        display: inline-block;
-        text-align: left;
-        margin: 20px auto;
-        padding: 10px 20px;
-        opacity: 0.8;
-        -webkit-transition: opacity 0.3s;
-        transition: opacity 0.3s;
-        -webkit-backface-visibility: hidden;
-    }
-
-    .related a:hover,
-    .related a:active {
-        opacity: 1;
-    }
-
-    .related a img {
-        max-width: 100%;
-        opacity: 0.8;
-        border-radius: 4px;
-    }
-    .related a:hover img,
-    .related a:active img {
-        opacity: 1;
-    }
-    .related h3{font-family: "Microsoft YaHei", sans-serif;}
-    .related a h3 {
-        font-weight: 300;
-        margin-top: 0.15em;
-        color: #fff;
-    }
-    /* icomoon */
-    .icon-htmleaf-home-outline:before {
-        content: "\e5000";
-    }
-
-    .icon-htmleaf-arrow-forward-outline:before {
-        content: "\e5001";
-    }
-
-    @media screen and (max-width: 50em) {
-        .htmleaf-header {
-            padding: 3em 10% 4em;
-        }
-        .htmleaf-header h1 {
-            font-size:2em;
+    .grid-item img{opacity:0;transform:scale(0); width: 100%;height:auto; vertical-align: middle; transition: all 1s; -webkit-transition: all 1s;}
+    /* mq */
+    @media (max-width: 600px) {
+        .grid-item {
+            width: 120px;
+            height: 80px;
         }
     }
-
-
-    @media screen and (max-width: 40em) {
-        .htmleaf-header h1 {
-            font-size: 1.5em;
-        }
-    }
-
-    @media screen and (max-width: 30em) {
-        .htmleaf-header h1 {
-            font-size:1.2em;
-        }
-    }
-
-
 </style>

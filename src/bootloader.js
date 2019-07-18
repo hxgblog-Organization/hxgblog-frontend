@@ -1,12 +1,17 @@
 import loadsh from 'lodash'
 window._ = loadsh;
-import 'bootstrap/dist/css/bootstrap.min.css'
-// import 'bootstrap/dist/css/bootstrap.css'
+
+
+
 /**
  * We'll load jQuery and the Bootstrap jQuery plugin which provides support
  * for JavaScript based Bootstrap features such as modals and tabs. This
  * code may be modified to fit the specific needs of your application.
  */
+
+import 'bootstrap/dist/css/bootstrap.css'
+import 'font-awesome/css/font-awesome.css'             //bootstrap的字体组件
+
 import jQuery from "jquery"
 window.$ = window.jQuery = jQuery;
 
@@ -60,7 +65,7 @@ Vue.use(ElementUI);
 
 /**
  *vue路由
- */
+//  */
 import router from './config/index'
 window.router = router;
 

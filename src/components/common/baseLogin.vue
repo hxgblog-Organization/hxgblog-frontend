@@ -27,7 +27,7 @@
             </el-form-item>
         </el-form>
         <span>其他登录方式</span><span id="forget-span" @click="sendFatherMsg">/忘记密码？</span>
-        <third-party></third-party>
+        <third-party :isBack="loginUrl.isBack"></third-party>
         <div slot="footer" class="dialog-footer" style="text-align: center">
             <el-button style="width: 100%" type="primary" @click="login">登录</el-button>
         </div>
@@ -58,6 +58,7 @@
                     baseCodeImageUrl: ApiPath.common.getcaptcha,
                     time: 60,
                     verification: true,
+                    isBack: false,
                 };
             },
             props:['loginUrl'],
@@ -123,7 +124,6 @@
                     if(! self.smsLoginValidate(self.codeForm)) return false;
                     self.POST(self.loginUrl.smsUrl, self.codeForm)
                         .then(function (res) {
-                             console.log(res.data);
                              if(res.data.code === 0){
                                  self.$message.success(res.data.msg);
                                  self.dialogFormVisible = false;      //隐藏模态框
@@ -149,6 +149,7 @@
                 },
             },
             mounted() {
+                this.isBack = this.loginUrl.isBack;
                 this.changeCodeImage();
             }
         }

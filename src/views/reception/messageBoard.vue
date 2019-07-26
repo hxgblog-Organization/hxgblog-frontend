@@ -180,7 +180,6 @@
                         msg_content: self.replayContent
                     })
                         .then(function (res) {
-                            console.log(res.data.data);
                             let data = res.data;
                             if(data.code === 0) {
                                 self.closeMessageDiv();
@@ -283,7 +282,6 @@
                     }
                     self.POST(ApiPath.leaveMessage.deleteLeaveMessage, { msg_id: leaveMessageId })
                         .then(function (res) {
-                            console.log(res.data.data);
                             if(res.data.code === 0){
                                 self.$message.success(res.data.msg);
                                 self.reload();
@@ -302,7 +300,6 @@
                     .then(function (res) {
                         if(typeof(res.data.data) !=="undefined"){
                             self.isGetData = true;
-                            console.log(res.data.data);
                             self.leaveMessageData = self.leaveMessageData.concat(res.data.data.leave_msg_data);
                             self.leaveSay = res.data.data.leave_say_data;
                             return true;
@@ -319,7 +316,6 @@
                 var srcollH = document.body.scrollHeight;
                 // console.log(windowHeight + "--" + srcollTop + "---" + srcollH);
                 if(srcollTop + windowHeight + (this.page * 100 + 10)  > srcollH) {
-                    console.log("dsd");
                     this.page++;
                     this.getLeaveMessage();
                 }

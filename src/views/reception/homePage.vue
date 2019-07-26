@@ -109,8 +109,8 @@
                 <ul class="website">
                     <li><a target="_blank" href="https://blog.csdn.net/weixin_43885417">个人CSDN博客</a></li>
                     <li><a target="_blank" href="https://github.com/zhangtengfei2232">个人GitHub code</a></li>
-                    <li><a target="_blank" href="/">小宝贝博客</a></li>
-                    <li><a target="_blank" href="/">小宝贝GitHub code</a></li>
+                    <li><a target="_blank" href="https://www.cnblogs.com/l199616j">小宝贝博客园</a></li>
+                    <li><a target="_blank" href="https://github.com/l199616j0">小宝贝GitHub code</a></li>
                 </ul>
             </div>
             <a href="/" class="wei-xin"> </a></aside>
@@ -146,7 +146,6 @@
                 this.GET(ApiPath.homePage.showMain)
                     .then(function (res) {
                         if(res.data.code == 0){
-                            console.log( res.data.data);
                             let data = res.data.data;
                             self.articalData = data.new_artical;
                             self.browseTop = data.browse_top;
@@ -179,7 +178,6 @@
             getCityName() {
                 let self = this;
                 self.GET(ApiPath.common.getCityName).then(function (res) {
-                    console.log(res.data);
                     if(res.data.code === 0){
                         self.cityName = res.data.data.city_name;
                         self.weatherUrl = self.weatherUrl + pinyin.getFullChars(self.cityName).toLowerCase() + "/?tq";
@@ -193,7 +191,6 @@
                                 self.weatherData  = JSON.parse(data).data.forecast;
                                 self.todayWeather = JSON.parse(data).data.forecast[0];
                                 self.todayWeather.date = month + '月' + self.todayWeather.date;
-                                console.log(self.todayWeather.date);
                                 self.todayWeather.low  = self.todayWeather.low.replace(reg, "");
                                 self.todayWeather.high = self.todayWeather.high.replace(reg, "");
                                 self.todayWeather.fengli = self.todayWeather.fengli.replace(/[^0-9]/ig,"");
@@ -203,7 +200,6 @@
                                 }
                                 self.todayWeather.fengli = self.todayWeather.fengxiang + ',  ' + self.todayWeather.fengli + '级';
                                 self.todayWeather['temperature'] = self.todayWeather.low + " ~ " + self.todayWeather.high;
-                                console.log(self.todayWeather);
                                 for(var index in self.weatherData){
                                     self.weatherData[index].low  = self.weatherData[index].low.replace(reg, "");
                                     self.weatherData[index].high = self.weatherData[index].high.replace(reg, "");
@@ -227,7 +223,6 @@
             }
         },
         mounted(){
-            console.log("sdsds");
             this.showMainPage();
             this.getCityName();
         }

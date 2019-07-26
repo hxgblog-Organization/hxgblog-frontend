@@ -178,12 +178,10 @@
                     page: self.currentPages
                 }).then(function (res) {
                     let data = res.data;
-                    console.log(data);
                     if(data.code === 0){
                         self.total =  data.data.art_data.total;
                         self.articalData = data.data.art_data.data;
                         self.artTypeGroup = data.data.art_type_data;
-                        console.log(self.articalData);
                     }
                 })
             },
@@ -212,14 +210,12 @@
             byTypeSelectArtical() {
                 let self = this;
                 self.isTypeSelect = true;
-                console.log(self.typeIdData);
                 self.GET(ApiPath.maartical.byTypeSelectArtical, {
                     type_id_data: self.typeIdData,
                     total: self.pageSize,
                     page: self.currentPages
                 }).then(function (res) {
                     let data = res.data;
-                    console.log(res.data);
                     if(data.code === 0){
                         self.articalData = data.data.art_data;
                         self.total = data.data.total;
@@ -227,11 +223,9 @@
                 })
             },
             deleteArtical() {
-                console.log(this.art_id_data);
                 let self = this;
                 self.POST(ApiPath.maartical.deleteArtical,{ art_id_data: self.art_id_data })
                     .then(function (res) {
-                        console.log(res.data);
                         if(res.data.code === 0){
                             self.$message.success(res.data.msg);
                             return true;

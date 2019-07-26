@@ -106,7 +106,6 @@
                         },2000);
                         return false;
                     }
-                    console.log(res.data);
                     let data = res.data.data;
                     self.articalForm.arti_title     = data.artical[0].arti_title;
                     self.articalForm.arti_type      = data.art_type;
@@ -156,7 +155,6 @@
                 self.artFormData.append('is_update_cover', self.isUpdateCover);
                 self.POST(ApiPath.maartical.updateArtical, self.artFormData)
                     .then(function (res) {
-                        console.log(res.data);
                         if(res.data.code === 0){
                             self.$message.success(res.data.msg);
                             return true;

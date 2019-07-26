@@ -20,11 +20,9 @@
         inject: ['reload'],
         methods: {
             showByCodeUpdatePwd() {
-                console.log("sssshwo");
                 this.$refs.byCodeUpdatePwd.showUpdatePasswordModel();
             },
             getLoginStatus(information) {
-                console.log(information);
                 this.$router.push({path: '/admin/showArtInfo'});
             },
 

@@ -75,7 +75,6 @@
                 if(! self.smsLoginValidate(self.updatePwdForm)) return  false;
                 self.POST(ApiPath.common.byCodeUpdatePassword,self.updatePwdForm)
                     .then(function (res) {
-                    console.log(res.data);
                     if(res.data.code === 0){
                         self.$message.success(res.data.msg);
                         self.byCodeUpdatePasswordDiag = false;

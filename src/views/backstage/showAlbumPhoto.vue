@@ -108,7 +108,6 @@
                     del_photo_road: self.deletePhotoRoadData,
                     del_photo_id: self.deletePhotoIdData
                 }).then(function (res) {
-                    console.log(res.data);
                     if(res.data.code === 0){
                         self.$message.success(res.data.msg);
                         self.reload();

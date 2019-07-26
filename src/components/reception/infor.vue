@@ -95,7 +95,6 @@
         },
         methods:{
             showInforModel(visible, status){
-                console.log(status);
                 this.dialogFormVisible = visible;
                 this.status = status;
                 if(status === 2){
@@ -136,7 +135,6 @@
                             return true;
                         }
                         self.$message.error(res.data.msg);
-                        console.log(res.data);
                         return false;
                     })
             },
@@ -145,7 +143,6 @@
                 self.formData.delete('password');
                 self.POST(ApiPath.common.updateUserInformation, self.formData)
                     .then(function (res) {
-                        console.log(res.data);
                         if(res.data.code === 0){
                             self.$message.success(res.data.msg);
                             self.updateLocalStorage(res.data.data);

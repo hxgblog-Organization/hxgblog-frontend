@@ -291,7 +291,6 @@
                     exht_name: self.exhibitName,
                     exht_content: exhibitContentData
                 }).then(function (res) {
-                    console.log(res.data);
                     if(res.data.code === 0){
                         self.$message.success(res.data.msg);
                         self.reload();
@@ -312,7 +311,6 @@
                     total: self.currentPages,
                     time: time
                 }).then(function (res) {
-                    console.log(res.data);
                     let data = res.data;
                     if(res.data.code === 0){
                         self.exhibitData = data.data.exhibit_data;
@@ -388,7 +386,6 @@
                     exht_name: self.exhibitName,
                     exht_content: self.content
                 }).then(function (res) {
-                    console.log(res.data);
                     if(res.data.code === 0){
                         self.$message.success(res.data.msg);
                         self.reload();
@@ -403,7 +400,6 @@
                 this.deleteExhibit();
             },
             deleteExhibit() {
-                console.log(this.delExhibitIdData);
                 let self = this;
                 self.POST(ApiPath.maexhibit.deleteExhibit, {
                     exht_id_data: self.delExhibitIdData,
@@ -424,7 +420,6 @@
                     orig_select_id: self.exhibitData[0].exht_id,
                     new_select_id: exhibitId
                 }).then(function (res) {
-                    console.log(res.data);
                     if(res.data.code === 0){
                         self.$message.success(res.data.msg);
                         self.reload();

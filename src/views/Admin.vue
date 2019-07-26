@@ -79,7 +79,6 @@
         },
         methods: {
             showUpdateInfoModel(){
-                console.log(store.state.user);
                 let self = this;
                 //先检查前台登录状态
                 if(!self.checkFrontLogin()) return self.$message.warning("请你先登录");
@@ -102,7 +101,6 @@
                     new_password: self.newPassword,
                     role: "admin"
                 }).then(function (res) {
-                    console.log(res.data);
                     if(res.data.code === 1){
                         self.$message.error(res.data.msg);
                         return false;
@@ -123,7 +121,6 @@
                 //后台登录状态没有消失，再去请求用户信息
                 this.checkBackLogin(2)
                     .then(function (res) {
-                        console.log(res);
                         if(! res){
                             self.$message.warning("请你重新登录!");
                             self.$router.push({ path: '/backLogin' });
@@ -134,7 +131,6 @@
             },
             rushRouter() {
                 setTimeout(() => {
-                    // console.log(this.$route.matched);
                     let path = this.$route.matched[1].name;
                     if (path === "showArtInfo"|| path === "editorArt") {
                         $('#0').addClass('is-active');

@@ -62,7 +62,6 @@
                     'page'   : self.page
                 })
                     .then(function (res) {
-                        console.log(res.data);
                         if(res.data.code == 0){
                             if(res.data.data.length === 0){
                                 self.isHave = false;
@@ -83,8 +82,6 @@
                 this.active = typeName;
                 this.page = 0;
                 this.articalDatas = [];
-                console.log(typeId + "sdsd"  + typeName);
-                // console.log(this.articalDatas);
                 this.getArtical(2);
             },
         },

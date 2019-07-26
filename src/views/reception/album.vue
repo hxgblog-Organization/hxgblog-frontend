@@ -59,7 +59,6 @@
                 self.GET(ApiPath.album.selectAllAlbumInformation)
                     .then(function (res) {
                         if(res.data.code === 0) self.albumData = res.data.data;
-                        console.log(self.albumData);
                     })
             },
             showPasswordModel(index, status){

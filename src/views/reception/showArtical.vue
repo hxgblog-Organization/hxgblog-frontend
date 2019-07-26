@@ -145,6 +145,7 @@
                 this.moveDistance-=1.61;
             },
             playMusic(){
+                $($('.word-on-time')[0]).removeClass('word-on-time');   //播放结束后清楚最后一行歌词的class。
                 let audio = $("#music-audio")[0];
                 if(audio.ended){
                     document.getElementById('word-list').style.top = '20px';
@@ -168,19 +169,19 @@
                 let subscript = this.wordArraySubscript;
                 if(this.wordArraySubscript<wordList.length)
                     for (subscript;subscript< wordList.length;subscript++){
-                        if( time>=wordList[ this.wordArraySubscript].time){
+                        if( time >= wordList[this.wordArraySubscript].time){
                             let docList = document.getElementsByClassName("word");
                             docList[this.wordArraySubscript].classList.add('word-on-time');
-                            if(this.wordArraySubscript>-0)
-                                docList[this.wordArraySubscript-1].classList.remove('word-on-time');
-                            var self = this;
+                            if(this.wordArraySubscript > 0)
+                                docList[this.wordArraySubscript - 1].classList.remove('word-on-time');
+                            let self = this;
                             let index = 1;
-                            let clolc = window.setInterval(()=>{
+                            let clear = window.setInterval(()=>{
                                 if(index < 11){
                                     self.timingMove();
                                     index++;
                                 }else{
-                                    window.clearInterval(clolc)
+                                    window.clearInterval(clear)
                                 }
                             },10);
                             // this.moveDistance-=23.33
@@ -195,7 +196,6 @@
                     art_id: artId 
                 })
                     .then(function (res) {
-                        console.log(res.data);
                         let data  = res.data;
                         if(data.code === 0){
                             let lyric = data.data.music_lyric;
@@ -215,8 +215,6 @@
                     })
             },
             handleLyric({lineNum, txt}) {
-                console.log(lineNum);
-                console.log(txt);
                 this.currentLineNum = lineNum;
                 // 若当前行大于5,开始滚动,以保歌词显示于中间位置
                 if (lineNum > 5) {
@@ -436,11 +434,43 @@
     #music-audio{
         outline: none;
     }
-    .word-on-time{
-        display: block;
-        text-align: center;
-        color: red;
+    /* 定义keyframe动画，命名为blink */
+    @keyframes blink{
+        0%{opacity: 1;}
+        100%{opacity: 0;}
     }
+    /* 添加兼容性前缀 */
+    @-webkit-keyframes blink {
+        0% { opacity: 1; }
+        100% { opacity: 0; }
+    }
+    @-moz-keyframes blink {
+        0% { opacity: 1; }
+        100% { opacity: 0; }
+    }
+    @-ms-keyframes blink {
+        0% {opacity: 1; }
+        100% { opacity: 0;}
+    }
+    @-o-keyframes blink {
+        0% { opacity: 1; }
+        100% { opacity: 0; }
+    }
+    /* 定义blink类*/
+    .word-on-time{
+        color: fuchsia;
+        animation: blink 1s linear infinite;
+        /* 其它浏览器兼容性前缀 */
+        -webkit-animation: blink 1s linear infinite;
+        -moz-animation: blink 1s linear infinite;
+        -ms-animation: blink 1s linear infinite;
+        -o-animation: blink 1s linear infinite;
+    }
+    /*.word-on-time{*/
+    /*    display: block;*/
+    /*    text-align: center;*/
+    /*    color: fuchsia;*/
+    /*}*/
     .progress{
         height: 10px;
         border-radius: 20px;

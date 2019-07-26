@@ -35,6 +35,7 @@
                 </div>
             </nav>
         </header>
+
         <frontLogin ref='frontLogin' @sendFatherMsg = "loginChild" @showByCodeUpdatePwd="showByCodeUpdatePwd"></frontLogin>
         <infor ref="infor"></infor>
         <byCodeUpdatePwd ref="byCodeUpdatePwd"></byCodeUpdatePwd>
@@ -79,7 +80,6 @@
                     new_password: self.newPassword,
                     role: 'user'
                 }).then(function (res) {
-                    console.log(res.data);
                     if(res.data.code === 1){
                         self.$message.error(res.data.msg);
                         return false;
@@ -114,7 +114,6 @@
                 //后台登录状态没有消失，再去请求用户信息
                 this.checkBackLogin()
                     .then(function (res) {
-                        console.log(res);
                         if(! res){
                             self.$message.warning("请你重新登录!");
                             self.emptyUserInformation();
@@ -127,7 +126,6 @@
 
             },
             loginChild(information) {
-                console.log(information);
                 this.isLogin = true;
                 this.information = information;
                 this.reload();
@@ -137,7 +135,6 @@
                 self.isLogin = false;
                 self.GET(ApiPath.common.frontLogout)
                     .then(function (res) {
-                        console.log(res.data);
                         let data = res.data;
                         if(data.code === 2 || data.code === 3){
                             self.$message.error(res.data.msg);
@@ -170,8 +167,6 @@
             this.rushRouter();
             if(this.isLogin){
                 this.information = store.state.user;
-                // this.information = JSON.parse(sessionStorage.getItem('user'));
-                // console.log(this.information);
                 this.headPortraitUrl = ApiPath.common.getHeadPortrait + this.information.head_portrait;
             }
         }

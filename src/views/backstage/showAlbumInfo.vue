@@ -153,7 +153,6 @@
                     albu_question: self.albu_question,
                     albu_answer: self.albu_answer
                 }).then(function (res) {
-                    console.log(res);
                     if(res.data.code === 0){
                         self.$message.success(res.data.msg);
                         self.reload();
@@ -164,7 +163,6 @@
                 })
             },
             deleteSecretSecurity(album_id) {
-                console.log(album_id);
                 let self = this;
                 self.POST(ApiPath.maalbum.deleteAlbumSecretSecurity,{ albu_id: album_id })
                     .then(function (res) {
@@ -184,7 +182,6 @@
                     albu_question: self.albu_question,
                     albu_answer: self.albu_answer,
                 }).then(function (res) {
-                    console.log(res.data);
                     if(res.data.code === 0){
                         self.$message.success(res.data.msg);
                         self.reload();

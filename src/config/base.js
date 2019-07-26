@@ -88,7 +88,6 @@ export default {
     },
     //清空本地用户信息，让用户重新登录
     emptyUserInformation: function () {
-        console.log("empty");
         store.commit(types.LOGOUT);
         // this.reload();
         // self.GET(ApiPath.common.checkUserOrAdminLogin).then(function (res) {
@@ -101,7 +100,6 @@ export default {
     },
     //检查用户后台的登录状态
     checkBackLogin: function (status = 1) {
-        console.log(status);
         return new Promise((resolve, reject) => {
             let self = this;
             self.GET(ApiPath.common.checkLogin, {
@@ -125,7 +123,6 @@ export default {
     //更新store.state.user和本地的localStorage
     updateLocalStorage: function ($userInformation) {
         for(let key in $userInformation){
-            console.log($userInformation[key]);
             store.state.user[key] = $userInformation[key];
         }
         sessionStorage.user = JSON.stringify(store.state.user);   //更新本地的sessionStorage

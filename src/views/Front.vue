@@ -9,15 +9,15 @@
 <script>
     export default {
         name: "Front",
+        inject: ['reload'],
         created() {
             let self = this;
             //前台登录,但是后台没有登录
             if(self.checkFrontLogin()){
                 self.checkBackLogin().then(function (res) {
-                    console.log(res);
                     if(res) return true;
-                    self.$message.warning("请你重新登录!first");
-                    self.emptyUserInformation();   //清空前台的登录状态
+                    self.$message.warning("请你重新登录");
+                    self.emptyUserInformation();
                     self.reload();
                 });
             }

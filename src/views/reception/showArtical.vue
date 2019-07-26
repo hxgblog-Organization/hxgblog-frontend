@@ -3,35 +3,17 @@
         <article class="main-artical">
             <div class="l_box">
                 <div class="search">
-                    <form action="" method="post" name="searchform" id="searchform">
-                        <input name="keyboard" id="keyboard" class="input_text" value="请输入关键字词" style="color: rgb(153, 153, 153);" onfocus="if(value=='请输入关键字词'){this.style.color='#000';value=''}" onblur="if(value==''){this.style.color='#999';value='请输入关键字词'}" type="text">
-                        <input name="show" value="title" type="hidden">
-                        <input name="tempid" value="1" type="hidden">
-                        <input name="tbname" value="news" type="hidden">
-                        <input name="Submit" class="input_submit" value="搜索" type="submit">
-                    </form>
+                    <audio :src="musicFileUrl" id="music-audio" autoplay="autoplay" controls="controls"></audio>
+                    <div class="progress">
+                        <div id="progress" class="progress-bar progress-bar-striped progress-bar-animated" style="width: 0%;"></div>
+                    </div>
                 </div>
-                <div class="tuijian">
-                    <h2>站长推荐</h2>
-                    <ul>
-                        <li v-for="newItem in newArtical" :key="newItem.id">
-                            <a :href="'/showArtical?artId='+ newItem.arti_id" target="_blank">{{ newItem.arti_title }}</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="tuijian">
-                    <h2>点击排行</h2>
-                    <ul>
-                        <li v-for="browseItem in browseTopArtical" :key="browseItem.id">
-                            <a :href="'/showArtical?artId='+ browseItem.arti_id" target="_blank">{{ browseItem.arti_title }}</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="guanzhu">
-                    <h2>关注我——>坏小哥</h2>
-                    <ul>
-                        <img src="../../images/reception/hxg-gzh.jpg">
-                    </ul>
+                <div class="song-world">
+                    <div id="word-list">
+                        <span class="word" v-for="word in wordObjectArray">
+                            {{ word.txt }}
+                        </span>
+                    </div>
                 </div>
             </div>
             <div class="infosbox">
@@ -48,7 +30,7 @@
                     <div class="tags">
                         <a v-for="type in articalTypes" href="#" target="_blank">{{ type.type_name }}</a> &nbsp;
                     </div>
-                    <div class="news_about"><strong>简介</strong>个人博客，用来做什么？我刚开始就把它当做一个我吐槽心情的地方，也就相当于一个网络记事本，写上一些关于自己生活工作中的小情小事，也会放上一些照片，音乐。每天工作回家后就能访问自己的网站，一边听着音乐，一边写写文章。</div>
+                    <div class="news_about"><strong>简介</strong>{{ artSay }}</div>
                     <div class="news_con">
                         <p id="artical">
                             {{ articalData.arti_content }}
@@ -125,6 +107,7 @@
 </template>
 
 <script>
+    import Lyric from 'lyric-parser'
     export default {
         name: "showArtical",
         inject:['reload'],
@@ -134,8 +117,9 @@
                 newArtical: [],
                 comments: [],
                 articalData: {},
-                headPortraiBasetUrl:ApiPath.common.getHeadPortrait,
+                getMusicUrl: ApiPath.common.getMusicFile,
                 isLogin: store.state.user,
+                headPortraiBasetUrl: ApiPath.common.getHeadPortrait,
                 num: 0,
                 isRegister: false,
                 replayContent: "",
@@ -144,11 +128,68 @@
                 trample: false,
                 articalTypes: [],
                 fatherCommentId: '',
+                wordObjectArray: [],
+                wordArraySubscript:0,
                 topId: '',
+                musicFileUrl: '',
+                currentLineNum: 0,
+                isPlay: true,
+                moveDistance:20,
+                artSay: '',
             }
         },
         methods: {
-            getArticalInfor(artId) {
+            timingMove(){
+                let docDiv = document.getElementById('word-list');
+                docDiv.style.top = this.moveDistance+"px";
+                this.moveDistance-=1.61;
+            },
+            playMusic(){
+                let audio = $("#music-audio")[0];
+                if(audio.ended){
+                    document.getElementById('word-list').style.top = '20px';
+                    this.moveDistance = 20;
+                    this.wordArraySubscript = 0;
+                }
+                if(audio.paused){
+                    audio.play();
+                }else if(audio.play){
+                    audio.pause();
+                }
+            },
+            updateDocTop(audio){
+                let value = audio.currentTime / audio.duration;
+                let progress = document.getElementById("progress");
+                progress.style.width = value*100+"%";
+                this.updateSongList( audio.currentTime);
+            },
+            updateSongList(time){
+                let wordList = this.wordObjectArray;
+                let subscript = this.wordArraySubscript;
+                if(this.wordArraySubscript<wordList.length)
+                    for (subscript;subscript< wordList.length;subscript++){
+                        if( time>=wordList[ this.wordArraySubscript].time){
+                            let docList = document.getElementsByClassName("word");
+                            docList[this.wordArraySubscript].classList.add('word-on-time');
+                            if(this.wordArraySubscript>-0)
+                                docList[this.wordArraySubscript-1].classList.remove('word-on-time');
+                            var self = this;
+                            let index = 1;
+                            let clolc = window.setInterval(()=>{
+                                if(index < 11){
+                                    self.timingMove();
+                                    index++;
+                                }else{
+                                    window.clearInterval(clolc)
+                                }
+                            },10);
+                            // this.moveDistance-=23.33
+                            this.wordArraySubscript+=1;
+                            break;
+                        }
+                    }
+            },
+            getArticalInfo(artId) {
                 let self = this;
                 self.GET(ApiPath.artical.showArticalDetail, {
                     art_id: artId 
@@ -157,6 +198,11 @@
                         console.log(res.data);
                         let data  = res.data;
                         if(data.code === 0){
+                            let lyric = data.data.music_lyric;
+                            let musicData = new Lyric(lyric,self.handleLyric);//this.handleLyric回调函数
+                            for(let item in musicData.lines) musicData.lines[item].time = musicData.lines[item].time/1000;
+                            self.wordObjectArray = musicData.lines;
+                            self.musicFileUrl = self.getMusicUrl + data.data.music_path;
                             self.newArtical       = data.data.new_articals;
                             self.browseTopArtical = data.data.browse_top;
                             self.comments         = data.data.comments;
@@ -164,8 +210,22 @@
                             self.praise           = data.data.praise_trample_status.praise;
                             self.trample          = data.data.praise_trample_status.trample;
                             self.articalTypes     = data.data.artical_types;
+                            self.artSay           = data.data.art_say;
                         }
                     })
+            },
+            handleLyric({lineNum, txt}) {
+                console.log(lineNum);
+                console.log(txt);
+                this.currentLineNum = lineNum;
+                // 若当前行大于5,开始滚动,以保歌词显示于中间位置
+                if (lineNum > 5) {
+                    let lineEl = this.$refs.lyricLine[lineNum - 5];
+                    // 结合better-scroll，滚动歌词
+                    this.$refs.lyricList.scrollToElement(lineEl, 1000)
+                } else {
+                    this.$refs.lyricList.scrollToElement(0, 0, 1000)
+                }
             },
             commentStatus(childCommentId, event, status) {
                 $(event.currentTarget).hide();
@@ -231,6 +291,7 @@
                 self.checkBackLogin().then(function (res) {
                     if(! res){
                         self.$message.error("亲，你需要重新登录一下呐!");
+                        self.reload();
                         return false;
                     }
                     self.replayContent = $("#text-comment").val();
@@ -261,7 +322,6 @@
                                 self.emptyUserInformation();
                                 self.reload();
                             }
-                            console.log(data);
                         });
                 });
             },
@@ -276,6 +336,7 @@
                 self.checkBackLogin().then(function (res) {
                     if(! res){
                         self.$message.error("亲，你需要重新登录一下呐!");
+                        self.reload();
                         return false;
                     }
                 });
@@ -287,7 +348,6 @@
                 })
                     .then(function (res) {
                         let data = res.data;
-                        console.log(data);
                         if (data.code === 0){
                             self.comments = data.data;
                             return true;
@@ -306,7 +366,6 @@
                     art_id: self.articalData.arti_id
                 })
                     .then(function (res) {
-                        console.log(res.data);
                         let data = res.data;
                         if(data.code === 0){
                             self.comments = data.data;
@@ -322,8 +381,7 @@
                     });
             },
             praiseOrTrample(status, event){
-                console.log(status);
-                let obj = event.currentTarget;
+                // let obj = event.currentTarget;
                 let self = this;
                 if(! self.checkFrontLogin()){
                     self.$message.error("亲，你没有登录");
@@ -360,12 +418,71 @@
             },
         },
         mounted() {
-            this.getArticalInfor(this.$route.query.artId);
+            let audio = $("#music-audio")[0];
+            let self = this;
+            audio.addEventListener('timeupdate',function(){
+                self.updateDocTop(audio);
+            });
+            audio.addEventListener("ended", function () {   //当播放完一首歌曲时也会触发
+                self.playMusic();
+            });
+
+            this.getArticalInfo(this.$route.query.artId);
         },
     }
 </script>
 
 <style scoped>
+    #music-audio{
+        outline: none;
+    }
+    .word-on-time{
+        display: block;
+        text-align: center;
+        color: red;
+    }
+    .progress{
+        height: 10px;
+        border-radius: 20px;
+    }
+    .progress-bar{
+        background-color: black;
+    }
+    .tiao{
+        float: right;
+        width: 241px;
+        margin-top: 25px;
+    }
+    #button-div{
+        width: 60px;
+        height: 60px;
+        background-size: cover;
+        float: left;
+        cursor:pointer
+    }
+    .controller{
+        width: 350px;
+        height: 280px;
+        margin: 0 auto;
+        padding: 70px 0 0 20px;
+    }
+    .word{
+        display: block;
+        text-align: center;
+    }
+    #word-list{
+        position: relative;
+        /*top: 157px;*/
+        /*z-index: -5;*/
+    }
+    .song-world{
+        width: 300px;
+        height: 500px;
+        background-size:cover;
+        margin: 0 auto;
+        padding:30px;
+        overflow: hidden
+    }
     .hand-ico{
         cursor: pointer;
     }
@@ -443,7 +560,7 @@
     .l_box { width: 30%; float: left }
     .r_box { width: 68%; float: right }
     .l_box h2 { color: #333; font-size: 14px; line-height: 30px; padding-left: 20px; background: #fff }
-    .l_box div { background: rgba(255,255,255,0.5); margin-bottom: 20px; overflow: hidden }
+    /*.l_box div {overflow: hidden }*/
     .l_box div ul { padding: 10px; overflow: hidden }
     .about_me img { width: 100% }
     .about_me p { line-height: 24px; font-size: 14px }
@@ -454,9 +571,9 @@
     .tuijian li { text-overflow: ellipsis; white-space: nowrap; overflow: hidden; margin-bottom: 5px; background: url(../../images/reception/li.png) left center no-repeat; padding-left: 20px }
     .links a { display: block; float: left; margin: 0 10px 5px 0 }
     .guanzhu img { width: 100% }
-    .l_box .search { border: 1px solid #c93282; background: #c93282; border-radius: 0 5px 5px 0; position: relative; }
-    .search input.input_submit { border: 0; background: 0; color: #fff; outline: none; position: absolute; top: 10px; right: 8% }
-    .search input.input_text { border: 0; line-height: 36px; height: 36px; width: 72%; padding-left: 10px; outline: none }
+    /*.l_box .search { border: 1px solid #c93282; background: #c93282; border-radius: 0 5px 5px 0; position: relative; }*/
+    /*.search input.input_submit { border: 0; background: 0; color: #fff; outline: none; position: absolute; top: 10px; right: 8% }*/
+    /*.search input.input_text { border: 0; line-height: 36px; height: 36px; width: 72%; padding-left: 10px; outline: none }*/
     .r_box li { background: rgba(255,255,255,0.8); padding: 15px; overflow: hidden; color: #797b7c; margin-bottom: 15px }
     .r_box li h3 { font-size: 16px; line-height: 25px; text-shadow: #FFF 1px 1px 1px }
     .r_box li h3 a { color: #222 }

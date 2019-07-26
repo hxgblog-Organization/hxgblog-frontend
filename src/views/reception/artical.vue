@@ -57,17 +57,18 @@
             getArtical(getStatus) {
                 let self = this;
                 self.isGetArtData = false;
-                self.GET(ApiPath.artical.byTypeSelectArtical, {
+                self.GET(ApiPath.artical.typeSelectArtical, {
                     'type_id': self.typeId,
                     'page'   : self.page
                 })
                     .then(function (res) {
+                        console.log(res.data);
                         if(res.data.code == 0){
-                            let data = res.data.data.articals;
-                            if(data.length === 0){
+                            if(res.data.data.length === 0){
                                 self.isHave = false;
                                 return ;
                             }
+                            let data = res.data.data.articals;
                             self.isGetArtData = true;
                             if(getStatus === 3) {
                                 self.articalDatas = self.articalDatas.concat(data);
@@ -83,7 +84,7 @@
                 this.page = 0;
                 this.articalDatas = [];
                 console.log(typeId + "sdsd"  + typeName);
-                console.log(this.articalDatas);
+                // console.log(this.articalDatas);
                 this.getArtical(2);
             },
         },

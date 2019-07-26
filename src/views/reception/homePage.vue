@@ -3,25 +3,33 @@
         <div class="banner">
         <section class="box">
             <ul class="texts">
-                <p>Where there is a will, there is a way!</p>
-                <p>As long as you feel, nothing is impossible!</p>
-                <p>To be or not to be, that's a question! —— Shakespeare</p>
+                <p v-for="data in exhibitData">{{ data }}</p>
             </ul>
             <div class="avatar"><a href="#"><span>坏小哥</span></a></div>
+            <div class="preserve">
+                <div class="wrap-box">
+                    <div class="cube">
+                        <div class="out-front"></div>
+                        <div class="out-back"></div>
+                        <div class="out-left"></div>
+                        <div class="out-right"></div>
+                        <div class="out-top"></div>
+                        <div class="out-bottom"></div>
+                        <span class="in-front"></span>
+                        <span class="in-back"></span>
+                        <span class="in-left"></span>
+                        <span class="in-right"></span>
+                        <span class="in-top"></span>
+                        <span class="in-bottom"></span>
+                    </div>
+                </div>
+            </div>
         </section>
     </div>
     <div class="template">
-        <div class="box">
-            <h3>
-                <p><span>个人博客</span>~随便写写，记录点点滴滴！</p>
-            </h3>
-            <ul>
-                <li><a href="/" target="_blank"><img src="../../images/reception/001.png"></a><span>仿新浪博客风格·梅——古典个人博客模板</span></li>
-                <li><a href="/" target="_blank"><img src="../../images/reception/001.png"></a><span>黑色质感时间轴html5个人博客模板</span></li>
-                <li><a href="/" target="_blank"><img src="../../images/reception/001.png"></a><span>Green绿色小清新的夏天-个人博客模板</span></li>
-                <li><a href="/" target="_blank"><img src="../../images/reception/001.png"></a><span>女生清新个人博客网站模板</span></li>
-                <li><a href="/" target="_blank"><img src="../../images/reception/001.png"></a><span>黑色质感时间轴html5个人博客模板</span></li>
-                <li><a href="/" target="_blank"><img src="../../images/reception/001.png"></a><span>Green绿色小清新的夏天-个人博客模板</span></li>
+        <div class="box scroll-photo">
+            <ul id="photo-ul">
+                <li v-for="photo in photoData"><img :src="getPhotoUrl + photo.phot_path"></li>
             </ul>
         </div>
     </div>
@@ -31,8 +39,11 @@
         </h2>
         <div class="bloglist left">
             <div v-for="item in articalData" :key="item.id">
-            <h3>{{ item.arti_title }}</h3>
-            <figure><img src="../../images/reception/001.png"></figure>
+            <h4>
+                <span>{{ item.arti_title }}</span>
+                <span class="date">{{ item.years }}-{{item.monthDay }}</span>
+            </h4>
+            <figure><img :src="getArticalCover + item.arti_cover"></figure>
             <ul>
                 <p>{{ item.arti_content }}</p>
                 <router-link :to="{ name: 'showArtical', query: {artId: item.arti_id}}" title="/"  target="_blank" class="readmore" >阅读全文>></router-link>
@@ -46,13 +57,13 @@
                 <div class="wleft">
                     <div class="wtname">
                         <strong style="line-height:18px; font-family:'微软雅黑'">{{ todayWeather.date }}</strong>
-                        <a v-bind:href="weatherUrl" target="_blank" style="line-height:18px; font-family:'微软雅黑'">{{ city }}</a>
+                        <a v-bind:href="weatherUrl" target="_blank" style="line-height:18px; font-family:'微软雅黑'">{{ cityName }}</a>
                     </div>
                     <div class="order-one">
                         <a style=" font-family:'微软雅黑'">{{ todayWeather.type }}天</a>
                     </div>
                     <div class="order-two">
-                        <a style=" font-family:'微软雅黑'">后续四天如下:</a>
+                        <span style=" font-family:'微软雅黑'">后续四天如下:</span>
                     </div>
                 </div>
                 <div class="wt">
@@ -96,10 +107,10 @@
                     <p>友情<span>链接</span></p>
                 </h3>
                 <ul class="website">
-                    <li><a href="/">个人CSDN博客</a></li>
-                    <li><a href="/">GitHub code</a></li>
-                    <li><a href="/">爱民博客</a></li>
-                    <li><a href="/">李静博客</a></li>
+                    <li><a target="_blank" href="https://blog.csdn.net/weixin_43885417">个人CSDN博客</a></li>
+                    <li><a target="_blank" href="https://github.com/zhangtengfei2232">个人GitHub code</a></li>
+                    <li><a target="_blank" href="/">小宝贝博客</a></li>
+                    <li><a target="_blank" href="/">小宝贝GitHub code</a></li>
                 </ul>
             </div>
             <a href="/" class="wei-xin"> </a></aside>
@@ -118,8 +129,14 @@
                 todayWeather: {},
                 width: 100,
                 height: 236,
-                city: '',
+                getArticalCover: ApiPath.common.getArticalCover,
+                getPhotoUrl: ApiPath.common.getAlbumPhoto,
                 weatherUrl: 'https://www.tianqi.com/',
+                testMusicData: [],
+                musicNum: 0,
+                cityName: '',
+                photoData: [],
+                exhibitData: [],
             }
 
         },
@@ -131,48 +148,78 @@
                         if(res.data.code == 0){
                             console.log( res.data.data);
                             let data = res.data.data;
-                            self.city = data.weather;
-                            self.weatherUrl = self.weatherUrl + pinyin.getFullChars(self.city).toLowerCase() + "/?tq";
                             self.articalData = data.new_artical;
                             self.browseTop = data.browse_top;
-                            $.ajax({
-                                type: 'GET',
-                                url: "http://wthrcdn.etouch.cn/weather_mini?city=" + self.city,
-                                success: function (data){
-                                    var date = new Date;
-                                    var reg =  /[\u4e00-\u9fa5]/g;
-                                    let month = date.getMonth() + 1;
-                                    self.weatherData  = JSON.parse(data).data.forecast;
-                                    self.todayWeather = JSON.parse(data).data.forecast[0];
-                                    self.todayWeather.date = month + '月' + self.todayWeather.date;
-                                    console.log(self.todayWeather.date);
-                                    self.todayWeather.low  = self.todayWeather.low.replace(reg, "");
-                                    self.todayWeather.high = self.todayWeather.high.replace(reg, "");
-                                    self.todayWeather.fengli = self.todayWeather.fengli.replace(/[^0-9]/ig,"");
-                                    if(self.todayWeather.fengli.length > 1){
-                                        self.todayWeather.fengli = self.todayWeather.fengli.charAt(0) + '-'
-                                            + self.todayWeather.fengli.charAt(1);
-                                    }
-                                    self.todayWeather.fengli = self.todayWeather.fengxiang + ',  ' + self.todayWeather.fengli + '级';
-                                    self.todayWeather['temperature'] = self.todayWeather.low + " ~ " + self.todayWeather.high;
-                                    console.log(self.todayWeather);
-                                    for(var index in self.weatherData){
-                                        self.weatherData[index].low  = self.weatherData[index].low.replace(reg, "");
-                                        self.weatherData[index].high = self.weatherData[index].high.replace(reg, "");
-                                        self.weatherData[index]['temperature'] = self.weatherData[index].low + " ~ " + self.weatherData[index].high;
-                                        delete  self.weatherData[index].low;
-                                        delete  self.weatherData[index].high;
-                                        delete  self.weatherData[index].fengxiang;
-                                        delete  self.weatherData[index].fengli;
-                                        delete  self.weatherData[index].date;
-                                    }
-                                    self.weatherData.shift();
+                            self.photoData = data.new_photo;
+                            self.exhibitData = data.exhibit_data;
+                            setTimeout(function () {
+                                let roll=$("#photo-ul")[0];
+                                let cube = document.querySelector('.cube');
+                                let cubeDiv = cube.querySelectorAll('div');
+                                let cubeSpan = cube.querySelectorAll('span');
+                                for (let i = 0; i < cubeDiv.length; i++) {
+                                    $(cubeDiv[i]).css('background-image',"url("+self.getPhotoUrl + self.photoData[i].phot_path+")");//内部添加图片
                                 }
-                            });
+                                for (let i = 0; i < cubeSpan.length; i++) {
+                                    $(cubeSpan[i]).css('background-image',"url("+ self.getPhotoUrl + self.photoData[i].phot_path+")");//外部添加图片
+                                }
+                                setInterval(function(){
+                                    $(roll).css('left',(roll.offsetLeft - 1) + "px");
+                                    if(roll.offsetLeft < -930){
+                                        $(roll).css('left',(roll.offsetWidth + 620) +"px");
+                                    }
+                                },2);
+
+                            },1000);
                         }else {
                             self.$message.error("没有得到任何信息");
                         }
                     })
+            },
+            getCityName() {
+                let self = this;
+                self.GET(ApiPath.common.getCityName).then(function (res) {
+                    console.log(res.data);
+                    if(res.data.code === 0){
+                        self.cityName = res.data.data.city_name;
+                        self.weatherUrl = self.weatherUrl + pinyin.getFullChars(self.cityName).toLowerCase() + "/?tq";
+                        $.ajax({
+                            type: 'GET',
+                            url: "http://wthrcdn.etouch.cn/weather_mini?city=" + self.cityName,
+                            success: function (data){
+                                var date = new Date;
+                                var reg =  /[\u4e00-\u9fa5]/g;
+                                let month = date.getMonth() + 1;
+                                self.weatherData  = JSON.parse(data).data.forecast;
+                                self.todayWeather = JSON.parse(data).data.forecast[0];
+                                self.todayWeather.date = month + '月' + self.todayWeather.date;
+                                console.log(self.todayWeather.date);
+                                self.todayWeather.low  = self.todayWeather.low.replace(reg, "");
+                                self.todayWeather.high = self.todayWeather.high.replace(reg, "");
+                                self.todayWeather.fengli = self.todayWeather.fengli.replace(/[^0-9]/ig,"");
+                                if(self.todayWeather.fengli.length > 1){
+                                    self.todayWeather.fengli = self.todayWeather.fengli.charAt(0) + '-'
+                                        + self.todayWeather.fengli.charAt(1);
+                                }
+                                self.todayWeather.fengli = self.todayWeather.fengxiang + ',  ' + self.todayWeather.fengli + '级';
+                                self.todayWeather['temperature'] = self.todayWeather.low + " ~ " + self.todayWeather.high;
+                                console.log(self.todayWeather);
+                                for(var index in self.weatherData){
+                                    self.weatherData[index].low  = self.weatherData[index].low.replace(reg, "");
+                                    self.weatherData[index].high = self.weatherData[index].high.replace(reg, "");
+                                    self.weatherData[index]['temperature'] = self.weatherData[index].low + " ~ " + self.weatherData[index].high;
+                                    delete  self.weatherData[index].low;
+                                    delete  self.weatherData[index].high;
+                                    delete  self.weatherData[index].fengxiang;
+                                    delete  self.weatherData[index].fengli;
+                                    delete  self.weatherData[index].date;
+                                }
+                                self.weatherData.shift();
+                            }
+                        });
+                    }
+                });
+
             },
             showArtical(art_id){
                 let path = `/showArtical?artId=${art_id}`;
@@ -180,12 +227,145 @@
             }
         },
         mounted(){
+            console.log("sdsds");
             this.showMainPage();
+            this.getCityName();
         }
     }
+
 </script>
 
 <style scoped>
+
+    #photo-ul{
+        left: 1550px;
+    }
+    article{
+        width: 68%;
+    }
+    .box{
+        height: 150px;
+        display: flex;
+        /*margin-top: 2%;*/
+    }
+    .scroll-photo{
+        position: relative;
+        width: 100%;
+    }
+    /*3d盒子*/
+    .preserve {
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 3%;
+        width: 11%;
+        height: 167.1px;
+        background-position: center -10px;
+        background-size: cover;
+    }
+    .wrap-box{
+        width: 100%;
+        height: 100%;
+        /*padding-top:250px;*/
+        /*padding-bottom: 250px;*/
+        perspective: 1080px; /*视图距元素的距离*/
+    }
+    .cube{
+        width:60%;
+        height:60%;
+    }
+    .wrap-box .cube{
+        margin: 0 auto;
+        position:relative;
+        transform-style:preserve-3d;/*透视*/
+        transform:rotateX(-30deg) rotateY(-70deg);
+        animation:rotate 20s infinite linear; /*循环执行*/
+    }
+    @keyframes rotate{/*动画*/
+        0%{
+            transform:rotateX(0deg) rotateY(0deg);
+        }
+        100%{
+            transform:rotateX(360deg) rotateY(360deg);
+        }
+    }
+    .wrap-box .cube > div{/*给儿子设置*/
+        width:70%;
+        height:70%;
+        border:1px solid #fff;
+        background-size: cover;
+        position:absolute;
+        opacity:0.75;
+        transition:transform 0.6s ease-in;
+    }
+    /*改变图片坐标*/
+    .wrap-box .cube .out-front{
+        transform: translateZ(35px);
+    }
+    .wrap-box .cube .out-back{
+        transform: translateZ(-35px) rotateY(180deg);
+    }
+    .wrap-box .cube .out-left{
+        transform: translateX(-35px) rotateY(-90deg);
+    }
+    .wrap-box .cube .out-right{
+        transform: translateX(35px) rotateY(90deg);
+    }
+    .wrap-box .cube .out-top{
+        transform: translateY(-35px) rotateX(90deg);
+    }
+    .wrap-box .cube .out-bottom{
+        transform: translateY(35px) rotateX(-90deg);
+    }
+    .wrap-box .cube > span{
+        display:block;
+        width:40%;
+        height:40%;
+        border:1px solid black;
+        background-size: cover;
+        position:absolute;
+        top:18px;
+        left:18px;
+    }
+    .wrap-box .cube .in-front{
+        transform: translateZ(20px);
+    }
+    .wrap-box .cube .in-back{
+        transform: translateZ(-20px) rotateY(180deg);
+    }
+    .wrap-box .cube .in-left{
+        transform: translateX(-20px) rotateY(-90deg);
+    }
+    .wrap-box .cube .in-right{
+        transform: translateX(20px) rotateY(90deg);
+    }
+    .wrap-box .cube .in-top{
+        transform: translateY(-20px) rotateX(90deg);
+    }
+    .wrap-box .cube .in-bottom{
+        transform: translateY(20px) rotateX(-90deg);
+    }
+    .wrap-box:hover .out-front{
+        transform: translateZ(70px);
+    }
+    .wrap-box:hover .out-back{
+        transform: translateZ(-70px) rotateY(180deg);
+    }
+    .wrap-box:hover .out-left{
+        transform: translateX(-70px) rotateY(-90deg);
+    }
+    .wrap-box:hover .out-right{
+        transform: translateX(70px) rotateY(90deg);
+    }
+    .wrap-box:hover .out-top{
+        transform: translateY(-70px) rotateX(90deg);
+    }
+    .wrap-box:hover .out-bottom{
+        transform: translateY(70px) rotateX(-90deg);
+    }
+    .date{
+        float: right;
+        margin-right: 5%;
+    }
     .wleft{
         width: 85px;
         float: left;
@@ -230,187 +410,12 @@
         margin-top: 3px;
     }
     .banner {  margin-top:20px;height: 215px; overflow: hidden }
-    .texts { width: 350px; line-height: 26px; margin: 40px 0 0 20px; float: left; font-size: 14px; }
+    .texts { width: 350px; line-height: 26px; margin: 40px 0 0 326px; float: left; font-size: 14px; }
     .texts p { -webkit-transform: translate(60px); -moz-transform: translate(60px); -o-transform: translate(60px); -ms-transform: translate(60px); transform: translate(60px); text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.8), 2px 2px 3px rgba(180, 151, 151, 0.3); }
     .texts p:nth-child(1) { -webkit-animation: animations 3s ease-out 1s backwards; -moz-animation: animations 3s ease-out 1s backwards; -o-animation: animations 3s ease-out 1s backwards; -ms-animation: animations 3s ease-out 1s backwards; animation: animations 3s ease-out 1s backwards; }
     .texts p:nth-child(2) { -webkit-animation: animations 3s ease-out 4s backwards; -moz-animation: animations 3s ease-out 4s backwards; -o-animation: animations 3s ease-out 4s backwards; -ms-animation: animations 3s ease-out 4s backwards; animation: animations 3s ease-out 4s backwards; }
     .texts p:nth-child(3) { -webkit-animation: animations2 5s ease-in-out 7s backwards; -moz-animation: animations2 5s ease-in-out 7s backwards; -o-animation: animations2 5s ease-in-out 7s backwards; -ms-animation: animations2 5s ease-in-out 7s backwards; animation: animations2 5s ease-in-out 7s backwards; }
-    @-webkit-keyframes animations { 0% {
-        -webkit-transform:translate(0);
-        opacity:0;
-    }
-        50% {
-            -webkit-transform:translate(30px);
-            opacity:.5;
-        }
-        100% {
-            -webkit-transform:translate(60px);
-            opacity:1;
-        }
-    }
-    @-moz-keyframes animations { 0% {
-        -moz-transform:translate(0);
-        opacity:0;
-    }
-        50% {
-            -moz-transform:translate(30px);
-            opacity:.5;
-        }
-        100% {
-            -moz-transform:translate(60px);
-            opacity:1;
-        }
-    }
-    @-o-keyframes animations { 0% {
-        -o-transform:translate(0);
-        opacity:0;
-    }
-        50% {
-            -o-transform:translate(30px);
-            opacity:.5;
-        }
-        100% {
-            -o-transform:translate(60px);
-            opacity:1;
-        }
-    }
-    @-ms-keyframes animations { 0% {
-        -ms-transform:translate(0);
-        opacity:0;
-    }
-        50% {
-            -ms-transform:translate(30px);
-            opacity:.5;
-        }
-        100% {
-            -ms-transform:translate(60px);
-            opacity:1;
-        }
-    }
-    @keyframes animations { 0% {
-        transform:translate(0);
-        opacity:0;
-    }
-        50% {
-            transform:translate(30px);
-            opacity:.5;
-        }
-        100% {
-            transform:translate(60px);
-            opacity:1;
-        }
-    }
-    @-webkit-keyframes animations2 { 0% {
-        opacity:0;
-    }
-        40% {
-            opacity:.8;
-        }
-        45% {
-            opacity:.3;
-        }
-        50% {
-            opacity:.8;
-        }
-        55% {
-            opacity:.3;
-        }
-        60% {
-            opacity:.8;
-        }
-        100% {
-            opacity:1;
-        }
-    }
-    @-moz-keyframes animations2 { 0% {
-        opacity:0;
-    }
-        40% {
-            opacity:.8;
-        }
-        45% {
-            opacity:.3;
-        }
-        50% {
-            opacity:.8;
-        }
-        55% {
-            opacity:.3;
-        }
-        60% {
-            opacity:.8;
-        }
-        100% {
-            opacity:1;
-        }
-    }
-    @-o-keyframes animations2 { 0% {
-        opacity:0;
-    }
-        40% {
-            opacity:.8;
-        }
-        45% {
-            opacity:.3;
-        }
-        50% {
-            opacity:.8;
-        }
-        55% {
-            opacity:.3;
-        }
-        60% {
-            opacity:.8;
-        }
-        100% {
-            opacity:1;
-        }
-    }
-    @-ms-keyframes animations2 { 0% {
-        opacity:0;
-    }
-        40% {
-            opacity:.8;
-        }
-        45% {
-            opacity:.3;
-        }
-        50% {
-            opacity:.8;
-        }
-        55% {
-            opacity:.3;
-        }
-        60% {
-            opacity:.8;
-        }
-        100% {
-            opacity:1;
-        }
-    }
-    @keyframes animations2 { 0% {
-        opacity:0;
-    }
-        40% {
-            opacity:.8;
-        }
-        45% {
-            opacity:.3;
-        }
-        50% {
-            opacity:.8;
-        }
-        55% {
-            opacity:.3;
-        }
-        60% {
-            opacity:.8;
-        }
-        100% {
-            opacity:1;
-        }
-    }
-    .avatar { float: right; margin: 40px; width: 130px; height: 130px; border-radius: 100%; overflow: hidden; border: #FFF 4px solid }
+    .avatar { margin-left: 30%;margin-top: 3%;width: 130px;height: 130px;border-radius: 100%;overflow: hidden;border: #FFF 4px solid;}
     .avatar a { display: block; padding-top: 97px; width: 160px; background: url(../../images/reception/me.jpg) no-repeat; background-size: 130px 130px }
     .avatar a span { display: block; margin-top: 63px; padding-top: 3px;
         width: 130px; height: 55px; text-align: center;
@@ -420,11 +425,11 @@
         transition: margin-top .2s ease-in-out;
     }
     .avatar a:hover span { display: block; margin-top: 0; }
-    .template { background: #F1F0EE }
+    .template { background: #F1F0EE;height: 118px }
     .template h3 { border-bottom: #FFF 1px solid; width: 100%; overflow: hidden; font-size: 14px; margin: 0 0 10px; font-family: "Î¢ÈíÑÅºÚ"; display: block; clear: both; }
     .template h3 p { background: #474645; width: 240px; height: 25px; margin: 15px 0 0 10px; line-height: 25px; color: #fff; text-align: center; box-shadow: #999 4px 5px 1px; }
     .template h3 p span { color: #38b3d4; }
-    .template ul { overflow: hidden; }
+    .template ul { overflow: hidden; position: absolute; height: 100px;top: 10px;}
     .template ul li { margin: 3px; float: left; display: block; padding: 5px 5px 6px 5px; -webkit-transition: all 1s; -moz-transition: all 1s; -o-transition: all 1s; transition: all 1s; }
     .template li img { width: 142px; height: 80px; background: #FFF; padding: 4px; box-shadow: 0px 0px 2px rgba(0,0,0,.5); display: block; }
     .template li span { color: #F1F0EE; display: block; text-align: center; margin-top: 5px; width: 142px; overflow: hidden; text-overflow: ellipsis; height: 14px }
@@ -441,13 +446,8 @@
     .dateview span { margin: 0 10px; }
     .dateview span a { color: #099B43; }
     a.readmore { background: #fd8a61; color: #fff; padding: 5px 10px; float: right; margin: 20px 0 0 0 }
-    .today-weather{
-        background: url(../../images/reception/weather_bg.jpg) no-repeat; height: 88px; padding: 0 0 0 55px;
-    }
-    .news{
-        margin-top: 30px;
-    }
-    .weather { }
+    .today-weather{ background: url(../../images/reception/weather_bg.jpg) no-repeat; height: 88px; padding: 0 0 0 55px;}
+    .news{ margin-top: 30px; }
     .news h3 { font-size: 14px; background: url(../../images/reception/r_title_bg.jpg) repeat-x center }
     .news h3 p { background: #fff; width: 70px }
     .news h3 span { color: #65b020 }
@@ -455,9 +455,6 @@
     .news h3.links span { color: #F17B6B; }
     .news ul { margin-bottom: 20px }
     .news ul li a:hover { text-decoration: underline }
-    .rank li { height: 25px; line-height: 25px; clear: both; padding-left: 5px; overflow: hidden; padding-left: 15px; background: url(../../images/reception/li.jpg) no-repeat left center; }
-    .rank { margin: 10px 0 }
-    .rank li a { color: #333; }
     .paih { margin: 10px 0 }
     .paih li { line-height: 30px; height: 30px; overflow: hidden; padding-left: 24px; border-bottom: #CCC dotted 1px }
     .website { margin: 10px 0; background: #F3F3F3; border-radius: 50%; text-align: center; }

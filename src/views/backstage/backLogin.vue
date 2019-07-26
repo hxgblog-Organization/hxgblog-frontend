@@ -1,7 +1,8 @@
 <template>
     <div class="login-container">
         <h3 class="title">坏小哥博客后台登录</h3>
-        <baseLogin :loginUrl="loginUrl" ref="baseLogin" @sendMsg="getLoginStatus"></baseLogin>
+        <baseLogin :loginUrl="loginUrl" ref="baseLogin" @sendMsg="getLoginStatus" @showByCodeUpdatePwdModel="showByCodeUpdatePwd"></baseLogin>
+        <byCodeUpdatePwd ref="byCodeUpdatePwd"></byCodeUpdatePwd>
     </div>
 </template>
 
@@ -9,14 +10,22 @@
     export default {
         data() {
             return {
-                loginUrl: ApiPath.common.backLogin,
+                loginUrl: {
+                    passwordUrl: ApiPath.common.backLogin,
+                    smsUrl: ApiPath.common.backSmsLogin,
+                    isBack: true,
+                }
             };
         },
         inject: ['reload'],
         methods: {
+            showByCodeUpdatePwd() {
+                console.log("sssshwo");
+                this.$refs.byCodeUpdatePwd.showUpdatePasswordModel();
+            },
             getLoginStatus(information) {
                 console.log(information);
-                this.$router.push({path: '/admin/manageArtical'});
+                this.$router.push({path: '/admin/showArtInfo'});
             },
 
         },
@@ -33,7 +42,7 @@
         color: white;
     }
     .el-tabs__item, .el-form-item__label{
-        color: #fff;
+        color: #37ccca;
     }
 </style>
 <style  scoped>
@@ -55,18 +64,16 @@
         background-clip: padding-box;
         margin: 180px auto;
         width: 28%;
-        height: 330px;
         padding: 35px 35px 15px 35px;
         border: 1px solid #eaeaea;
         box-shadow: 0 0 25px #cac6c6;
-        opacity: 0.9;
         background-color: #151515;
     }
     .remember {
         margin: 0 0 25px 0;
     }
     .title {
-        margin: 0 auto 10px auto;
+        margin: 0 0 24px 0;;
         color: white;
     }
 </style>

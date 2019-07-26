@@ -1,6 +1,5 @@
 <template>
     <div class="show-album">
-
         <article>
             <el-button class="add-album" @click="showAddAlbumDiag(-1)">添加相册</el-button>
             <div class="containers">
@@ -8,13 +7,18 @@
                     <figure v-for="(album, index) in albumData">
                         <ul class="pic">
                             <i class="el-icon-close" @click="deleteAlbum(album.albu_id)"></i>
-                            <img v-if="album.is_has_photo" :src="albumPhotoUrl + album.first_photo"/>
-                            <img v-else src="../../images/reception/album-empty.png"/>
+                            <img class="show-photo" v-if="album.is_has_photo" :src="albumPhotoUrl + album.first_photo" @click="showPhotoPage(album.albu_id)"/>
+                            <img class="show-photo" v-else @click="showPhotoPage(album.albu_id)" src="../../images/reception/album-empty.png"/>
                         </ul>
                         <p>{{ album.albu_name }}</p>
                         <figcaption>
                             <p>{{ album.albu_introduce }}</p>
-                            <span>{{ album.created_at }}</span>
+                            <span>时间：</span>
+                            <span>{{ album.created_at }} &nbsp;</span>
+                            <span v-if="album.is_has_photo">
+                                <span>照片：</span>
+                                <span>{{ album.photo_num }}张</span>
+                            </span>
                             <div class="operate-album">
                                 <el-button type="primary" @click="showAddAlbumDiag(index)">修改信息</el-button>
                                 <el-button type="danger" v-if="album.is_has_question" @click="deleteSecretSecurity(album.albu_id)">删除密保</el-button>
@@ -67,7 +71,7 @@
 
 <script>
     export default {
-        name: "showAlbumInfor",
+        name: "showAlbumInfo",
         inject: ['reload'],
         data() {
             return {
@@ -158,15 +162,12 @@
                     self.$message.error(res.data.msg);
                     return false;
                 })
-
-
             },
             deleteSecretSecurity(album_id) {
                 console.log(album_id);
                 let self = this;
                 self.POST(ApiPath.maalbum.deleteAlbumSecretSecurity,{ albu_id: album_id })
                     .then(function (res) {
-                        console.log(res);
                         if(res.data.code === 0){
                             self.$message.success(res.data.msg);
                             self.reload();
@@ -177,7 +178,21 @@
                     })
             },
             updateSecretSecurity() {
-
+                let self = this;
+                self.POST(ApiPath.maalbum.updateAlbumSecretSecurity, {
+                    albu_id: self.albu_id,
+                    albu_question: self.albu_question,
+                    albu_answer: self.albu_answer,
+                }).then(function (res) {
+                    console.log(res.data);
+                    if(res.data.code === 0){
+                        self.$message.success(res.data.msg);
+                        self.reload();
+                        return true;
+                    }
+                    self.$message.error(res.data.msg);
+                    return false;
+                })
             },
             getAlbumData(){
                 let self = this;
@@ -223,8 +238,9 @@
                 this.newAlbumForm.albu_introduce   = this.albumData[index].albu_introduce;
                 this.albu_id = this.albumData[index].albu_id;
             },
-
-
+            showPhotoPage(albumId) {
+                this.$router.push({ path: `showAlbumPhoto/${albumId}`});
+            },
         },
         mounted() {
             this.getAlbumData();
@@ -241,13 +257,16 @@
     }
 </style>
 <style scoped>
+    .show-photo{
+        cursor: pointer;
+    }
     .pic{
         position: relative;
     }
     .el-icon-close{
         cursor: pointer;
         position: absolute;
-        right: 20px;
+        right: 10px;
         top: 10px;
     }
     .operate-album{

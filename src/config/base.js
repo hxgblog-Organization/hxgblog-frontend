@@ -68,30 +68,46 @@ export default {
             this.$message.error('请你填写密码');
             return false;
         }
+        if(param.captcha_code === ''){
+            this.$message.error('请你填写验证码');
+            return false;
+        }
         return true;
+    },
+    smsLoginValidate: function(param = {}) {
+        if(param.phone === ""){
+            this.$message.error("请你输入手机号");
+            return false;
+        }
+        if(param.sms_code === ""){
+            this.$message.error("请你输入验证码");
+            return false;
+        }
+        return true;
+
     },
     //清空本地用户信息，让用户重新登录
     emptyUserInformation: function () {
         console.log("empty");
-        let self = this;
-        self.GET(ApiPath.common.checkUserOrAdminLogin).then(function (res) {
-            console.log(res.data);
-            if(res.data.code === 2){  //后台管理员与前台用户都不在线，清空前台信息
-                store.commit(types.LOGOUT);
-            }
-        });
+        store.commit(types.LOGOUT);
+        // this.reload();
+        // self.GET(ApiPath.common.checkUserOrAdminLogin).then(function (res) {
+        //     console.log(res.data);
+        //     if(res.data.code === 2){  //后台管理员与前台用户都不在线，清空前台信息
+        //         console.log("1111111111");
+        //
+        //     }
+        // });
     },
     //检查用户后台的登录状态
     checkBackLogin: function (status = 1) {
+        console.log(status);
         return new Promise((resolve, reject) => {
             let self = this;
             self.GET(ApiPath.common.checkLogin, {
                 status: status
-            })
-                .then(function (res) {
-                    console.log(res.data);
+            }).then(function (res) {
                     if(res.data.code === 2){
-                        console.log(res.data);
                         self.emptyUserInformation();  //清空前台信息
                         return false;
                     }else {
@@ -113,7 +129,6 @@ export default {
             store.state.user[key] = $userInformation[key];
         }
         sessionStorage.user = JSON.stringify(store.state.user);   //更新本地的sessionStorage
-        this.$router.go(0);
     },
     validateContent: function (content) {                         //验证用户输入的内容是否合法
         var  reg = /<\/?[^>]*>/g;
@@ -132,15 +147,16 @@ export default {
     },
     validatePhoto: function (file) {                  //判断用户上传的照片是否合法
         let imageType = ['jpeg','JPEG','png','PNG','jpg','JPG'];
-        let type = file.type.split('/');
-        const isJPG = imageType.indexOf(type[1]) === -1 ? false : true;
+        const isJPG = imageType.indexOf(file.name.split('.')[1]) === -1 ? false : true;
         const isLt2M = file.size / 1024 / 1024 < 2;
         if (!isJPG) {
-            this.$message.error('上传图片只能是 JPG 格式!');
+            this.$message.error('只能上传图片!');
+            return false;
         }
         if (!isLt2M) {
             this.$message.error('上传图片大小不能超过 2MB!');
+            return  false;
         }
-        return isJPG && isLt2M;
+        return true;
     }
 }

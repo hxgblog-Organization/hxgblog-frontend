@@ -20,7 +20,7 @@
         </div>
     </article>
     <el-dialog title="相册密保" :visible.sync="dialogFormVisible" @keyup.enter="judgeAnswer">
-        <el-form>
+        <el-form  class="answer-question">
         <el-form-item label="密码" :label-width="formLabelWidth">
             <el-input v-model="question" auto-complete="off"></el-input>
         </el-form-item>
@@ -89,15 +89,11 @@
         }
     }
 </script>
-<style>
-    .el-dialog{
-        width: 24% !important;
-    }
-    .el-form-item{
-        margin-top: 20px;
-    }
-</style>
 <style scoped>
+    .answer-question{
+        width: 80%;
+        margin: 20px 0 0 20px;
+    }
     .blog { margin: 30px 44px; overflow: hidden }
     .blog figure { background: #ececec; border: #FFF 10px solid; width: 270px; height: 430px; float: left; margin: 0 8px 20px; overflow: hidden }
     .blog figure img { display: block; margin: auto;width:200px;height: 256px; overflow: hidden; }

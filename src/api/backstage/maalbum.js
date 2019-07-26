@@ -8,5 +8,8 @@ export default {
     updateAlbumInfor: 'updateAlbumInfor',                       //更新相册信息
     addAlbumSecretSecurity: 'addAlbumSecretSecurity',           //添加相册密保
     deleteAlbumSecretSecurity: 'deleteAlbumSecretSecurity',     //删除相册密保
-    updateAlbumSecretSecurity: 'updateAlbumSecretSecurity'      //修改相册密保
+    updateAlbumSecretSecurity: 'updateAlbumSecretSecurity',     //修改相册密保
+    selectAlbumPhoto: 'selectAlbumPhoto',                       //显示相册照片
+    addAlbumImage: 'addAlbumImage',                             //上传图片
+    deleteAlbumPhoto: 'deleteAlbumPhoto',                       //删除相册照片
 }

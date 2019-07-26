@@ -6,6 +6,7 @@ import thirdParty from './reception/thirdParty'
 import updatePwd from './reception/updatePwd'
 import baseLogin from './common/baseLogin'
 import backHeader from './backstage/backHeader'
+import byCodeUpdatePwd from './common/byCodeUpdatePwd'
 export default {
     myHeader,
     myFooter,
@@ -14,6 +15,7 @@ export default {
     thirdParty,
     updatePwd,
     baseLogin,
-    backHeader
+    backHeader,
+    byCodeUpdatePwd
 }
 

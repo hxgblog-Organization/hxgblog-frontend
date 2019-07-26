@@ -14,10 +14,16 @@
 </script>
 <style scoped>
     .login-ul{
-        margin-top: 2%;
+        margin-bottom: 0;
+        margin-top: 4%;
+        height: 50px;
+        width: 100%;
+        margin-left: 2%;
     }
     .login-ul li{
         float: left;
-        margin-left: 12%;
+        margin-right: 12%;
+        list-style: none;
     }
+
 </style>

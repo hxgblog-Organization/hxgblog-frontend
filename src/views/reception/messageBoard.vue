@@ -16,7 +16,7 @@
                             <li></li>
                         </div>
                         <div class="about_girl"><span><a href="/"><img src="../../images/reception/me.jpg"></a></span>
-                            <p>当您驻足停留过，从此便注定我们的缘分。站在时间的尽头，我们已是朋友，前端的路上我再也不用一个人独自行走。</p>
+                            <p>{{ leaveSay }}</p>
                         </div>
                     </div>
                     <div id="leave-div">
@@ -105,6 +105,7 @@
                 replayMsgIndex: '',
                 topMsgIndex: '',
                 isGetData: true,
+                leaveSay: '',
             }
         },
         methods : {
@@ -123,6 +124,7 @@
                 self.checkBackLogin().then(function (res) {
                     if(! res) {
                         self.$message.error("亲，你需要重新登录一下呐!");
+                        self.reload();
                         return false;
                     }
                     self.POST(ApiPath.leaveMessage.addLeaveMessage, {msg_content: self.leaveMessage})
@@ -153,6 +155,7 @@
                 return true;
             },
             messageButtonStatus(status, event) {
+                if(! this.isLogin) return ;
                 let buttonDom = $(event.currentTarget).find(".dl-replay-btn");
                 (status === 1) ? $(buttonDom).show() : $(buttonDom).hide();
             },
@@ -167,6 +170,7 @@
                 self.checkBackLogin().then(function (res) {        //检查后台用户是否登录
                     if(! res){
                         self.$message.error("亲，你需要重新登录一下呐!");
+                        self.reload();
                         return false;
                     }
                     self.replayContent = self.filterContent(self.replayContent);
@@ -274,6 +278,7 @@
                 self.checkBackLogin().then(function (res) {
                     if(! res) {
                         self.$message.error("亲，你需要重新登录一下呐!");
+                        self.reload();
                         return false;
                     }
                     self.POST(ApiPath.leaveMessage.deleteLeaveMessage, { msg_id: leaveMessageId })
@@ -298,8 +303,9 @@
                         if(typeof(res.data.data) !=="undefined"){
                             self.isGetData = true;
                             console.log(res.data.data);
-                            self.leaveMessageData = self.leaveMessageData.concat(res.data.data);
-                            return ;
+                            self.leaveMessageData = self.leaveMessageData.concat(res.data.data.leave_msg_data);
+                            self.leaveSay = res.data.data.leave_say_data;
+                            return true;
                         }
                         self.isHave = false;
                     })

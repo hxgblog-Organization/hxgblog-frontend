@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="show-file">
         <h1>
             {{ msg }}
         </h1>
@@ -8,15 +8,20 @@
 
 <script>
     export default {
-        name: "showMottoInfor",
+        name: "showFileInfor",
         data() {
             return {
-                msg: 'Album',
+                msg: 'File',
             }
         }
     }
 </script>
 
 <style scoped>
+    .show-file{
+        margin-top: 2%;
+        margin-left: 6%;
+        width: 85%;
+    }
 
 </style>

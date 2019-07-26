@@ -1,6 +1,6 @@
 <template>
     <div>
-        <el-dialog width="35%" :title="title" :visible.sync="dialogFormVisible">
+        <el-dialog width="400px" :title="title" :visible.sync="dialogFormVisible">
             <el-form :model="userForm" :rules="rules" ref="userForm">
                 <el-form-item label="昵称:" :label-width="formLabelWidth" prop="nickName">
                     <el-input v-model="userForm.nickName" autocomplete="off"></el-input>
@@ -52,6 +52,7 @@
 <script>
     export default {
         name: "infor",
+        inject: ['reload'],
         data() {
             return {
                 dialogFormVisible: false,
@@ -87,7 +88,7 @@
                         { max: '15', message: '密码不能超过15个字符' , trigger: ['blur'] }
                     ],
                     introduce: [
-                        { max: '3', message: '自我介绍不能超过30个字符', trigger: ['blur']}
+                        { max: '30', message: '自我介绍不能超过30个字符', trigger: ['blur']}
                     ]
                 }
             }
@@ -148,7 +149,7 @@
                         if(res.data.code === 0){
                             self.$message.success(res.data.msg);
                             self.updateLocalStorage(res.data.data);
-                            self.dialogFormVisible = false;
+                            self.reload();
                         }else {
                             self.$message.error(res.data.msg);
                         }

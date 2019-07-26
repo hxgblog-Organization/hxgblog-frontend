@@ -13,11 +13,11 @@
                           <i class="el-icon-arrow-down el-icon--right"></i>
                       </span>
                         <el-dropdown-menu slot="dropdown">
-                            <el-dropdown-item command="a" @click.native="">修改密码</el-dropdown-item>
-                            <el-dropdown-item command="b" @click.native="">修改信息</el-dropdown-item>
+                            <el-dropdown-item command="a" @click.native="showUpdatePwdDiag">修改密码</el-dropdown-item>
+                            <el-dropdown-item command="b" @click.native="showUpdateInfoModel">修改信息</el-dropdown-item>
                         </el-dropdown-menu>
                     </el-dropdown>
-                    <a style="margin-left: 10px;color: white"href="#">退出系统</a><i class="el-icon-caret-right"></i>
+                    <a style="margin-left: 10px;color: white" @click="backLoginOut">退出系统</a><i class="el-icon-caret-right"></i>
                 </div>
             </div>
         </div>
@@ -31,7 +31,7 @@
                             activeTextColor="rgb(255, 208, 75)"
                             class="el-menu-vertical-demo"
                             router>
-                        <el-menu-item v-for="(item,i) in navList" :key="i" :index="item.path" >
+                        <el-menu-item v-for="(item,i) in navList" :key="i" :index="item.path" :id="i" >
                             <i :class="item.icon"></i>
                             <span slot="title">{{ item.navItem }}</span>
                         </el-menu-item>
@@ -44,48 +44,145 @@
                 <router-view></router-view>
             </div>
         </div>
+        <el-dialog title="修改密码" :visible.sync="updatePasswordDiag" width="350px">
+            <el-form>
+                <el-form-item label="新密码" label-width="80px">
+                    <el-input v-model="newPassword" type="password" maxlength="20px" auto-complete="off"></el-input>
+                </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="updatePasswordDiag = false">取 消</el-button>
+                <el-button type="primary" @click="updatePassword">修改</el-button>
+            </div>
+        </el-dialog>
+        <infor ref="adminInfo"></infor>
     </div>
 </template>
 <script>
     export default {
         name: 'Admin',
+        inject:['reload'],
         data() {
             return {
                 user: store.state.user,
                 information: '',
                 headPortraitUrl: '',
+                updatePasswordDiag: false,
+                newPassword: '',
                 navList:[
-                    { icon:'el-icon-tickets',path:'/admin/manageArtical',navItem:'文章' },
-                    { icon:'el-icon-picture',path:'/admin/showAlbumInfor',navItem:'相册' },
-                    { icon:'el-icon-edit',path:'/admin/showMottoInfor',navItem:'座右铭' },
-                    { icon:'el-icon-document',path:'/admin/showFileInfor',navItem:'文件' },
+                    { icon:'el-icon-edit',path:'/admin/showArtInfo',navItem:'随便写写' },
+                    { icon:'el-icon-picture',path:'/admin/showAlbumInfo',navItem:'唯美相册' },
+                    { icon:'el-icon-star-on',path:'/admin/showExhibitInfo',navItem:'前台展览' },
+                    { icon:'el-icon-tickets',path:'/admin/showArtType',navItem:'文章类型' },
                 ]
             }
         },
         methods: {
-            forId(i){
-                return "for_id" + i;
+            showUpdateInfoModel(){
+                console.log(store.state.user);
+                let self = this;
+                //先检查前台登录状态
+                if(!self.checkFrontLogin()) return self.$message.warning("请你先登录");
+                //后台登录状态没有消失，再去请求用户信息
+                this.checkBackLogin(2)
+                    .then(function (res) {
+                        if(res){
+                            self.$refs.adminInfo.showInforModel(true, 2);
+                            return true;
+                        }
+                        self.emptyUserInformation();
+                        self.$message.warning("请你重新登录!");
+                        self.reload();
+                    });
+
             },
-            // signSideBar(index){
-            //     for(var i = 0; i < 13;i++) {
-            //         if (i == index) {
-            //             $("#for_id"+ index).addClass("is-active");
-            //         }else {
-            //             $('#for_id' + i).removeClass("is-active");
-            //         }
-            //     }
-            // },
+            updatePassword() {
+                let self = this;
+                self.POST(ApiPath.common.updatePassword, {
+                    new_password: self.newPassword,
+                    role: "admin"
+                }).then(function (res) {
+                    console.log(res.data);
+                    if(res.data.code === 1){
+                        self.$message.error(res.data.msg);
+                        return false;
+                    }
+                    (res.data.code === 0) ? self.$message.success(res.data.msg) : self.$message.error(res.data.msg);
+                    self.emptyUserInformation();
+                    setTimeout(function () {
+                        self.$router.push({ path: '/backLogin' });   //修改密码后重新登录
+                    },1500);
+                    return false;
+                })
+
+            },
+            showUpdatePwdDiag(){
+                let self = this;
+                //先检查前台登录状态
+                if(!self.checkFrontLogin()) return self.$message.warning("请你先登录");
+                //后台登录状态没有消失，再去请求用户信息
+                this.checkBackLogin(2)
+                    .then(function (res) {
+                        console.log(res);
+                        if(! res){
+                            self.$message.warning("请你重新登录!");
+                            self.$router.push({ path: '/backLogin' });
+                            return false;
+                        }
+                        self.updatePasswordDiag = true;
+                    });
+            },
+            rushRouter() {
+                setTimeout(() => {
+                    // console.log(this.$route.matched);
+                    let path = this.$route.matched[1].name;
+                    if (path === "showArtInfo"|| path === "editorArt") {
+                        $('#0').addClass('is-active');
+                        // $('#0').css({'color': 'yellow','background-color': 'black'});
+                    } else if(path === "showAlbumInfo" || path === "showAlbumPhoto") {
+                        $('#1').addClass('is-active');
+                        // $('#1').css({'color': 'yellow','background-color': 'black'});
+                    } else if(path === "showExhibitInfo") {
+                        $('#2').addClass('is-active');
+                        // $('#2').css({'color': 'yellow','background-color': 'black'});
+                    } else if(path === "showArtType") {
+                        $('#3').addClass('is-active');
+                        // $('#3').css({'color': rgb(255, 208, 75),'background-color': 'black'});
+                    }
+                }, 1000);
+            },
+            backLoginOut() {
+                let self = this;
+                self.GET(ApiPath.common.backLogout)
+                    .then(function (res) {
+                        let data = res.data;
+                        if(data.code === 2 || data.code === 3){
+                            self.$message.error(res.data.msg);
+                            return false;
+                        }
+                        setTimeout(function () {
+                            self.emptyUserInformation();
+                            self.$router.push({ path: '/backLogin' });
+                        }, 800);
+                    })
+            },
+        },
+        watch:{
+            $route(to,from){
+                let isActiveObj = $('.is-active');
+                for(let index = 0; index < isActiveObj.length; index++)$(isActiveObj[index]).removeClass('is-active');
+                this.rushRouter();
+            }
         },
         mounted() {
-            console.log(store.state.user);
+            this.rushRouter();
             let self = this;
+            document.title = "坏小哥的博客后台";
             //前台登录,但是后台没有登录
             if(self.checkFrontLogin()){
                 self.checkBackLogin(2).then(function (res) {
-                    console.log(res);
                     if(res) return true;
-                    self.$message.warning("请你重新登录!first");
-                    self.emptyUserInformation();   //清空前台的登录状态
+                    self.$message.warning("请你重新登录!");
                     setTimeout(function () {
                         self.$router.push({ path: '/backLogin' });
                     },2000);
@@ -95,13 +192,6 @@
             setTimeout(function () {
                 self.$router.push({ path: '/backLogin' });
             },2000);
-        },
-        watch:{
-            $route(to) {
-                // switch(to.name){
-                //
-                // }
-            }
         },
         created() {
             $('body').css('background-color','#fff');

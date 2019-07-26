@@ -38,7 +38,6 @@
                     </div>
                 </el-popover>
             </div>
-
         </div>
         <el-table
                 ref="multipleTable"
@@ -88,27 +87,27 @@
             <el-table-column
                     fixed="right"
                     label="操作"
-                    width="150">
+                    width="200">
                 <template slot-scope="scope">
                     <el-button
                             type="text"
                             size="small">
-                        <el-button type="primary" icon="el-icon-edit" size="mini" @click="updateArtical(articalData[scope.$index].arti_id)"></el-button>
-                        <el-button type="danger" icon="el-icon-delete" size="mini" @click="beforedeleteArtical(articalData[scope.$index].arti_id)"></el-button>
+                        <el-button type="primary" icon="el-icon-edit" size="mini" @click="updateArtical(articalData[scope.$index].arti_id)">修改</el-button>
+                        <el-button type="danger" icon="el-icon-delete" size="mini" @click="beforedeleteArtical(articalData[scope.$index].arti_id)">删除</el-button>
                     </el-button>
                 </template>
             </el-table-column>
         </el-table>
-            <div class="operate">
-                <el-button @click="toggleSelection">取消选择</el-button>
-                <el-button @click="deleteArtical">删除</el-button>
-            </div>
+        <div class="operate">
+            <el-button @click="toggleSelection">取消选择</el-button>
+            <el-button @click="deleteArtical">删除</el-button>
+        </div>
         <div class="page">
             <el-pagination
                     @size-change="handleSizeChange"
                     @current-change="handleCurrentChange"
                     :current-page="currentPages"
-                    :page-sizes="[5, 10, 50, 100]"
+                    :page-sizes="[3, 10, 50, 100]"
                     :page-size="pageSize"
                     layout="total, sizes, prev, pager, next, jumper"
                     :total="total">
@@ -120,7 +119,7 @@
 
 <script>
     export default {
-        name: "showArticalInfor",
+        name: "showArtInfo",
         data(){
             return {
                 timeSection: '',
@@ -131,7 +130,7 @@
                 artTypeGroup: [],
                 page: 0,
                 pageSize: 3,
-                currentPages: 1,
+                currentPages: 0,
                 total: 0,
                 typeIdData: [],
                 isTypeSelect: false,
@@ -151,8 +150,9 @@
                     this.$refs.multipleTable.clearSelection();
                 }
             },
-            beforedeleteArtical(art_id) {
-                this.art_id_data.push(art_id);
+            beforedeleteArtical(artId) {
+                this.art_id_data = [];
+                this.art_id_data.push(artId);
                 this.deleteArtical();
             },
             handleCurrentChange(val) {
@@ -241,7 +241,7 @@
                     })
             },
             updateArtical(art_id) {
-                this.$router.push({ path: `editorArtical/${art_id}` });
+                this.$router.push({ path: `editorArt/${art_id}` });
             },
         },
         mounted() {
@@ -258,9 +258,10 @@
         float: right;
     }
     .show-artical{
+        min-height: 800px;
         margin-top: 5%;
-        margin-left: 6%;
-        width: 80%;
+        margin-left: 10%;
+        width: 77%;
     }
     .art-type{
         width: 5%;

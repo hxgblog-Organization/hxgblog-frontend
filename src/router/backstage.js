@@ -18,50 +18,68 @@ export default [
         component: resolve => void (require(['../views/Admin'], resolve)),
         children: [
             {
-                path: 'manageArtical',
-                name: 'manageArtical',
+                path: 'showArtInfo',
+                name: 'showArtInfo',
                 meta: {
                     roles: ['admin'],
                     requireAuth: true,
                 },
-                component: resolve => void (require(['../views/backstage/showArticalInfor.vue'], resolve))
+                component: resolve => void (require(['../views/backstage/showArtInfo.vue'], resolve))
             },
             {
-                path: 'editorArtical/:art_id?',
-                name: 'editorArtical',
+                path: 'editorArt/:art_id?',
+                name: 'editorArt',
                 meta: {
                     roles: ['admin'],
                     requireAuth: true,
                 },
-                component: resolve => void (require(['../views/backstage/editorArtical.vue'], resolve))
+                component: resolve => void (require(['../views/backstage/editorArt.vue'], resolve))
             },
             {
-                path: 'showAlbumInfor',
-                name: 'showAlbumInfor',
+                path: 'showAlbumInfo',
+                name: 'showAlbumInfo',
                 meta: {
                     roles: ['admin'],
                     requireAuth: true,
                 },
-                component: resolve => void (require(['../views/backstage/showAlbumInfor.vue'], resolve))
+                component: resolve => void (require(['../views/backstage/showAlbumInfo.vue'], resolve))
             },
             {
-                path: 'showMottoInfor',
-                name: 'showMottoInfor',
+                path: 'showExhibitInfo',
+                name: 'showExhibitInfo',
                 meta: {
                     roles: ['admin'],
                     requireAuth: true,
                 },
-                component: resolve => void (require(['../views/backstage/showMottoInfor.vue'], resolve))
+                component: resolve => void (require(['../views/backstage/showExhibitInfo.vue'], resolve))
             },
             {
-                path: 'showFileInfor',
-                name: 'showFileInfor',
+                path: 'showFileInfo',
+                name: 'showFileInfo',
                 meta: {
                     roles: ['admin'],
                     requireAuth: true,
                 },
-                component: resolve => void (require(['../views/backstage/showFileInfor.vue'], resolve))
-            }
+                component: resolve => void (require(['../views/backstage/showFileInfo.vue'], resolve))
+            },
+            {
+                path: 'showAlbumPhoto/:album_id?',
+                name: 'showAlbumPhoto',
+                meta: {
+                    roles: ['admin'],
+                    requireAuth: true
+                },
+                component: resolve => void (require(['../views/backstage/showAlbumPhoto.vue'], resolve))
+            },
+            {
+                path: 'showArtType',
+                name: 'showArtType',
+                meta: {
+                    roles: ['admin'],
+                    requireAuth: true,
+                },
+                component: resolve => void (require(['../views/backstage/showArtType.vue'], resolve))
+            },
         ]
     },
 

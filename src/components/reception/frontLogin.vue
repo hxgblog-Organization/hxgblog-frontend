@@ -1,7 +1,7 @@
 <template>
     <div>
-        <el-dialog width="35%" title="登录" :visible.sync="dialogFormVisible">
-            <baseLogin :loginUrl="loginUrl" ref="baseLogin" @sendMsg = "sendMsg"></baseLogin>
+        <el-dialog width="450px" title="登录" :visible.sync="dialogFormVisible">
+            <baseLogin :loginUrl="loginUrl" ref="baseLogin" @sendMsg = "sendMsg" @closeLoginDiag="closeLoginDiag"></baseLogin>
         </el-dialog>
     </div>
 </template>
@@ -13,20 +13,22 @@
         data() {
             return {
                 dialogFormVisible: false,
-                passwordForm: {
-                    password: '',
-                },
-                phone: '',
-                codeForm: {
-                    code: '',
-                },
+                VerificationCode: '',
                 formLabelWidth: '80px',
                 activeName: 'pwd',
                 selectIndex: '0',
-                loginUrl: ApiPath.common.frontLogin
+                loginUrl: {
+                    passwordUrl: ApiPath.common.frontLogin,
+                    smsUrl: ApiPath.common.frontSmsLogin,
+                    isBack: false,
+                }
             };
         },
         methods: {
+            closeLoginDiag() {
+                this.dialogFormVisible = false;
+                this.$emit("showByCodeUpdatePwd");
+            },
             showLoginModel(visible) {
                 this.dialogFormVisible = visible;
             },
@@ -43,9 +45,9 @@
     .el-dialog__body{
         padding: 0 30px 20px !important;
     }
-    .el-dialog{
-        width: 30% !important;
-    }
+    /*.el-dialog{*/
+    /*    width: 30% !important;*/
+    /*}*/
 </style>
 <style scoped>
     .get-code{

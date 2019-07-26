@@ -5,6 +5,8 @@ import album from './reception/album'
 import leaveMessage from './reception/leaveMessage'
 import maartical from './backstage/maartical'
 import maalbum from './backstage/maalbum'
+import maexhibit from './backstage/maexhibit'
+import matype from './backstage/matype'
 export default {
     homePage,
     artical,
@@ -12,5 +14,7 @@ export default {
     album,
     leaveMessage,
     maartical,
-    maalbum
+    maalbum,
+    maexhibit,
+    matype
 }

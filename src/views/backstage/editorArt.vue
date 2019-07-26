@@ -16,7 +16,7 @@
                             action="#"
                             :show-file-list="false"
                             :auto-upload="false"
-                            accept=".jpeg,.jpg,.png,.PNG,.JPEG,.JPG,"
+                            accept=".jpeg,.jpg,.png,.PNG,.JPEG,.JPG"
                             :on-change="addArticalCover"
                             :before-upload="beforeCoverUpload">
                         <img v-if="artCoverUrl" :src="artCoverUrl" class="avatar"/>
@@ -37,7 +37,7 @@
 
 <script>
     export default {
-        name: "editorArtical",
+        name: "editorArt",
         data() {
             return {
                 art_id: '',

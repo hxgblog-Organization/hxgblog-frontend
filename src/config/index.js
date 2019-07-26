@@ -27,20 +27,14 @@ const router = new VueRouter({
 
 //
 router.beforeEach((to, from, next) => {
-    // console.log(to.name);
-    // if(to.name === "admin"){                   //如果是后台登录路由，渲染后台视图
-    //     next({
-    //         path: '/admin',
-    //     });
-    // }
     if(to.matched.some(r => r.meta.requireAuth)) {
-        if (store.state.user) {
-            next();
-        } else {
+        if(! store.state.user || store.state.user.role !== 1){
             next({
                 path: '/404',
                 // query: { redirect: to.fullPath }
             });
+        } else {
+            next();
         }
     } else {
         next();

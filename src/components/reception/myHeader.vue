@@ -5,7 +5,7 @@
                 <img src="../../images/reception/logo.png">
             </div>
             <nav class="topnav" id="topnav">
-                <router-link target="_blank" to="/" id="main-page"><span>首页</span><span class="en">Protal</span></router-link>
+                <router-link target="_blank" to="/home" id="main-page"><span>首页</span><span class="en">Protal</span></router-link>
                 <router-link target="_blank" to="artical" id="artical"><span>文章</span><span class="en">Artical</span></router-link>
                 <router-link target="_blank" to="album" id="album"><span>相册</span><span class="en">Album</span></router-link>
                 <router-link target="_blank" to="messageBoard" id="speach"><span>闲言碎语</span><span class="en">Doing</span></router-link>

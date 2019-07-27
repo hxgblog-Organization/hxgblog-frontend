@@ -32,9 +32,7 @@
                     </div>
                     <div class="news_about"><strong>简介</strong>{{ artSay }}</div>
                     <div class="news_con">
-                        <p id="artical">
-                            {{ articalData.arti_content }}
-                        </p>
+                        <div id="artical" v-highlight  v-html="articalData.arti_content" ></div>
                         <div id="ico-div">
                             <span v-if="praise" @click="praiseOrTrample(1, $event)" class="hand-ico light-praise fa fa-thumbs-o-up"></span>
                             <span v-else @click="praiseOrTrample(1, $event)" class="hand-ico fa fa-thumbs-o-up"></span>
@@ -108,6 +106,7 @@
 
 <script>
     import Lyric from 'lyric-parser'
+    import marked from 'marked'
     export default {
         name: "showArtical",
         inject:['reload'],
@@ -207,6 +206,7 @@
                             self.browseTopArtical = data.data.browse_top;
                             self.comments         = data.data.comments;
                             self.articalData      = data.data.artical_data[0];
+                            self.articalData.arti_content = marked(self.articalData.arti_content);
                             self.praise           = data.data.praise_trample_status.praise;
                             self.trample          = data.data.praise_trample_status.trample;
                             self.articalTypes     = data.data.artical_types;
@@ -431,6 +431,9 @@
 </script>
 
 <style scoped>
+    .news_con{
+        white-space: pre-wrap;
+    }
     #music-audio{
         outline: none;
     }
@@ -507,7 +510,7 @@
     }
     .song-world{
         width: 300px;
-        height: 500px;
+        height: 800px;
         background-size:cover;
         margin: 0 auto;
         padding:30px;

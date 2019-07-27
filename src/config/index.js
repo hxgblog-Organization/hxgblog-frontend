@@ -4,8 +4,17 @@ import * as types from '../store/types'
 import Vue from 'vue'
 import mavonEditor from 'mavon-editor'
 import 'mavon-editor/dist/css/index.css'
+import hljs from 'highlight.js'
 Vue.use(VueRouter);
 Vue.use(mavonEditor);
+
+//封装成一个指令
+Vue.directive('highlight', (el) => {
+    let blocks = el.querySelectorAll('pre code');
+    blocks.forEach((block) => {
+        hljs.highlightBlock(block)
+    })
+});
 //页面刷新的时，重新赋值
 if (sessionStorage.getItem('user')) {
     store.commit(types.USER, JSON.parse(sessionStorage.getItem('user')));

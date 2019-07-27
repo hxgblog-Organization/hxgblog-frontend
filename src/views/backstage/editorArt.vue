@@ -24,7 +24,7 @@
                     </el-upload>
                     <el-button v-if="isUpdateCover" @click="cancelUpdateCover">取消更改封面</el-button>
                 </el-form-item>
-                <mavon-editor v-model="articalForm.arti_content" :toolbars="toolbars" @keydown="" />
+                <mavon-editor v-model="articalForm.arti_content" :toolbars="toolbars"/>
                 <el-form-item class="submit">
                     <el-button v-if="isAdd" type="primary" @click="addArticalInfor">添加</el-button>
                     <el-button v-else type="primary" @click="updateArtInfor">修改</el-button>

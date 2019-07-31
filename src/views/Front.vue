@@ -28,6 +28,7 @@
     #front {
         background: url(./../images/reception/artical-back.jpg)  no-repeat right top #D6E0E1;
         min-height: 100vh;
+        height: 100%;
         width: 100%;
     }
 </style>

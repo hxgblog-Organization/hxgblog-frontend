@@ -29,6 +29,7 @@
     }
     .first-li{
         float: left;
+        margin-left: 2%;
     }
     .login-ul{
         margin-bottom: 0;

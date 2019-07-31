@@ -1,9 +1,9 @@
 <template>
     <div class="show-album">
-        <article>
+        <div class="main-album">
             <el-button class="add-album" @click="showAddAlbumDiag(-1)">添加相册</el-button>
-            <div class="containers">
-                <div class="blog" data-scroll-reveal="enter top" >
+            <div>
+                <div class="album" data-scroll-reveal="enter top" >
                     <figure v-for="(album, index) in albumData">
                         <ul class="pic">
                             <i class="el-icon-close" @click="deleteAlbum(album.albu_id)"></i>
@@ -29,7 +29,7 @@
                     </figure>
                 </div>
             </div>
-        </article>
+        </div>
         <el-dialog :title="secretSecurityTitle" :visible.sync="diaEditSecStyFormVisible" width="350px">
             <el-form>
                 <el-form-item label="相册问题" :label-width="formLabelWidth" :required="true">
@@ -254,10 +254,14 @@
     }
 </style>
 <style scoped>
+    .main-album{
+        overflow: hidden;
+    }
     .show-photo{
         cursor: pointer;
     }
     .pic{
+        padding: 0 0 0 13%;
         position: relative;
     }
     .el-icon-close{
@@ -292,15 +296,15 @@
         margin-left: 6%;
         width: 85%;
     }
-    .blog { margin: 44px 44px; overflow: hidden }
-    .blog figure { background: dimgray; border: #FFF 10px solid; width: 307px; height: 450px; float: left; margin: 0 16px 20px; overflow: hidden }
-    .blog figure img { display: block;margin-top:20px;width:200px;margin-left: 5px;height: 256px; overflow: hidden; }
-    .blog figure p { font-size: 14px;color: cyan; line-height: 26px; text-align: center;margin-bottom: 4px; font-weight: bold }
-    .blog figure figcaption { padding: 3px 9px 0 10px; line-height: 22px; color: aliceblue; }
-    .blog figure ul { overflow: hidden; height: 256px; }
-    .blog figure ul span { opacity: 0 }
-    .blog figure ul:hover span { opacity: 1 }
-    .blog figcaption p { color: yellow }
-    .blog figure ul a { position: relative; display: block }
-    .blog figure ul span { position: absolute; left: 0px; top: 0px; background: rgba(0,0,0,0.5)  no-repeat center 10px; color: #FFF; display: block; width: 100%; height: 100%; line-height: 256px; text-align: center; -webkit-transition: all 0.5s; -moz-transition: all 0.5s; -o-transition: all 0.5s; -ms-transition: all 0.5s; text-decoration: underline }
+    .album { margin: 44px 44px; overflow: hidden }
+    .album figure { background: dimgray; border: #FFF 10px solid; width: 307px; height: 450px; float: left; margin: 0 16px 20px; overflow: hidden }
+    .album figure img { display: block;margin-top:20px;width:200px;margin-left: 5px;height: 256px; overflow: hidden; }
+    .album figure p { font-size: 14px;color: cyan; line-height: 26px; text-align: center;margin-bottom: 4px; font-weight: bold }
+    .album figure figcaption { padding: 3px 9px 0 10px; line-height: 22px; color: aliceblue; }
+    .album figure ul { overflow: hidden; height: 256px; }
+    .album figure ul span { opacity: 0 }
+    .album figure ul:hover span { opacity: 1 }
+    .album figcaption p { color: yellow }
+    .album figure ul a { position: relative; display: block }
+    .album figure ul span { position: absolute; left: 0px; top: 0px; background: rgba(0,0,0,0.5)  no-repeat center 10px; color: #FFF; display: block; width: 100%; height: 100%; line-height: 256px; text-align: center; -webkit-transition: all 0.5s; -moz-transition: all 0.5s; -o-transition: all 0.5s; -ms-transition: all 0.5s; text-decoration: underline }
 </style>

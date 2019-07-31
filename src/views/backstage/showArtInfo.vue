@@ -55,11 +55,6 @@
                     width="120">
             </el-table-column>
             <el-table-column
-                    prop="arti_content"
-                    label="内容"
-                    width="120">
-            </el-table-column>
-            <el-table-column
                     prop="arti_reward_money"
                     label="赏钱"
                     width="80">

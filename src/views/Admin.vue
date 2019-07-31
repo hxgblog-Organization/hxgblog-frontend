@@ -325,7 +325,7 @@
     }
     /*组件*/
     .el-col-12 {
-        width: 100%;
+        width: 100% !important;
     }
     .aside .is-active{
         color: rgb(255, 208, 75) !important;

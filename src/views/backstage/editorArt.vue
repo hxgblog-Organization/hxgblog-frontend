@@ -71,7 +71,7 @@
                     help: true, // 帮助
                     code: true, // code
                     subfield: true, // 是否需要分栏
-                    fullscreen: true, // 全屏编辑
+                    fullscreen: false, // 全屏编辑
                     readmodel: true, // 沉浸式阅读
                     /* 1.3.5 */
                     undo: true, // 上一步
@@ -208,6 +208,11 @@
     .avatar-uploader .el-upload:hover {
         border-color: #409EFF;
     }
+    .markdown-body{
+        margin-top: 20%;
+    }
+</style>
+<style scoped>
     .avatar-uploader-icon {
         font-size: 28px;
         color: #8c939d;
@@ -217,12 +222,10 @@
         text-align: center;
     }
     .avatar {
-        width: 178px;
-        height: 178px;
+        width: 180px;
+        height: 180px;
         display: block;
     }
-</style>
-<style scoped>
     .art-title{
         width: 50%;
     }

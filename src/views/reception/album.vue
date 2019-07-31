@@ -19,7 +19,7 @@
             </div>
         </div>
     </article>
-    <el-dialog title="相册密保" :visible.sync="dialogFormVisible" @keyup.enter="judgeAnswer">
+    <el-dialog title="相册密保" :visible.sync="dialogFormVisible" @keyup.enter.native="judgeAnswer" width="400px">
         <el-form  class="answer-question">
         <el-form-item label="密码" :label-width="formLabelWidth">
             <el-input v-model="question" auto-complete="off"></el-input>
@@ -66,14 +66,30 @@
                 this.question = this.albumData[index].albu_question;
                 this.correctAnswer = this.albumData[index].albu_answer;
                 this.status = status;
+                if(this.status === 3) {
+                    this.frontShowAlbumPhoto();
+                    return true;
+                }
+                if(this.status === 4){
+                    this.$message.success("此相册没有照片噢");
+                    return true;
+                }
+                this.answer = "";
                 this.dialogFormVisible = true;
             },
             judgeAnswer(){
                 if(this.answer !== this.correctAnswer) {
                     this.$message.error("回答错误");
-                    return ;
+                    return false;
                 }
-                this.dialogFormVisible = false;
+                if(this.status === 2){
+                    this.$message.warning("抱歉，此相册没有照片");
+                    this.dialogFormVisible = false;
+                    return false;
+                }
+                this.frontShowAlbumPhoto();
+            },
+            frontShowAlbumPhoto() {
                 const {href} = this.$router.resolve({
                     path: '/showPhoto',
                     query: {
@@ -81,7 +97,7 @@
                     }
                 });
                 window.open(href, '_blank');
-            }
+            },
         },
         mounted() {
             this.getAlbumInformation();

@@ -24,11 +24,10 @@
         }
     }
 </script>
-
 <style>
-    body {
+    #front {
         background: url(./../images/reception/artical-back.jpg)  no-repeat right top #D6E0E1;
+        min-height: 100vh;
+        width: 100%;
     }
-
-
 </style>

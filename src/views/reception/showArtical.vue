@@ -21,14 +21,14 @@
                     <h3 class="news_title">{{ articalData.arti_title }}</h3>
                     <div class="bloginfo">
                         <ul>
-                            <li class="author">作者：<a href="/">坏小哥</a></li>
-                            <li class="lmname"><a href="/">学无止境</a></li>
-                            <li class="timer">时间：{{ articalData.years + "-" + articalData.monthDay }}</li>
+                            <li class="author">作者：<span>坏小哥</span></li>
+                            <li class="lmname"><span>学无止境</span></li>
+                            <li class="timer">时间：{{ articalData.created_at }}</li>
                             <li class="view">{{ articalData.arti_browse }}人已阅读</li>
                         </ul>
                     </div>
                     <div class="tags">
-                        <a v-for="type in articalTypes" href="#" target="_blank">{{ type.type_name }}</a> &nbsp;
+                        <span v-for="type in articalTypes" target="_blank">{{ type.type_name }}</span> &nbsp;
                     </div>
                     <div class="news_about"><strong>简介</strong>{{ artSay }}</div>
                     <div class="news_con">
@@ -206,6 +206,7 @@
                             self.browseTopArtical = data.data.browse_top;
                             self.comments         = data.data.comments;
                             self.articalData      = data.data.artical_data[0];
+                            console.log(self.articalData);
                             self.articalData.arti_content = marked(self.articalData.arti_content);
                             self.praise           = data.data.praise_trample_status.praise;
                             self.trample          = data.data.praise_trample_status.trample;
@@ -505,6 +506,7 @@
     }
     #word-list{
         position: relative;
+        color: aliceblue;
         /*top: 157px;*/
         /*z-index: -5;*/
     }
@@ -646,7 +648,7 @@
     .news_about strong { color: #38485A; font-weight: 400 !important; font-size: 13px; padding-right: 8px; }
     .news_content { line-height: 24px; font-size: 14px; }
     .news_content p { overflow: hidden; padding-bottom: 4px; padding-top: 6px; word-wrap: break-word; }
-    .tags a { background: #F4650E; padding: 3px 8px; margin: 0 5px 0 0; color: #fff; }
+    .tags span { background: #F4650E; padding: 3px 8px; margin: 0 5px 0 0; color: #fff; }
     .tags { margin: 10px 0; }
     /*.infosbox img { max-width: 650px; height: auto; width:100% }*/
     .share { padding: 20px; }

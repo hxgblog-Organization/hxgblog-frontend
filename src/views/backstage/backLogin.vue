@@ -1,6 +1,6 @@
 <template>
     <div class="login-container">
-        <h3 class="title">坏小哥博客后台登录</h3>
+        <h3 class="login-title">坏小哥博客后台登录</h3>
         <baseLogin :loginUrl="loginUrl" ref="baseLogin" @sendMsg="getLoginStatus" @showByCodeUpdatePwdModel="showByCodeUpdatePwd"></baseLogin>
         <byCodeUpdatePwd ref="byCodeUpdatePwd"></byCodeUpdatePwd>
     </div>
@@ -70,7 +70,7 @@
     .remember {
         margin: 0 0 25px 0;
     }
-    .title {
+    .login-title {
         margin: 0 0 24px 0;;
         color: white;
     }

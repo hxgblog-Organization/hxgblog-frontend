@@ -2,7 +2,7 @@ export default [
     {
         path: '/',
         name: '/',
-        component: resolve => void (require(['../views/front.vue'], resolve)),
+        component: resolve => void (require(['../views/Front.vue'], resolve)),
         children: [
             {
                 path: '/home',

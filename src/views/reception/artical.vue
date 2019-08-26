@@ -49,7 +49,7 @@
                 var srcollTop = document.documentElement.scrollTop || document.body.scrollTop;
                 var srcollH = document.body.scrollHeight;
                 // console.log(windowHeight + "--" + srcollTop + "---" + srcollH);
-                if(srcollTop + windowHeight + (this.page * 210) > srcollH) {
+                if(srcollTop + windowHeight + (this.page * 210) + 1 > srcollH) {
                     this.page++;
                     this.getArtical(3);
                 }

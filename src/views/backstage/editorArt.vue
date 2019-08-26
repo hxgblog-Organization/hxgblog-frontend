@@ -19,7 +19,7 @@
                             accept=".jpeg,.jpg,.png,.PNG,.JPEG,.JPG"
                             :on-change="addArticalCover"
                             :before-upload="beforeCoverUpload">
-                        <img v-if="artCoverUrl" :src="artCoverUrl" class="avatar"/>
+                        <img v-if="artCoverUrl" :src="artCoverUrl" class="avatar art-cover-img"/>
                         <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                     </el-upload>
                     <el-button v-if="isUpdateCover" @click="cancelUpdateCover">取消更改封面</el-button>
@@ -164,7 +164,7 @@
                     })
             },
             validateArticalInfor() {
-                if(this.articalForm.arti_title.length > 10){
+                if(this.articalForm.arti_title.length > 100){
                     this.$message.error("文章题目过长");
                     return false;
                 }
@@ -178,7 +178,7 @@
                         return false;
                     }
                 }
-                return this.validateContent(this.articalForm.arti_content);
+                return true;
             },
         },
         mounted() {
@@ -209,10 +209,13 @@
         border-color: #409EFF;
     }
     .markdown-body{
-        margin-top: 20%;
+        margin-top: 2%;
     }
 </style>
 <style scoped>
+    .art-cover-img{
+        
+    }
     .avatar-uploader-icon {
         font-size: 28px;
         color: #8c939d;
@@ -227,7 +230,7 @@
         display: block;
     }
     .art-title{
-        width: 50%;
+        width: 66%;
     }
     .submit{
         float: right;
@@ -241,6 +244,11 @@
     .add{
         width: 73%;
         margin: 35px 0 0 35px;
+    }
+    .add form{
+        text-align: left;
+        margin-top: 3%;
+        margin-left: 2%;
     }
     .el-form-item__content{
         width: 30%;

@@ -190,7 +190,7 @@
         margin-bottom: 15px;
     }
     .el-form-item__content{
-        height: 40px;
+        min-height: 40px;
     }
     .head-portrait-uploader:first-child div{
         float: left;

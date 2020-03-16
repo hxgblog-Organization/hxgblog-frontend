@@ -394,7 +394,7 @@
         float: left;
     }
     .wt1{
-        width: 75px;
+        width: 100%;
         float: left;
     }
     .wtline{

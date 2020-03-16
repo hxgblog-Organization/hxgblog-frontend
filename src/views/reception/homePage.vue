@@ -237,7 +237,7 @@
         width: 100%;
     }
     article{
-        width: 68%;
+        width: 80%;
     }
     .box{
         height: 150px;

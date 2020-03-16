@@ -5,10 +5,10 @@
                 <img src="../../images/reception/logo.png">
             </div>
             <nav class="topnav" id="topnav">
-                <router-link target="_blank" to="/home" id="main-page"><span>首页</span><span class="en">Protal</span></router-link>
-                <router-link target="_blank" to="artical" id="artical"><span>文章</span><span class="en">Artical</span></router-link>
-                <router-link target="_blank" to="album" id="album"><span>相册</span><span class="en">Album</span></router-link>
-                <router-link target="_blank" to="messageBoard" id="speach"><span>闲言碎语</span><span class="en">Doing</span></router-link>
+                <li><router-link target="_blank" to="/home" id="main-page">首页<span class="en">Protal</span></router-link></li>
+                <li><router-link target="_blank" to="artical" id="artical">文章<span class="en">Artical</span></router-link></li>
+                <li><router-link target="_blank" to="album" id="album">相册<span class="en">Album</span></router-link></li>
+                <li id="last-nav-li"><router-link target="_blank" to="messageBoard" id="speach">闲言碎语<span class="en">Doing</span></router-link></li>
                 <div class="infor-content" v-if="isLogin">
                     <ul class="infor-ul">
                         <li>
@@ -220,12 +220,14 @@
         /*.box{ width:1000px; margin:auto; overflow:hidden}*/
         header { width: 80%; margin: auto; height: 115px;  display: flex;}
         #logo{width: 50%;}
-        nav { width: 60%; margin: 50px 0 0 0; text-align: right;display: flex;align-items: center; }
+        nav { width: 80%; margin: 50px 0 0 0; text-align: right;display: flex;align-items: center; }
         nav a { position: relative; margin-right:2%;display: inline-block; font-size: 18px; font-family: "Î¢ÈíÑÅºÚ", Arial, Helvetica, sans-serif; }
         nav a:hover { text-decoration: none; color: #37ccca}
-        .topnav a { margin: 0 20px; padding: 0 8px; }
+        .topnav a {padding: 0 8px; width: 100%}
+        .topnav li {width: 15%;float: left;margin-left: 5%}
+        #last-nav-li {width: 25%}
         .topnav a span:first-child { z-index: 2; display: block; }
-        .topnav a span:last-child { z-index: 1; display: block; color: #999; font: 12px Georgia, serif; opacity: 0; -webkit-transition: -webkit-transform 0.3s, opacity 0.3s; -moz-transition: -moz-transform 0.3s, opacity 0.3s; transition: transform 0.3s, opacity 0.3s; -webkit-transform: translateY(-100%); -moz-transform: translateY(-100%); transform: translateY(-100%); text-align: center }
+        .topnav a span:last-child { z-index: 1; display: block; color: #999; font: 12px Georgia, serif; opacity: 0; -webkit-transition: -webkit-transform 0.3s, opacity 0.3s; -moz-transition: -moz-transform 0.3s, opacity 0.3s; transition: transform 0.3s, opacity 0.3s; -webkit-transform: translateY(-100%); -moz-transform: translateY(-100%); transform: translateY(-100%);}
         .topnav a:hover span:last-child, .topnav a:focus span:last-child { opacity: 1; -webkit-transform: translateY(0%); -moz-transform: translateY(0%); transform: translateY(0%); }
         #topnav_current { color: #e15782; }
         .en { color: #999; font-size: 12px; z-index: 1; display: block; }/* ie */

@@ -420,7 +420,7 @@
         transition: margin-top .2s ease-in-out;
     }
     .avatar a:hover span { display: block; margin-top: 0; }
-    .template { background: #F1F0EE;height: 118px }
+    .template {height: 118px; background: #f1eaea}
     .template h3 { border-bottom: #FFF 1px solid; width: 100%; overflow: hidden; font-size: 14px; margin: 0 0 10px; font-family: "Î¢ÈíÑÅºÚ"; display: block; clear: both; }
     .template h3 p { background: #474645; width: 240px; height: 25px; margin: 15px 0 0 10px; line-height: 25px; color: #fff; text-align: center; box-shadow: #999 4px 5px 1px; }
     .template h3 p span { color: #38b3d4; }
@@ -440,7 +440,7 @@
     .dateview { width: 695px; overflow: hidden; clear: both; margin: 10px 0 0 0; display: inline-block; background: #f6f6f6 url(../../images/reception/time.jpg) 15px center no-repeat; line-height: 26px; height: 26px; color: #838383; padding-left: 25px }
     .dateview span { margin: 0 10px; }
     .dateview span span { color: #099B43; }
-    a.readmore { background: #fd8a61; color: #fff; padding: 5px 10px; float: right; margin: 20px 0 0 0 }
+    a.readmore { background: #fd8a61; color: #fff; padding: 5px 10px; float: right; margin: 20px 23px 0 0 }
     .today-weather{ background: url(../../images/reception/weather_bg.jpg) no-repeat; height: 88px; padding: 0 0 0 55px;}
     .news{ margin-top: 30px; }
     .news h3 { font-size: 14px; background: url(../../images/reception/r_title_bg.jpg) repeat-x center }

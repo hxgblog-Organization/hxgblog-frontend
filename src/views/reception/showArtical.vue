@@ -506,7 +506,7 @@
     }
     #word-list{
         position: relative;
-        color: aliceblue;
+        color: darkgrey;
         /*top: 157px;*/
         /*z-index: -5;*/
     }
@@ -589,9 +589,9 @@
         margin: 20px auto 15px auto;
         line-height: 23px
     }
-    .show-artical{
-        background: url(../../images/reception/artical-back.jpg)  no-repeat right top #D6E0E1;
-    }
+    /*.show-artical{*/
+    /*    background: url(../../images/reception/artical-back.jpg)  no-repeat right top #D6E0E1;*/
+    /*}*/
     .l_box { width: 30%; float: left }
     .r_box { width: 68%; float: right }
     .l_box h2 { color: #333; font-size: 14px; line-height: 30px; padding-left: 20px; background: #fff }

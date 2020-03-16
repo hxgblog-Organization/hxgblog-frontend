@@ -115,10 +115,9 @@
     .blog figure p { font-size: 14px; text-shadow: #fff 1px 1px 0px; line-height: 26px; text-align: center; font-weight: bold }
     .blog figure p a { color: #226039; }
     .blog figure figcaption { padding: 10px; line-height: 22px; color: #666; }
-    .blog figure ul { overflow: hidden; height: 256px; margin-bottom: 20px }
+    .blog figure ul { overflow: hidden; height: 256px; margin: 20px 0 20px 0 }
     .blog figure ul span { opacity: 0 }
     .blog figure ul:hover span { opacity: 1 }
     .blog figure ul a { position: relative; display: block }
     .blog figure ul span { position: absolute; left: 0px; top: 0px; background: rgba(0,0,0,0.5)  no-repeat center 10px; color: #FFF; display: block; width: 100%; height: 100%; line-height: 256px; text-align: center; -webkit-transition: all 0.5s; -moz-transition: all 0.5s; -o-transition: all 0.5s; -ms-transition: all 0.5s; text-decoration: underline }
-    article { background: url(../../images/reception/album-back.jpg) repeat; }
 </style>

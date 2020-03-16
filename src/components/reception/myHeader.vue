@@ -5,10 +5,10 @@
                 <img src="../../images/reception/logo.png">
             </div>
             <nav class="topnav" id="topnav">
-                <li><router-link target="_blank" to="/home" id="main-page">首页<span class="en">Protal</span></router-link></li>
-                <li><router-link target="_blank" to="artical" id="artical">文章<span class="en">Artical</span></router-link></li>
+                <li><router-link target="_blank" to="/home" id="main-page">首页<span class="en">Home</span></router-link></li>
+                <li><router-link target="_blank" to="artical" id="artical">文章<span class="en">Article</span></router-link></li>
                 <li><router-link target="_blank" to="album" id="album">相册<span class="en">Album</span></router-link></li>
-                <li id="last-nav-li"><router-link target="_blank" to="messageBoard" id="speach">闲言碎语<span class="en">Doing</span></router-link></li>
+                <li id="last-nav-li"><router-link target="_blank" to="messageBoard" id="speach">闲言碎语<span class="en">Leave</span></router-link></li>
                 <div class="infor-content" v-if="isLogin">
                     <ul class="infor-ul">
                         <li>
@@ -201,7 +201,7 @@
         .blank { height: 8px; overflow: hidden; width: 100%; margin: auto; clear: both }
         .f_l { float: left }
         .f_r { float: right }
-        .containers{ background: url(../../images/reception/album-back.jpg) repeat; overflow: hidden; margin: 20px; box-shadow: #075498 0px 1px 10px; }
+        .containers{overflow: hidden; margin: 20px; box-shadow: #075498 0px 1px 10px; }
         .page{ margin:20px 0 ; text-align:center; width:100%;overflow: hidden;}
         .page a b {color: #aee1ff;}
         .page>b,.page a {margin: 0 2px;height: 26px;line-height: 26px;border-radius: 50%;width: 26px;text-align: center;display: inline-block}
@@ -226,6 +226,7 @@
         .topnav a {padding: 0 8px; width: 100%}
         .topnav li {width: 15%;float: left;margin-left: 5%}
         #last-nav-li {width: 25%}
+        #last-nav-li span {margin-right: 13%}
         .topnav a span:first-child { z-index: 2; display: block; }
         .topnav a span:last-child { z-index: 1; display: block; color: #999; font: 12px Georgia, serif; opacity: 0; -webkit-transition: -webkit-transform 0.3s, opacity 0.3s; -moz-transition: -moz-transform 0.3s, opacity 0.3s; transition: transform 0.3s, opacity 0.3s; -webkit-transform: translateY(-100%); -moz-transform: translateY(-100%); transform: translateY(-100%);}
         .topnav a:hover span:last-child, .topnav a:focus span:last-child { opacity: 1; -webkit-transform: translateY(0%); -moz-transform: translateY(0%); transform: translateY(0%); }

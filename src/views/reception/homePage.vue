@@ -38,7 +38,7 @@
             <p>文章<span>推荐</span></p>
         </h2>
         <div class="bloglist left">
-            <div v-for="item in articalData" :key="item.id">
+            <div v-for="item in articalData" :key="item.id" class="article-info">
             <h4>
                 <span>{{ item.arti_title }}</span>
                 <span class="date">{{ item.years }}-{{item.monthDay }}</span>
@@ -238,6 +238,7 @@
     }
     article{
         width: 80%;
+        margin: 1% 0 0 10%;
     }
     .box{
         height: 150px;
@@ -405,12 +406,12 @@
         margin-top: 3px;
     }
     .banner {  margin-top:20px;height: 215px; overflow: hidden }
-    .texts { width: 350px; line-height: 26px; margin: 40px 0 0 326px; float: left; font-size: 14px; }
+    .texts { width: 350px; line-height: 26px; margin: 3% 0 0 9%;; float: left; font-size: 14px; }
     .texts p { -webkit-transform: translate(60px); -moz-transform: translate(60px); -o-transform: translate(60px); -ms-transform: translate(60px); transform: translate(60px); text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.8), 2px 2px 3px rgba(180, 151, 151, 0.3); }
     .texts p:nth-child(1) { -webkit-animation: animations 3s ease-out 1s backwards; -moz-animation: animations 3s ease-out 1s backwards; -o-animation: animations 3s ease-out 1s backwards; -ms-animation: animations 3s ease-out 1s backwards; animation: animations 3s ease-out 1s backwards; }
     .texts p:nth-child(2) { -webkit-animation: animations 3s ease-out 4s backwards; -moz-animation: animations 3s ease-out 4s backwards; -o-animation: animations 3s ease-out 4s backwards; -ms-animation: animations 3s ease-out 4s backwards; animation: animations 3s ease-out 4s backwards; }
     .texts p:nth-child(3) { -webkit-animation: animations2 5s ease-in-out 7s backwards; -moz-animation: animations2 5s ease-in-out 7s backwards; -o-animation: animations2 5s ease-in-out 7s backwards; -ms-animation: animations2 5s ease-in-out 7s backwards; animation: animations2 5s ease-in-out 7s backwards; }
-    .avatar { margin-left: 30%;margin-top: 3%;width: 130px;height: 130px;border-radius: 100%;overflow: hidden;border: #FFF 4px solid;}
+    .avatar { margin:3% 0 0 27%;width: 130px;height: 130px;border-radius: 100%;overflow: hidden;border: #FFF 4px solid;}
     .avatar a { display: block; padding-top: 97px; width: 160px; background: url(../../images/reception/me.jpg) no-repeat; background-size: 130px 130px }
     .avatar a span { display: block; margin-top: 63px; padding-top: 3px;
         width: 130px; height: 55px; text-align: center;
@@ -455,4 +456,5 @@
     .website { margin: 10px 0; background: #F3F3F3; border-radius: 50%; text-align: center; }
     .website li { line-height: 26px; text-shadow: #fff 1px 1px 1px; height: 26px; }
     .wei-xin { background: url(../../images/reception/hxg-gzh.jpg) no-repeat; width: 100%; display: inline-block; height: 274px; overflow: hidden; clear: both }
+    .article-info h4 {margin-top: 2%}
 </style>

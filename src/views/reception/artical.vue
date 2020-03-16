@@ -104,12 +104,12 @@
 <style scoped>
 
     .active {
-        background: #abdde5;
+        background: #6f7180;
     }
     .rnav { margin: 30px auto; overflow: hidden; overflow: hidden; padding-left: 100px; color: #000}
     .rnav li { width: 120px; text-align: center; display: inline-block; margin-bottom: 5px; margin-right: 5px; float: left; height: 40px; line-height: 38px; background: rgba(255,255,255,0.2) }
     .rnav li a {  display: block; -webkit-transition: all 1s; -moz-transition: all 1s; -o-transition: all 1s; transition: all 1s; border: #ddd6d9  1px solid; cursor: pointer }
-    .rnav ul li a:hover { background: #abdde5; color: #000}
+    .rnav ul li a:hover { background: #fe5187; color: #000}
     /* cbp_tmtimeline */
     .cbp_tmtimeline { margin: 30px 0 0 0; padding: 0; list-style: none; position: relative; }
     .cbp_tmtimeline:before { content: ''; position: absolute; top: 0; bottom: 0; width: 5px; background: #afdcf8; left: 158px; margin-left: -10px; }
@@ -118,7 +118,7 @@
     .cbp_tmtimeline > li .cbp_tmtime span { display: block; text-align: right; }
     .cbp_tmtimeline > li .cbp_tmtime span:first-child { font-size: 14px; color: #bdd0db; }
     .cbp_tmtimeline > li .cbp_tmtime span:last-child { font-size: 22px; color: #3594cb; }
-    .cbp_tmtimeline > li .cbp_tmlabel { margin: 0 50px 15px 180px; background: azure;  padding: 2em; position: relative; border-radius: 5px; height: 210px; text-align: left;position: relative}
+    .cbp_tmtimeline > li .cbp_tmlabel { margin: 0 50px 15px 180px; background: floralwhite;  padding: 2em; position: relative; border-radius: 5px; height: 210px; text-align: left;position: relative}
     .cbp_tmtimeline > li .cbp_tmlabel h2 { margin-top: 0px; padding: 0 0 10px 0; font-size: 16px; text-shadow: rgba(7, 84, 152, 0.71) 1px 1px 1px; }
     .cbp_tmtimeline > li .cbp_tmlabel:after { right: 100%; border: solid transparent; content: " "; height: 0; width: 0; position: absolute; pointer-events: none; border-right-color: #3594cb; border-width: 10px; top: 10px; }
     .cbp_tmtimeline > li .cbp_tmicon { width: 10px; height: 10px; font-family: 'ecoico'; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; font-size: 1.4em; line-height: 40px; -webkit-font-smoothing: antialiased; position: absolute; color: #fff; background: #46a4da; border-radius: 50%; box-shadow: 0 0 0 3px #afdcf8; text-align: center; left: 170px; top: 15px; margin: 0 0 0 -25px; }

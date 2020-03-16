@@ -37,7 +37,7 @@
                                      @mouseleave="messageButtonStatus(2, $event)">
                                     <img :src="headPortraiBasetUrl + msg.head_portrait" class="user-head-portrait">
                                     <div class="top-msg-content">
-                                        <span>坏小哥:</span>
+                                        <span>{{ msg.nick_name }}：</span>
                                         <span class="msg-span">{{ msg.msg_content}}</span>
                                         <span class="msg-btn">
                                             <span v-if="msg.msg_count != 0" class="see-comment">

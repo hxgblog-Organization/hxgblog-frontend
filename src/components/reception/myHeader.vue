@@ -226,7 +226,7 @@
         .topnav a {padding: 0 8px; width: 100%}
         .topnav li {width: 15%;float: left;margin-left: 5%}
         #last-nav-li {width: 25%}
-        #last-nav-li span {margin-right: 13%}
+        #last-nav-li span {margin-right: 17%}
         .topnav a span:first-child { z-index: 2; display: block; }
         .topnav a span:last-child { z-index: 1; display: block; color: #999; font: 12px Georgia, serif; opacity: 0; -webkit-transition: -webkit-transform 0.3s, opacity 0.3s; -moz-transition: -moz-transform 0.3s, opacity 0.3s; transition: transform 0.3s, opacity 0.3s; -webkit-transform: translateY(-100%); -moz-transform: translateY(-100%); transform: translateY(-100%);}
         .topnav a:hover span:last-child, .topnav a:focus span:last-child { opacity: 1; -webkit-transform: translateY(0%); -moz-transform: translateY(0%); transform: translateY(0%); }

@@ -21,7 +21,7 @@ export default {
     downLoadFile: basePath + 'downloadFile',                    //下载后台文件
     getcaptcha: basePath + 'captcha/',                          //获取验证码
     getSmsCode: 'getSmsCode',                                   //获取短信验证码
-    getCityName: 'getCityName',                                 //获取天气城市名字
+    getCityInfo: 'getCityInfo',                                 //获取天气城市名字
     updatePassword: 'updatePassword',                           //修改密码
     byCodeUpdatePassword: 'byCodeUpdatePassword',               //用户根据短信验证码修改密码
 }

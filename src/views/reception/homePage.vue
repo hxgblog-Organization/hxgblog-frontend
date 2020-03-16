@@ -177,42 +177,31 @@
             },
             getCityName() {
                 let self = this;
-                self.GET(ApiPath.common.getCityName).then(function (res) {
+                self.GET(ApiPath.common.getCityInfo).then(function (res) {
                     if(res.data.code === 0){
                         self.cityName = res.data.data.city_name;
                         self.weatherUrl = self.weatherUrl + pinyin.getFullChars(self.cityName).toLowerCase() + "/?tq";
-                        $.ajax({
-                            type: 'GET',
-                            url: "http://wthrcdn.etouch.cn/weather_mini?city=" + self.cityName,
-                            success: function (data){
-                                var date = new Date;
-                                var reg =  /[\u4e00-\u9fa5]/g;
-                                let month = date.getMonth() + 1;
-                                self.weatherData  = JSON.parse(data).data.forecast;
-                                self.todayWeather = JSON.parse(data).data.forecast[0];
-                                self.todayWeather.date = month + '月' + self.todayWeather.date;
-                                self.todayWeather.low  = self.todayWeather.low.replace(reg, "");
-                                self.todayWeather.high = self.todayWeather.high.replace(reg, "");
-                                self.todayWeather.fengli = self.todayWeather.fengli.replace(/[^0-9]/ig,"");
-                                if(self.todayWeather.fengli.length > 1){
-                                    self.todayWeather.fengli = self.todayWeather.fengli.charAt(0) + '-'
-                                        + self.todayWeather.fengli.charAt(1);
-                                }
-                                self.todayWeather.fengli = self.todayWeather.fengxiang + ',  ' + self.todayWeather.fengli + '级';
-                                self.todayWeather['temperature'] = self.todayWeather.low + " ~ " + self.todayWeather.high;
-                                for(var index in self.weatherData){
-                                    self.weatherData[index].low  = self.weatherData[index].low.replace(reg, "");
-                                    self.weatherData[index].high = self.weatherData[index].high.replace(reg, "");
-                                    self.weatherData[index]['temperature'] = self.weatherData[index].low + " ~ " + self.weatherData[index].high;
-                                    delete  self.weatherData[index].low;
-                                    delete  self.weatherData[index].high;
-                                    delete  self.weatherData[index].fengxiang;
-                                    delete  self.weatherData[index].fengli;
-                                    delete  self.weatherData[index].date;
-                                }
-                                self.weatherData.shift();
-                            }
-                        });
+                        var date = new Date;
+                        var reg =  /[\u4e00-\u9fa5]/g;
+                        let month = date.getMonth() + 1;
+                        self.weatherData  = res.data.data.weather_info;
+                        self.todayWeather = self.weatherData[0];
+                        self.todayWeather.date = month + '月' + self.todayWeather.date;
+                        self.todayWeather.low  = self.todayWeather.low.replace(reg, "");
+                        self.todayWeather.high = self.todayWeather.high.replace(reg, "");
+                        self.todayWeather.fengli = self.todayWeather.fengli.replace(/[^0-9]/ig,"");
+                        if(self.todayWeather.fengli.length > 1){
+                            self.todayWeather.fengli = self.todayWeather.fengli.charAt(0) + '-'
+                                + self.todayWeather.fengli.charAt(1);
+                        }
+                        self.todayWeather.fengli = self.todayWeather.fengxiang + ',  ' + self.todayWeather.fengli + '级';
+                        self.todayWeather['temperature'] = self.todayWeather.low + " ~ " + self.todayWeather.high;
+                        for(var index in self.weatherData){
+                            self.weatherData[index].low  = self.weatherData[index].low.replace(reg, "");
+                            self.weatherData[index].high = self.weatherData[index].high.replace(reg, "");
+                            self.weatherData[index]['temperature'] = self.weatherData[index].low + " ~ " + self.weatherData[index].high;
+                        }
+                        self.weatherData.shift();
                     }
                 });
 

@@ -32,8 +32,8 @@ window.Vue = Vue;
 import instance from './config/auth'
 window.axios = instance;
 
-import Mock from 'mockjs'
-window.Mock = Mock;
+// import Mock from 'mockjs'
+// window.Mock = Mock;
 
 /**
  * 引入自定义方法

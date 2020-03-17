@@ -298,11 +298,17 @@
                     page: self.page
                 })
                     .then(function (res) {
-                        if(typeof(res.data.data) !=="undefined"){
-                            self.isGetData = true;
-                            self.leaveMessageData = self.leaveMessageData.concat(res.data.data.leave_msg_data);
-                            self.leaveSay = res.data.data.leave_say_data;
-                            return true;
+                        if(res.data.code === 0){
+                            if (typeof(res.data.data) !=="undefined") {
+                                if (res.data.data.leave_msg_data.length === 0) {
+                                    self.isHave = false;
+                                    return false;
+                                }
+                                self.isGetData = true;
+                                self.leaveMessageData = self.leaveMessageData.concat(res.data.data.leave_msg_data);
+                                self.leaveSay = res.data.data.leave_say_data;
+                                return true;
+                            }
                         }
                         self.isHave = false;
                     })

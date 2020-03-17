@@ -63,11 +63,11 @@
                 })
                     .then(function (res) {
                         if(res.data.code == 0){
-                            if(res.data.data.length === 0){
+                            let data = res.data.data.articals;
+                            if(data.length === 0){
                                 self.isHave = false;
                                 return ;
                             }
-                            let data = res.data.data.articals;
                             self.isGetArtData = true;
                             if(getStatus === 3) {
                                 self.articalDatas = self.articalDatas.concat(data);
@@ -78,6 +78,7 @@
                     });
             },
             btTypeSelectArtical(typeId, typeName) {
+                this.isHave = true;          //当用户再次点击文章标签查询的时候，设置为true
                 this.typeId = typeId;
                 this.active = typeName;
                 this.page = 0;
@@ -95,8 +96,8 @@
                         self.active = self.articalTypes[0].type_name;
                         self.articalDatas = res.data.data.articals;
                     }
+                    window.addEventListener('scroll',self.handleScrolls);
                 });
-            window.addEventListener('scroll',self.handleScrolls);
         },
     }
 </script>

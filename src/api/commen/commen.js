@@ -1,4 +1,5 @@
-var basePath = 'http://localhost:88/';
+// var basePath = 'http://localhost:88/';                  //线下
+var basePath = 'https://blogback.zhangtengfei-steven.cn/'; //线上
 export default {
     /**
      * 接口路由

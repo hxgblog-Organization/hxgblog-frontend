@@ -192,7 +192,7 @@
                                         'msg_father_id': self.fatherMsgId,
                                         'msg_id': data.data.msg_id,
                                         'nick_name': self.isLogin.nick_name,
-                                        'phone': self.isLogin.phone
+                                        'user_id': self.isLogin.user_id
                                     };
                                 if(! (self.topId === self.fatherMsgId)) {    //显示回复内容列表
                                     self.leaveMessageData[self.topMsgIndex].child_message.splice(self.replayMsgIndex + 1, 0, replayData);
@@ -224,7 +224,6 @@
                                 self.emptyUserInformation();
                                 self.reload();
                             }
-                            console.log(data);
                         });
                 });
 

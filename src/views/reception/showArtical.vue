@@ -206,7 +206,6 @@
                             self.browseTopArtical = data.data.browse_top;
                             self.comments         = data.data.comments;
                             self.articalData      = data.data.artical_data[0];
-                            console.log(self.articalData);
                             self.articalData.arti_content = marked(self.articalData.arti_content);
                             self.praise           = data.data.praise_trample_status.praise;
                             self.trample          = data.data.praise_trample_status.trample;
@@ -294,8 +293,8 @@
                         return false;
                     }
                     self.replayContent = $("#text-comment").val();
-                    if(! this.validateContent(self.replayContent))  return ;
-                    self.replayContent = this.filterContent(self.replayContent);
+                    if(! self.validateContent(self.replayContent))  return ;
+                    self.replayContent = self.filterContent(self.replayContent);
                     obj = $(obj.target).parents(".replay-box");
                     self.POST(ApiPath.artical.sendReplayComment,{
                         top_level_id: self.topId,

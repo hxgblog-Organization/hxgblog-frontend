@@ -18,7 +18,7 @@
 </script>
 
 <style scoped>
-    .show-file{
+    .show-file {
         margin-top: 2%;
         margin-left: 6%;
         width: 85%;

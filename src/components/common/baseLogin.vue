@@ -33,149 +33,154 @@
         </div>
 
     </div>
-    </template>
+</template>
 
-    <script>
-        export default {
-            inject: ['reload'],
-            name: "baseLogin",
-            data() {
-                return {
-                    dialogFormVisible: false,
-                    passwordForm: {
-                        password: '',
-                        phone: '',
-                        captcha_code: '',
-                    },
-                    codeForm: {
-                        phone: '',
-                        sms_code: '',
-                    },
-                    formLabelWidth: '80px',
-                    activeName: 'pwd',
-                    selectIndex: '0',
-                    codeImageUrl: ApiPath.common.getcaptcha,
-                    baseCodeImageUrl: ApiPath.common.getcaptcha,
-                    time: 60,
-                    verification: true,
-                    isBack: false,
-                };
+<script>
+    export default {
+        inject: ['reload'],
+        name: "baseLogin",
+        data() {
+            return {
+                dialogFormVisible: false,
+                passwordForm: {
+                    password: '',
+                    phone: '',
+                    captcha_code: '',
+                },
+                codeForm: {
+                    phone: '',
+                    sms_code: '',
+                },
+                formLabelWidth: '80px',
+                activeName: 'pwd',
+                selectIndex: '0',
+                codeImageUrl: ApiPath.common.getcaptcha,
+                baseCodeImageUrl: ApiPath.common.getcaptcha,
+                time: 60,
+                verification: true,
+                isBack: false,
+            };
+        },
+        props: ['loginUrl'],
+        methods: {
+            sendFatherMsg() {
+                if (this.loginUrl.isBack) {
+                    this.$emit('showByCodeUpdatePwdModel');
+                }
+                this.$emit('closeLoginDiag');
             },
-            props:['loginUrl'],
-            methods: {
-                sendFatherMsg() {
-                    if(this.loginUrl.isBack){
-                        this.$emit('showByCodeUpdatePwdModel');
-                    }
-                    this.$emit('closeLoginDiag');
-                },
-                getVerificationCode() {
-                    let self = this;
-                    if(self.codeForm.phone === ""){
-                        self.$message.error("请你输入手机号");
-                        return false;
-                    }
-                    self.GET(ApiPath.common.getSmsCode, {
-                        phone: self.codeForm.phone
-                    }).then(function (res) {
-                        if(res.data.code === 0){
-                            self.verification = false;              //点击button改变v-show的状态
-                            let auth_timer = setInterval(()=>{      //定时器设置每秒递减
-                                self.time--;                        //递减时间
-                                if(self.time <= 0){
-                                    self.verification = true;       //60s时间结束还原v-show状态并清除定时器
-                                    clearInterval(auth_timer);
-                                    self.time = 60;
-                                }
-                            },1000);
-                            return true;
-                        }
-                        self.$message.error(res.data.msg);          //出现错误
-                        return false;
-                    });
-                },
-                login() {
-                    let self = this;
-                    //账号密码登录
-                    if (self.selectIndex === '0') {
-                        if (!self.loginValidate(self.passwordForm)) return false;
-                        self.POST(self.loginUrl.passwordUrl, self.passwordForm)
-                            .then(function (res) {
-                                if (res.data.code == 0) {
-                                    self.$message.success(res.data.msg);
-                                    self.dialogFormVisible = false;      //隐藏模态框
-                                    store.commit(types.USER, res.data.data);
-                                    self.reload();
-                                    self.sendMessage(res.data.data);     //告诉父组件，用户登录成功
-                                    return true;
-                                } else {
-                                    self.$message.error(res.data.msg);
-                                    self.changeCodeImage();
-                                    return false;
-                                }
-                            });
+            getVerificationCode() {
+                let self = this;
+                if (self.codeForm.phone === "") {
+                    self.$message.error("请你输入手机号");
+                    return false;
+                }
+                self.GET(ApiPath.common.getSmsCode, {
+                    phone: self.codeForm.phone
+                }).then(function (res) {
+                    if (res.data.code === 0) {
+                        self.verification = false;              //点击button改变v-show的状态
+                        let auth_timer = setInterval(() => {      //定时器设置每秒递减
+                            self.time--;                        //递减时间
+                            if (self.time <= 0) {
+                                self.verification = true;       //60s时间结束还原v-show状态并清除定时器
+                                clearInterval(auth_timer);
+                                self.time = 60;
+                            }
+                        }, 1000);
                         return true;
                     }
-                    //短信登录
-                    if(self.verification){
-                        self.$message.error("请你先获取验证码");
-                        return false;
-                    }
-                    if(! self.smsLoginValidate(self.codeForm)) return false;
-                    self.POST(self.loginUrl.smsUrl, self.codeForm)
-                        .then(function (res) {
-                             if(res.data.code === 0){
-                                 self.$message.success(res.data.msg);
-                                 self.dialogFormVisible = false;      //隐藏模态框
-                                 store.commit(types.USER, res.data.data);
-                                 self.reload();
-                                 self.sendMessage(res.data.data);     //告诉父组件，用户登录成功
-                                 return true;
-                             }
-                             self.$message.error(res.data.msg);
-                             self.changeCodeImage();
-                             return false;
-                        })
-                },
-                changeCodeImage() {
-                     this.codeImageUrl = this.baseCodeImageUrl + Math.random();
-                },
-                sendMessage(data) {                    //登录成功
-                    this.$emit("sendMsg", data);
-                },
-                handleClick(tab) {
-                    this.selectIndex = tab.index;
-                    this.changeCodeImage();
-                },
+                    self.$message.error(res.data.msg);          //出现错误
+                    return false;
+                });
             },
-            mounted() {
-                this.isBack = this.loginUrl.isBack;
+            login() {
+                let self = this;
+                //账号密码登录
+                if (self.selectIndex === '0') {
+                    if (!self.loginValidate(self.passwordForm)) return false;
+                    self.POST(self.loginUrl.passwordUrl, self.passwordForm)
+                        .then(function (res) {
+                            if (res.data.code == 0) {
+                                self.$message.success(res.data.msg);
+                                self.dialogFormVisible = false;      //隐藏模态框
+                                store.commit(types.USER, res.data.data);
+                                self.reload();
+                                self.sendMessage(res.data.data);     //告诉父组件，用户登录成功
+                                return true;
+                            } else {
+                                self.$message.error(res.data.msg);
+                                self.changeCodeImage();
+                                return false;
+                            }
+                        });
+                    return true;
+                }
+                //短信登录
+                if (self.verification) {
+                    self.$message.error("请你先获取验证码");
+                    return false;
+                }
+                if (!self.smsLoginValidate(self.codeForm)) return false;
+                self.POST(self.loginUrl.smsUrl, self.codeForm)
+                    .then(function (res) {
+                        if (res.data.code === 0) {
+                            self.$message.success(res.data.msg);
+                            self.dialogFormVisible = false;      //隐藏模态框
+                            store.commit(types.USER, res.data.data);
+                            self.reload();
+                            self.sendMessage(res.data.data);     //告诉父组件，用户登录成功
+                            return true;
+                        }
+                        self.$message.error(res.data.msg);
+                        self.changeCodeImage();
+                        return false;
+                    })
+            },
+            changeCodeImage() {
+                this.codeImageUrl = this.baseCodeImageUrl + Math.random();
+            },
+            sendMessage(data) {                    //登录成功
+                this.$emit("sendMsg", data);
+            },
+            handleClick(tab) {
+                this.selectIndex = tab.index;
                 this.changeCodeImage();
-            }
+            },
+        },
+        mounted() {
+            this.isBack = this.loginUrl.isBack;
+            this.changeCodeImage();
         }
-    </script>
-    <style scoped>
-        #forget-span{
-            cursor: pointer;
-        }
-        .code-btn{
-            margin-left: 5%;
-        }
-        .el-form-item{
-            margin-bottom: 10px;
-        }
-        .get-code{
-            float: right;
-            width: 100px;
-            height: 40px;
-            cursor: pointer;
-        }
-        .tab{
-            margin-left: 60%;
-        }
-        .code-input{
-            width: 40%;
-            float: left;
-        }
-    </style>
+    }
+</script>
+<style scoped>
+    #forget-span {
+        cursor: pointer;
+    }
+
+    .code-btn {
+        margin-left: 5%;
+    }
+
+    .el-form-item {
+        margin-bottom: 10px;
+    }
+
+    .get-code {
+        float: right;
+        width: 100px;
+        height: 40px;
+        cursor: pointer;
+    }
+
+    .tab {
+        margin-left: 60%;
+    }
+
+    .code-input {
+        width: 40%;
+        float: left;
+    }
+</style>
 

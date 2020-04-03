@@ -15,8 +15,9 @@
 </template>
 
 <script>
-    import  '../../assets/waterfall/js/jquery-1.11.1.min';
-    import  { minigrid } from '../../assets/waterfall/js/minigrid';
+    import '../../assets/waterfall/js/jquery-1.11.1.min';
+    import {minigrid} from '../../assets/waterfall/js/minigrid';
+
     export default {
         name: "showPhoto",
         data() {
@@ -26,25 +27,25 @@
                 albumId: 0,
                 is_has_photo: true,
                 getPhotoBaseUrl: ApiPath.common.getAlbumPhoto,
-                data:[],
+                data: [],
                 isHave: true
             }
         },
 
         methods: {
-            getImage(){
+            getImage() {
                 let self = this;
                 self.GET(ApiPath.album.byAlbumIdSelectPhoto, {
                     album_id: self.albumId,
                     page: self.page
                 })
                     .then(function (res) {
-                        if(res.data.data.length === 0){
+                        if (res.data.data.length === 0) {
                             self.isHave = false;
-                            return ;
+                            return;
                         }
                         self.data = res.data.data;
-                        for(var i = 0; i < self.data.length; i++){
+                        for (var i = 0; i < self.data.length; i++) {
                             //生成一个div盒子对象
                             var oDiv = document.createElement("div");
                             oDiv.className = "grid-item";
@@ -55,21 +56,21 @@
                             oDiv.appendChild(oImg);
                             //把div放入大盒子
                             $(".grid").append(oDiv);
-                            (function(oImg){
-                                setTimeout(function(){
+                            (function (oImg) {
+                                setTimeout(function () {
                                     oImg.style.cssText = "opacity:1;transform:scale(1);";
-                                },100);
+                                }, 100);
                             })(oImg); //立马调用
                         }
-                        var done = function (){
+                        var done = function () {
                             var d = document.querySelector('.demo');
                             d.style.opacity = 1;
                         };
-                        minigrid('.grid', '.grid-item', 6, null,done);//调用外部文件
+                        minigrid('.grid', '.grid-item', 6, null, done);//调用外部文件
                     })
             },
             scrollGetImage() {
-                if (! this.isHave) return ;
+                if (!this.isHave) return;
                 //滚动滚动条的时候调用的事件
                 var scrollH = '';//文档高度
                 var scrollT = '';//滚动条高度
@@ -77,7 +78,7 @@
                 scrollH = document.body.scrollHeight;
                 scrollT = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
                 // console.log(_height+" a "+scrollT+" b "+150+"  "+scrollH);
-                if(_height +scrollT + 20 > scrollH) {
+                if (_height + scrollT + 20 > scrollH) {
                     this.page++;
                     this.getImage();
                 }
@@ -87,45 +88,50 @@
             this.albumId = this.$route.query.albumId;
             this.getImage();
             window.addEventListener('scroll', this.scrollGetImage);
-            window.addEventListener('resize', function(){
+            window.addEventListener('resize', function () {
                 minigrid('.grid', '.grid-item');
             });
         }
     }
 </script>
 <style>
-    .album-title-fir{
+    .album-title-fir {
         margin-top: 40px;
         margin-right: 350px;
         font-size: 20px;
         color: darkblue;
     }
-    .album-title-sec{
+
+    .album-title-sec {
         margin-top: 20px;
         margin-right: 50px;
         font-size: 20px;
         color: darkblue;
     }
-    .album-title-thi{
+
+    .album-title-thi {
         margin-top: 20px;
         margin-left: 110px;
         font-size: 20px;
         color: darkblue;
     }
-    .jq22-container{
+
+    .jq22-container {
         min-height: 600px;
         width: 80%;
         margin: auto;
-        border-radius:15px;
-        border-style:ridge;
-        border-width:20px;
+        border-radius: 15px;
+        border-style: ridge;
+        border-width: 20px;
     }
+
     .demo {
         position: relative;
         opacity: 1;
         transition: .2s ease;
         margin-bottom: 60px;
     }
+
     .grid {
         position: relative;
         /* fluffy */
@@ -133,6 +139,7 @@
         width: 98%;
         /* end fluffy */
     }
+
     .grid-item {
         position: absolute;
         top: 0;
@@ -148,7 +155,17 @@
         border: 1px solid #ADADAD;
         overflow: hidden;
     }
-    .grid-item img{opacity:0;transform:scale(0); width: 100%;height:auto; vertical-align: middle; transition: all 1s; -webkit-transition: all 1s;}
+
+    .grid-item img {
+        opacity: 0;
+        transform: scale(0);
+        width: 100%;
+        height: auto;
+        vertical-align: middle;
+        transition: all 1s;
+        -webkit-transition: all 1s;
+    }
+
     /* mq */
     @media (max-width: 600px) {
         .grid-item {

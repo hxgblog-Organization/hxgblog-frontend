@@ -11,8 +11,8 @@
 <script>
     export default {
         name: "thirdParty",
-        props:['isBack'],
-        data () {
+        props: ['isBack'],
+        data() {
             return {
                 isBackLogin: false,
             }
@@ -24,21 +24,24 @@
     }
 </script>
 <style scoped>
-    .login-ul li{
+    .login-ul li {
         list-style: none;
     }
-    .first-li{
+
+    .first-li {
         float: left;
         margin-left: 2%;
     }
-    .login-ul{
+
+    .login-ul {
         margin-bottom: 0;
         margin-top: 4%;
         height: 50px;
         width: 100%;
         margin-left: 2%;
     }
-    .third-login-li{
+
+    .third-login-li {
         float: left;
         margin-left: 12%;
         list-style: none;

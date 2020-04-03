@@ -22,41 +22,45 @@
             </div>
         </div>
         <el-table
-                class="exhibit-table"
-                ref="multipleTable"
-                :data="artTypeData"
-                tooltip-effect="dark"
-                style="width: 100%"
-                @selection-change="handleSelectionChange">
+            class="exhibit-table"
+            ref="multipleTable"
+            :data="artTypeData"
+            tooltip-effect="dark"
+            style="width: 100%"
+            @selection-change="handleSelectionChange">
             <el-table-column
-                    type="selection"
-                    width="55">
+                type="selection"
+                width="55">
             </el-table-column>
             <el-table-column
-                    prop="type_name"
-                    label="名字"
-                    width="200">
+                prop="type_name"
+                label="名字"
+                width="200">
             </el-table-column>
             <el-table-column
-                    prop="type_count"
-                    label="文章数量"
-                    width="150">
+                prop="type_count"
+                label="文章数量"
+                width="150">
             </el-table-column>
             <el-table-column
-                    prop="created_at"
-                    label="创建时间"
-                    width="150">
+                prop="created_at"
+                label="创建时间"
+                width="150">
             </el-table-column>
             <el-table-column
-                    fixed="right"
-                    label="操作"
-                    width="200">
+                fixed="right"
+                label="操作"
+                width="200">
                 <template slot-scope="scope">
                     <el-button
-                            type="text"
-                            size="small">
-                        <el-button type="primary" icon="el-icon-edit"   size="mini" @click="showUpdateTypeDiag(scope.$index)">编辑</el-button>
-                        <el-button type="danger"  icon="el-icon-delete" size="mini" @click="beforedeleteArtType(artTypeData[scope.$index].type_id)">删除</el-button>
+                        type="text"
+                        size="small">
+                        <el-button type="primary" icon="el-icon-edit" size="mini"
+                                   @click="showUpdateTypeDiag(scope.$index)">编辑
+                        </el-button>
+                        <el-button type="danger" icon="el-icon-delete" size="mini"
+                                   @click="beforedeleteArtType(artTypeData[scope.$index].type_id)">删除
+                        </el-button>
                     </el-button>
                 </template>
             </el-table-column>
@@ -67,13 +71,13 @@
         </div>
         <div class="page">
             <el-pagination
-                    @size-change="handleSizeChange"
-                    @current-change="handleCurrentChange"
-                    :current-page="currentPages"
-                    :page-sizes="[2, 10, 50, 100]"
-                    :page-size="pageSize"
-                    layout="total, sizes, prev, pager, next, jumper"
-                    :total="total">
+                @size-change="handleSizeChange"
+                @current-change="handleCurrentChange"
+                :current-page="currentPages"
+                :page-sizes="[2, 10, 50, 100]"
+                :page-size="pageSize"
+                layout="total, sizes, prev, pager, next, jumper"
+                :total="total">
             </el-pagination>
         </div>
         <el-dialog :title="editArtTypeTitle" :visible.sync="editTypeVisible" width="350px">
@@ -95,8 +99,8 @@
     export default {
         name: "showArtType",
         inject: ['reload'],
-        data(){
-            return{
+        data() {
+            return {
                 msg: 'ArtType',
                 artTypeData: [],
                 timeSection: [],
@@ -124,11 +128,11 @@
             },
             handleSelectionChange(val) {
                 this.artTypeIdData = [];   //每次添加前，先清空之前的。
-                for(let i = 0; i < val.length; i++) this.artTypeIdData[i] = val[i].type_id;
+                for (let i = 0; i < val.length; i++) this.artTypeIdData[i] = val[i].type_id;
             },
             handleCurrentChange(val) {
                 this.currentPages = val;
-                if(this.timeSection.length !== 0) return this.byTimeSelectArtTypeInfo();
+                if (this.timeSection.length !== 0) return this.byTimeSelectArtTypeInfo();
                 this.getArtTypeData();
             },
             handleSizeChange(val) {
@@ -140,9 +144,9 @@
                     total: self.pageSize,
                     page: self.currentPages,
                 }).then(function (res) {
-                    if(res.data.code === 0){
+                    if (res.data.code === 0) {
                         self.artTypeData = res.data.data.data;
-                        self.total       = res.data.data.total;
+                        self.total = res.data.data.total;
                     }
                 })
             },
@@ -151,7 +155,7 @@
                 self.POST(ApiPath.matype.addArtType, {
                     type_name: self.newArtTypeName
                 }).then(function (res) {
-                    if(res.data.code === 0){
+                    if (res.data.code === 0) {
                         self.$message.success(res.data.msg);
                         self.reload();
                         return true;
@@ -172,7 +176,7 @@
                     type_id: self.typeId,
                     type_name: self.newArtTypeName
                 }).then(function (res) {
-                    if(res.data.code === 0){
+                    if (res.data.code === 0) {
                         self.$message.success(res.data.msg);
                         self.reload();
                         return true;
@@ -184,7 +188,7 @@
             showUpdateTypeDiag(index) {
                 this.newArtTypeName = "";
                 this.editTypeVisible = true;
-                if(index === -1) {
+                if (index === -1) {
                     this.isUpdate = false;
                     this.editArtTypeTitle = '添加文章类型';
                     return true;
@@ -205,18 +209,18 @@
                     page: self.currentPages,
                     time: time
                 }).then(function (res) {
-                    if(res.data.code === 0){
+                    if (res.data.code === 0) {
                         self.artTypeData = res.data.data.data;
-                        self.total       = res.data.data.total;
+                        self.total = res.data.data.total;
                     }
                 })
             },
             deleteArtType() {
-                let self =  this;
+                let self = this;
                 self.POST(ApiPath.matype.deleteArtType, {
                     type_id_data: self.artTypeIdData,
                 }).then(function (res) {
-                    if(res.data.code === 0){
+                    if (res.data.code === 0) {
                         self.$message.success(res.data.msg);
                         self.reload();
                         return true;
@@ -233,38 +237,46 @@
 </script>
 
 <style scoped>
-    .add-art-type{
+    .add-art-type {
         margin-left: 78%;
     }
-    .exhibit-table{
+
+    .exhibit-table {
         width: 80%;
         margin-top: 2%;
     }
-    .page{
+
+    .page {
         margin-top: 20px;
     }
-    .operate{
+
+    .operate {
         margin-left: 70%;
         margin-top: 20px;
     }
-    .block{
+
+    .block {
         margin-left: 28%;
     }
-    .exhibit-title{
+
+    .exhibit-title {
         margin: 20px 0 0 0;;
     }
-    .show-art-type{
+
+    .show-art-type {
         margin: 79px 129px 0 230px;
         min-height: 800px;
         width: 60%;
     }
-    .art{
+
+    .art {
         float: left;
         margin-top: 10px;
         /*align-items: center;*/
         border-right: 1px #d4d8d7 solid;
     }
-    .headers{
+
+    .headers {
         overflow: hidden;
     }
 

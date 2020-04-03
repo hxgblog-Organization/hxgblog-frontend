@@ -1,7 +1,8 @@
 <template>
     <div class="login-container">
         <h3 class="login-title">坏小哥博客后台登录</h3>
-        <baseLogin :loginUrl="loginUrl" ref="baseLogin" @sendMsg="getLoginStatus" @showByCodeUpdatePwdModel="showByCodeUpdatePwd"></baseLogin>
+        <baseLogin :loginUrl="loginUrl" ref="baseLogin" @sendMsg="getLoginStatus"
+                   @showByCodeUpdatePwdModel="showByCodeUpdatePwd"></baseLogin>
         <byCodeUpdatePwd ref="byCodeUpdatePwd"></byCodeUpdatePwd>
     </div>
 </template>
@@ -28,7 +29,7 @@
 
         },
         mounted() {
-            $('body').css('background-color','#000');
+            $('body').css('background-color', '#000');
         }
     }
 </script>
@@ -39,22 +40,26 @@
         background-color: #252323;
         color: white;
     }
-    .el-tabs__item, .el-form-item__label{
+
+    .el-tabs__item, .el-form-item__label {
         color: #37ccca;
     }
 </style>
-<style  scoped>
+<style scoped>
 
-    .get-code{
+    .get-code {
         float: right;
     }
-    .tab{
+
+    .tab {
         margin-left: 60%;
     }
-    .code-input{
+
+    .code-input {
         width: 50%;
         float: left;
     }
+
     .login-container {
         -webkit-border-radius: 5px;
         border-radius: 5px;
@@ -67,9 +72,11 @@
         box-shadow: 0 0 25px #cac6c6;
         background-color: #151515;
     }
+
     .remember {
         margin: 0 0 25px 0;
     }
+
     .login-title {
         margin: 0 0 24px 0;;
         color: white;

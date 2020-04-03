@@ -1,7 +1,8 @@
 <template>
     <div>
         <el-dialog width="450px" title="登录" :visible.sync="dialogFormVisible">
-            <baseLogin :loginUrl="loginUrl" ref="baseLogin" @sendMsg = "sendMsg" @closeLoginDiag="closeLoginDiag"></baseLogin>
+            <baseLogin :loginUrl="loginUrl" ref="baseLogin" @sendMsg="sendMsg"
+                       @closeLoginDiag="closeLoginDiag"></baseLogin>
         </el-dialog>
     </div>
 </template>
@@ -42,21 +43,24 @@
     }
 </script>
 <style>
-    .el-dialog__body{
+    .el-dialog__body {
         padding: 0 30px 20px !important;
     }
+
     /*.el-dialog{*/
     /*    width: 30% !important;*/
     /*}*/
 </style>
 <style scoped>
-    .get-code{
+    .get-code {
         float: right;
     }
-    .tab{
+
+    .tab {
         margin-left: 60%;
     }
-    .code-input{
+
+    .code-input {
         width: 50%;
         float: left;
     }

@@ -13,9 +13,9 @@
         created() {
             let self = this;
             //前台登录,但是后台没有登录
-            if(self.checkFrontLogin()){
+            if (self.checkFrontLogin()) {
                 self.checkBackLogin().then(function (res) {
-                    if(res) return true;
+                    if (res) return true;
                     self.$message.warning("请你重新登录");
                     self.emptyUserInformation();
                     self.reload();

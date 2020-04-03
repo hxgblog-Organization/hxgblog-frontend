@@ -15,9 +15,9 @@
         position: fixed;
         text-align: center;
         line-height: 23px;
-        border-top: #E8E8E8 1px solid ;
-        width:1000px;
-        margin:auto;
+        border-top: #E8E8E8 1px solid;
+        width: 1000px;
+        margin: auto;
         left: 0;
         right: 0;
         top: 97%;

@@ -1,7 +1,7 @@
 <template>
-    <div class="show-artical">
+    <div class="show-article">
         <div class="headers">
-            <router-link to="/admin/editorArtical" class="add-artical-btn">
+            <router-link to="/admin/editorArticle" class="add-article-btn">
                 <el-button type="primary"><i class="el-icon-plus el-icon--left">添加文章</i></el-button>
             </router-link>
             <span class="art">文章（{{ total }}）</span>
@@ -15,9 +15,9 @@
                                 end-placeholder="结束日期"
                                 default-value="2019-3-01">
                 </el-date-picker>
-                <span class="artical-name">文章名字：</span>
-                <el-input placeholder="请输入文章名字" v-model="articalName" @keyup.enter.native=""></el-input>
-                <el-button @click="selectArticalData">搜索</el-button>
+                <span class="article-name">文章名字：</span>
+                <el-input placeholder="请输入文章名字" v-model="articleName" @keyup.enter.native=""></el-input>
+                <el-button @click="selectArticleData">搜索</el-button>
                 <el-popover
                     placement="top-start"
                     width="500"
@@ -31,7 +31,7 @@
                             </el-checkbox-group>
                         </el-form-item>
                         <el-form-item>
-                            <el-button type="primary" @click="byTypeSelectArtical">确定</el-button>
+                            <el-button type="primary" @click="byTypeSelectArticle">确定</el-button>
                             <el-button @click="cancel">取消</el-button>
                         </el-form-item>
                     </el-form>
@@ -43,7 +43,7 @@
         </div>
         <el-table
             ref="multipleTable"
-            :data="articalData"
+            :data="articleData"
             tooltip-effect="dark"
             style="width: 100%"
             @selection-change="handleSelectionChange">
@@ -90,10 +90,10 @@
                         type="text"
                         size="small">
                         <el-button type="primary" icon="el-icon-edit" size="mini"
-                                   @click="updateArtical(articalData[scope.$index].arti_id)">修改
+                                   @click="updateArticle(articleData[scope.$index].arti_id)">修改
                         </el-button>
                         <el-button type="danger" icon="el-icon-delete" size="mini"
-                                   @click="beforedeleteArtical(articalData[scope.$index].arti_id)">删除
+                                   @click="beforedeleteArticle(articleData[scope.$index].arti_id)">删除
                         </el-button>
                     </el-button>
                 </template>
@@ -101,7 +101,7 @@
         </el-table>
         <div class="operate">
             <el-button @click="toggleSelection">取消选择</el-button>
-            <el-button @click="deleteArtical">删除</el-button>
+            <el-button @click="deleteArticle">删除</el-button>
         </div>
         <div class="page">
             <el-pagination
@@ -124,9 +124,9 @@
         data() {
             return {
                 timeSection: '',
-                articalData: [],
+                articleData: [],
                 multipleSelection: [],
-                articalName: '',
+                articleName: '',
                 isIndeterminate: true,
                 artTypeGroup: [],
                 page: 0,
@@ -151,18 +151,18 @@
                     this.$refs.multipleTable.clearSelection();
                 }
             },
-            beforedeleteArtical(artId) {
+            beforedeleteArticle(artId) {
                 this.art_id_data = [];
                 this.art_id_data.push(artId);
-                this.deleteArtical();
+                this.deleteArticle();
             },
             handleCurrentChange(val) {
                 this.currentPages = val;
                 if (this.isTypeSelect) {
-                    this.byTypeSelectArtical();
+                    this.byTypeSelectArticle();
                     return true;
                 }
-                (this.timeSection.length === 0 && this.articalName === '') ? this.getArtifcalData() : this.selectArticalData();
+                (this.timeSection.length === 0 && this.articleName === '') ? this.getArtifcalData() : this.selectArticleData();
             },
             handleSizeChange(val) {
                 this.pageSize = val;
@@ -174,58 +174,58 @@
             getArtifcalData() {
                 let self = this;
                 self.isTypeSelect = false;
-                self.GET(ApiPath.maartical.getArtical, {
+                self.GET(ApiPath.maarticle.getArticle, {
                     total: self.pageSize,
                     page: self.currentPages
                 }).then(function (res) {
                     let data = res.data;
                     if (data.code === 0) {
                         self.total = data.data.art_data.total;
-                        self.articalData = data.data.art_data.data;
+                        self.articleData = data.data.art_data.data;
                         self.artTypeGroup = data.data.art_type_data;
                     }
                 })
             },
-            selectArticalData() {
+            selectArticleData() {
                 let self = this;
                 self.isTypeSelect = false;
                 if (self.timeSection.length !== 0) {
                     self.timeSection[0] = self.timeSection[0] / 1000;
                     self.timeSection[1] = self.timeSection[1] / 1000;
                 }
-                self.GET(ApiPath.maartical.combinateSelectArtical, {
+                self.GET(ApiPath.maarticle.combinateSelectArticle, {
                     time: self.timeSection,
-                    art_name: self.articalName,
+                    art_name: self.articleName,
                     total: self.pageSize,
                     page: self.currentPages
                 }).then(function (res) {
                     let data = res.data;
                     if (data.code === 0) {
                         self.total = data.data.total;
-                        self.articalData = data.data.data;
-                        console.log(self.articalData);
+                        self.articleData = data.data.data;
+                        console.log(self.articleData);
                     }
 
                 })
             },
-            byTypeSelectArtical() {
+            byTypeSelectArticle() {
                 let self = this;
                 self.isTypeSelect = true;
-                self.GET(ApiPath.maartical.byTypeSelectArtical, {
+                self.GET(ApiPath.maarticle.byTypeSelectArticle, {
                     type_id_data: self.typeIdData,
                     total: self.pageSize,
                     page: self.currentPages
                 }).then(function (res) {
                     let data = res.data;
                     if (data.code === 0) {
-                        self.articalData = data.data.art_data;
+                        self.articleData = data.data.art_data;
                         self.total = data.data.total;
                     }
                 })
             },
-            deleteArtical() {
+            deleteArticle() {
                 let self = this;
-                self.POST(ApiPath.maartical.deleteArtical, {art_id_data: self.art_id_data})
+                self.POST(ApiPath.maarticle.deleteArticle, {art_id_data: self.art_id_data})
                     .then(function (res) {
                         if (res.data.code === 0) {
                             self.$message.success(res.data.msg);
@@ -235,7 +235,7 @@
                         return false;
                     })
             },
-            updateArtical(art_id) {
+            updateArticle(art_id) {
                 this.$router.push({path: `editorArt/${art_id}`});
             },
         },
@@ -250,11 +250,11 @@
         width: 25%;
     }
 
-    .add-artical-btn {
+    .add-article-btn {
         float: right;
     }
 
-    .show-artical {
+    .show-article {
         min-height: 800px;
         margin-top: 5%;
         margin-left: 10%;
@@ -270,7 +270,7 @@
         width: 20%;
     }
 
-    .artical-name {
+    .article-name {
         margin-left: 10px;
     }
 

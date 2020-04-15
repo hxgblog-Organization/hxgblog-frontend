@@ -1,19 +1,19 @@
 import homePage from './reception/homePage'
-import artical from './reception/artical'
+import article from './reception/article'
 import common from './commen/commen'
 import album from './reception/album'
 import leaveMessage from './reception/leaveMessage'
-import maartical from './backstage/maartical'
+import maarticle from './backstage/maarticle'
 import maalbum from './backstage/maalbum'
 import maexhibit from './backstage/maexhibit'
 import matype from './backstage/matype'
 export default {
     homePage,
-    artical,
+    article,
     common,
     album,
     leaveMessage,
-    maartical,
+    maarticle,
     maalbum,
     maexhibit,
     matype

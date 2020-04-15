@@ -5,22 +5,22 @@
                 <h2 class="ctitle"><b>学无止境</b> <span>不要轻易放弃。学习成长的路上，我们长路漫漫，只因学无止境。</span></h2>
                 <div class="rnav">
                     <ul>
-                        <li v-for="type in articalTypes"><a :class="{active : active == type.type_name}"
-                                                            @click="btTypeSelectArtical(type.type_id, type.type_name)">{{
+                        <li v-for="type in articleTypes"><a :class="{active : active == type.type_name}"
+                                                            @click="btTypeSelectArticle(type.type_id, type.type_name)">{{
                             type.type_name}}</a></li>
                     </ul>
                 </div>
                 <ul class="cbp_tmtimeline">
-                    <li v-for="artical in articalDatas">
-                        <time class="cbp_tmtime"><span>{{ artical.monthDay }}</span><span>{{ artical.years }}</span>
+                    <li v-for="article in articleDatas">
+                        <time class="cbp_tmtime"><span>{{ article.monthDay }}</span><span>{{ article.years }}</span>
                         </time>
                         <div class="cbp_tmicon"></div>
                         <div class="cbp_tmlabel" data-scroll-reveal="enter right over 1s">
-                            <h2>{{ artical.arti_title }}</h2>
+                            <h2>{{ article.arti_title }}</h2>
                             <p><span class="blogpic"><a href="#"><img
-                                :src="getArticalCover + artical.arti_cover"></a></span><span>{{ artical.arti_content }}</span>
+                                :src="getArticleCover + article.arti_cover"></a></span><span>{{ article.arti_content }}</span>
                             </p>
-                            <router-link :to="{ name: 'showArtical', query: { artId: artical.arti_id } }"
+                            <router-link :to="{ name: 'showArticle', query: { artId: article.arti_id } }"
                                          target="_blank"
                                          class="readmore">阅读全文&gt;&gt;
                             </router-link>
@@ -34,17 +34,17 @@
 
 <script>
     export default {
-        name: "artical",
+        name: "article",
         inject: ['reload'],
         data() {
             return {
-                articalTypes: [],
-                articalDatas: [],
+                articleTypes: [],
+                articleDatas: [],
                 typeId: 0,
                 active: '',
                 page: 0,
                 isHave: true,
-                getArticalCover: ApiPath.common.getArticalCover,
+                getArticleCover: ApiPath.common.getArticleCover,
                 isGetArtData: true,
             }
         },
@@ -59,50 +59,50 @@
                 // console.log(windowHeight + "--" + srcollTop + "---" + srcollH);
                 if (srcollTop + windowHeight + (this.page * 210) + 1 > srcollH) {
                     this.page++;
-                    this.getArtical(3);
+                    this.getArticle(3);
                 }
             },
-            getArtical(getStatus) {
+            getArticle(getStatus) {
                 let self = this;
                 self.isGetArtData = false;
-                self.GET(ApiPath.artical.typeSelectArtical, {
+                self.GET(ApiPath.article.typeSelectArticle, {
                     'type_id': self.typeId,
                     'page': self.page
                 })
                     .then(function (res) {
                         if (res.data.code == 0) {
-                            let data = res.data.data.articals;
+                            let data = res.data.data.articles;
                             if (data.length === 0) {
                                 self.isHave = false;
                                 return;
                             }
                             self.isGetArtData = true;
                             if (getStatus === 3) {
-                                self.articalDatas = self.articalDatas.concat(data);
+                                self.articleDatas = self.articleDatas.concat(data);
                                 return;
                             }
-                            self.articalDatas = data;
+                            self.articleDatas = data;
                         }
                     });
             },
-            btTypeSelectArtical(typeId, typeName) {
+            btTypeSelectArticle(typeId, typeName) {
                 this.isHave = true;          //当用户再次点击文章标签查询的时候，设置为true
                 this.typeId = typeId;
                 this.active = typeName;
                 this.page = 0;
-                this.articalDatas = [];
-                this.getArtical(2);
+                this.articleDatas = [];
+                this.getArticle(2);
             },
         },
         mounted() {
             let self = this;
-            self.GET(ApiPath.artical.showArticalPage)
+            self.GET(ApiPath.article.showArticlePage)
                 .then(function (res) {
                     if (res.data.code == 0) {
-                        self.articalTypes = res.data.data.art_types;
-                        self.typeId = self.articalTypes[0].type_id;
-                        self.active = self.articalTypes[0].type_name;
-                        self.articalDatas = res.data.data.articals;
+                        self.articleTypes = res.data.data.art_types;
+                        self.typeId = self.articleTypes[0].type_id;
+                        self.active = self.articleTypes[0].type_name;
+                        self.articleDatas = res.data.data.articles;
                     }
                     window.addEventListener('scroll', self.handleScrolls);
                 });

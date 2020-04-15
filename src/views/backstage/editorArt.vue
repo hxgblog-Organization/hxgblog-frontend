@@ -1,12 +1,12 @@
 <template>
     <div class="contents">
         <div class="add">
-            <el-form ref="form" :model="articalForm" label-width="90px">
+            <el-form ref="form" :model="articleForm" label-width="90px">
                 <el-form-item label="文章题目:" :required="true">
-                    <el-input class="art-title" v-model="articalForm.arti_title"></el-input>
+                    <el-input class="art-title" v-model="articleForm.arti_title"></el-input>
                 </el-form-item>
                 <el-form-item label="文章类型:" :required="true">
-                    <el-checkbox-group v-model="articalForm.arti_type">
+                    <el-checkbox-group v-model="articleForm.arti_type">
                         <el-checkbox-button v-for="type in artTypeData" :label="type.type_id" :key="type.type_id">{{
                             type.type_name }}
                         </el-checkbox-button>
@@ -19,19 +19,19 @@
                         :show-file-list="false"
                         :auto-upload="false"
                         accept=".jpeg,.jpg,.png,.PNG,.JPEG,.JPG"
-                        :on-change="addArticalCover"
+                        :on-change="addArticleCover"
                         :before-upload="beforeCoverUpload">
                         <img v-if="artCoverUrl" :src="artCoverUrl" class="avatar art-cover-img"/>
                         <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                     </el-upload>
                     <el-button v-if="isUpdateCover" @click="cancelUpdateCover">取消更改封面</el-button>
                 </el-form-item>
-                <mavon-editor v-model="articalForm.arti_content" :toolbars="toolbars"/>
+                <mavon-editor v-model="articleForm.arti_content" :toolbars="toolbars"/>
                 <el-form-item class="submit">
-                    <el-button v-if="isAdd" type="primary" @click="addArticalInfor">添加</el-button>
+                    <el-button v-if="isAdd" type="primary" @click="addArticleInfor">添加</el-button>
                     <el-button v-else type="primary" @click="updateArtInfor">修改</el-button>
                     <el-button>
-                        <router-link to="/admin/manageArtical">取消</router-link>
+                        <router-link to="/admin/manageArticle">取消</router-link>
                     </el-button>
                 </el-form-item>
             </el-form>
@@ -48,7 +48,7 @@
                 isAdd: false,
                 isUpdateCover: false,
                 artTypeData: [],
-                articalForm: {
+                articleForm: {
                     arti_id: '',
                     arti_title: "",
                     arti_type: [],
@@ -58,7 +58,7 @@
                 },
                 artCoverUrl: '',
                 formWidth: '120px',
-                getArticalCover: ApiPath.common.getArticalCover,
+                getArticleCover: ApiPath.common.getArticleCover,
                 artFormData: new FormData(),
                 originalArtCoverUrl: '',
                 toolbars: {
@@ -87,7 +87,7 @@
             }
         },
         methods: {
-            addArticalCover(file) {
+            addArticleCover(file) {
                 let imageFile = file.raw;
                 if (!this.beforeCoverUpload(imageFile)) return false;
                 this.isUpdateCover = true;
@@ -100,7 +100,7 @@
             },
             getArtInformation() {
                 let self = this;
-                self.GET(ApiPath.maartical.getAloneArtical, {
+                self.GET(ApiPath.maarticle.getAloneArticle, {
                     art_id: self.art_id,
                 }).then(function (res) {
                     if (res.data.code === 3) {
@@ -111,38 +111,38 @@
                         return false;
                     }
                     let data = res.data.data;
-                    self.articalForm.arti_title = data.artical[0].arti_title;
-                    self.articalForm.arti_type = data.art_type;
-                    self.articalForm.orig_arti_type = data.art_type;
-                    self.articalForm.arti_id = data.artical[0].arti_id;
-                    self.articalForm.arti_content = data.artical[0].arti_content;
-                    self.articalForm.arti_cover = data.artical[0].arti_cover;
+                    self.articleForm.arti_title = data.article[0].arti_title;
+                    self.articleForm.arti_type = data.art_type;
+                    self.articleForm.orig_arti_type = data.art_type;
+                    self.articleForm.arti_id = data.article[0].arti_id;
+                    self.articleForm.arti_content = data.article[0].arti_content;
+                    self.articleForm.arti_cover = data.article[0].arti_cover;
                     self.artTypeData = data.art_type_data;
-                    self.originalArtCoverUrl = data.artical[0].arti_cover;
-                    self.artCoverUrl = self.getArticalCover + self.originalArtCoverUrl;
+                    self.originalArtCoverUrl = data.article[0].arti_cover;
+                    self.artCoverUrl = self.getArticleCover + self.originalArtCoverUrl;
                 })
             },
             cancelUpdateCover() {
                 this.artFormData.delete('art_cover');
-                this.artCoverUrl = this.getArticalCover + this.originalArtCoverUrl;
+                this.artCoverUrl = this.getArticleCover + this.originalArtCoverUrl;
                 this.isUpdateCover = false;
             },
-            addArticalInfor() {
+            addArticleInfor() {
                 let self = this;
                 if (!self.artFormData.has('art_cover')) return self.$message.error("你没有上传文章封面");
-                if (!self.validateArticalInfor()) return false;
-                delete self.articalForm.orig_arti_type;
-                delete self.articalForm.arti_id;
-                delete self.articalForm.arti_cover;
-                self.articalForm.arti_content = self.filterContent(self.articalForm.arti_content);
-                $.each(self.articalForm, function (i, val) {
+                if (!self.validateArticleInfor()) return false;
+                delete self.articleForm.orig_arti_type;
+                delete self.articleForm.arti_id;
+                delete self.articleForm.arti_cover;
+                self.articleForm.arti_content = self.filterContent(self.articleForm.arti_content);
+                $.each(self.articleForm, function (i, val) {
                     self.artFormData.append(i, val);
                 });
-                self.POST(ApiPath.maartical.addArtical, self.artFormData)
+                self.POST(ApiPath.maarticle.addArticle, self.artFormData)
                     .then(function (res) {
                         if (res.data.code === 0) {
                             self.$message.success(res.data.msg);
-                            self.$router.push({path: '/admin/manageArtical'});
+                            self.$router.push({path: '/admin/manageArticle'});
                             return true;
                         }
                         self.$message.error(res.data.msg);
@@ -151,13 +151,13 @@
             },
             updateArtInfor() {
                 let self = this;
-                if (!self.validateArticalInfor()) return false;
-                $.each(self.articalForm, function (i, val) {
+                if (!self.validateArticleInfor()) return false;
+                $.each(self.articleForm, function (i, val) {
                     self.artFormData.append(i, val);
                 });
-                self.articalForm.arti_content = self.filterContent(self.articalForm.arti_content);
+                self.articleForm.arti_content = self.filterContent(self.articleForm.arti_content);
                 self.artFormData.append('is_update_cover', self.isUpdateCover);
-                self.POST(ApiPath.maartical.updateArtical, self.artFormData)
+                self.POST(ApiPath.maarticle.updateArticle, self.artFormData)
                     .then(function (res) {
                         if (res.data.code === 0) {
                             self.$message.success(res.data.msg);
@@ -167,12 +167,12 @@
                         return false;
                     })
             },
-            validateArticalInfor() {
-                if (this.articalForm.arti_title.length > 100) {
+            validateArticleInfor() {
+                if (this.articleForm.arti_title.length > 100) {
                     this.$message.error("文章题目过长");
                     return false;
                 }
-                if (this.articalForm.arti_type.length === 0) {
+                if (this.articleForm.arti_type.length === 0) {
                     this.$message.error("你没有选择文章类型");
                     return false;
                 }
@@ -193,7 +193,7 @@
                 return true;
             }
             self.isAdd = true;                               //是添加文章
-            self.GET(ApiPath.common.getArticalAllType).then(function (res) {
+            self.GET(ApiPath.common.getArticleAllType).then(function (res) {
                 if (res.data.code === 0) {
                     self.artTypeData = res.data.data;
                 }

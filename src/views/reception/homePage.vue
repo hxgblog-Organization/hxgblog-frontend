@@ -38,15 +38,15 @@
                 <p>文章<span>推荐</span></p>
             </h2>
             <div class="bloglist left">
-                <div v-for="item in articalData" :key="item.id" class="article-info">
+                <div v-for="item in articleData" :key="item.id" class="article-info">
                     <h4>
                         <span>{{ item.arti_title }}</span>
                         <span class="date">{{ item.years }}-{{item.monthDay }}</span>
                     </h4>
-                    <figure><img :src="getArticalCover + item.arti_cover"></figure>
+                    <figure><img :src="getArticleCover + item.arti_cover"></figure>
                     <ul>
                         <p>{{ item.arti_content }}</p>
-                        <router-link :to="{ name: 'showArtical', query: {artId: item.arti_id}}" title="/"
+                        <router-link :to="{ name: 'showArticle', query: {artId: item.arti_id}}" title="/"
                                      target="_blank" class="readmore">阅读全文>>
                         </router-link>
                     </ul>
@@ -106,7 +106,7 @@
                         <p>点击<span>排行</span></p>
                     </h3>
                     <ul class="paih">
-                        <li v-for="items in browseTop" :key="items.id"><a @click="showArtical(items.arti_id)"
+                        <li v-for="items in browseTop" :key="items.id"><a @click="showArticle(items.arti_id)"
                                                                           target="_blank">{{ items.arti_title }}</a>
                         </li>
                     </ul>
@@ -130,13 +130,13 @@
         name: "homePage",
         data() {
             return {
-                articalData: {},
+                articleData: {},
                 browseTop: {},
                 weatherData: [],
                 todayWeather: {},
                 width: 100,
                 height: 236,
-                getArticalCover: ApiPath.common.getArticalCover,
+                getArticleCover: ApiPath.common.getArticleCover,
                 getPhotoUrl: ApiPath.common.getAlbumPhoto,
                 weatherUrl: 'https://www.tianqi.com/',
                 testMusicData: [],
@@ -154,7 +154,7 @@
                     .then(function (res) {
                         if (res.data.code == 0) {
                             let data = res.data.data;
-                            self.articalData = data.new_artical;
+                            self.articleData = data.new_article;
                             self.browseTop = data.browse_top;
                             self.photoData = data.new_photo;
                             self.exhibitData = data.exhibit_data;
@@ -213,8 +213,8 @@
                 });
 
             },
-            showArtical(art_id) {
-                let path = `/showArtical?artId=${art_id}`;
+            showArticle(art_id) {
+                let path = `/showArticle?artId=${art_id}`;
                 window.open(path, '_blank');
             }
         },

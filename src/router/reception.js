@@ -10,15 +10,15 @@ export default [
                 component: resolve => void (require(['../views/reception/homePage.vue'], resolve))
             },
             {
-                path: '/artical',
-                name: 'artical',
-                component: resolve => void (require(['../views/reception/artical.vue'], resolve)),
+                path: '/article',
+                name: 'article',
+                component: resolve => void (require(['../views/reception/article.vue'], resolve)),
 
             },
             {
-                path: '/showArtical',
-                name: 'showArtical',
-                component: resolve => void (require(['../views/reception/showArtical.vue'], resolve))
+                path: '/showArticle',
+                name: 'showArticle',
+                component: resolve => void (require(['../views/reception/showArticle.vue'], resolve))
 
             },
             {

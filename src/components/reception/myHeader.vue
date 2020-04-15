@@ -9,7 +9,7 @@
                     <router-link target="_blank" to="/home" id="main-page">首页<span class="en">Home</span></router-link>
                 </li>
                 <li>
-                    <router-link target="_blank" to="artical" id="artical">文章<span class="en">Article</span></router-link>
+                    <router-link target="_blank" to="article" id="article">文章<span class="en">Article</span></router-link>
                 </li>
                 <li>
                     <router-link target="_blank" to="album" id="album">相册<span class="en">Album</span></router-link>
@@ -162,8 +162,8 @@
                     let path = this.$route.matched[1].path;
                     if (path === "/home") {
                         $('#main-page').css('color', 'deepskyblue');
-                    } else if (path === "/artical" || path === "/showArtical") {
-                        $('#artical').css('color', 'deepskyblue');
+                    } else if (path === "/article" || path === "/showArticle") {
+                        $('#article').css('color', 'deepskyblue');
                     } else if (path === "/album" || path === "/showPhoto") {
                         $('#album').css('color', 'deepskyblue');
                     } else if (path === "/messageBoard") {

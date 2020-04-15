@@ -1,6 +1,6 @@
 <template>
-    <div class="show-artical">
-        <article class="main-artical">
+    <div class="show-article">
+        <article class="main-article">
             <div class="l_box">
                 <div class="search">
                     <audio :src="musicFileUrl" id="music-audio" autoplay="autoplay" controls="controls"></audio>
@@ -19,31 +19,31 @@
             </div>
             <div class="infosbox">
                 <div class="newsview">
-                    <h3 class="news_title">{{ articalData.arti_title }}</h3>
+                    <h3 class="news_title">{{ articleData.arti_title }}</h3>
                     <div class="bloginfo">
                         <ul>
                             <li class="author">作者：<span>坏小哥</span></li>
                             <li class="lmname"><span>学无止境</span></li>
-                            <li class="timer">时间：{{ articalData.created_at }}</li>
-                            <li class="view">{{ articalData.arti_browse }}人已阅读</li>
+                            <li class="timer">时间：{{ articleData.created_at }}</li>
+                            <li class="view">{{ articleData.arti_browse }}人已阅读</li>
                         </ul>
                     </div>
                     <div class="tags">
-                        <span v-for="type in articalTypes" target="_blank">{{ type.type_name }}</span> &nbsp;
+                        <span v-for="type in articleTypes" target="_blank">{{ type.type_name }}</span> &nbsp;
                     </div>
                     <div class="news_about"><strong>简介</strong>{{ artSay }}</div>
                     <div class="news_con">
-                        <div id="artical" v-highlight v-html="articalData.arti_content"></div>
+                        <div id="article" v-highlight v-html="articleData.arti_content"></div>
                         <div id="ico-div">
                             <span v-if="praise" @click="praiseOrTrample(1, $event)"
                                   class="hand-ico light-praise fa fa-thumbs-o-up"></span>
                             <span v-else @click="praiseOrTrample(1, $event)" class="hand-ico fa fa-thumbs-o-up"></span>
-                            <span>&nbsp;: {{ articalData.arti_praise_points }}</span>
+                            <span>&nbsp;: {{ articleData.arti_praise_points }}</span>
                             <span v-if="trample" @click="praiseOrTrample(2, $event)" id="trample-ico"
                                   class="hand-ico praise fa fa-thumbs-o-down"></span>
                             <span v-else @click="praiseOrTrample(2, $event)"
                                   class="hand-ico praise fa fa-thumbs-o-down"></span>
-                            <span>&nbsp;: {{ articalData.arti_trample_points }}</span>
+                            <span>&nbsp;: {{ articleData.arti_trample_points }}</span>
                         </div>
                     </div>
                 </div>
@@ -75,7 +75,7 @@
                                             </span>
                                             <span v-if="isLogin" class="dl-replay-btn">
                                                 <a @click="showCommentTextarea($event, com.come_id, com.come_id)">回复</a>
-                                                <a v-if="com.is_mine" @click="deleteArticalComment($event)">删除</a>
+                                                <a v-if="com.is_mine" @click="deleteArticleComment($event)">删除</a>
                                             </span>
                                         </span>
                                     </div>
@@ -100,7 +100,7 @@
                                                 <span>{{ data.created_at }}</span>
                                                 <span v-if="isLogin" class="dl-replay-btn">
                                                     <a @click="showCommentTextarea($event, data.come_id, com.come_id)">回复</a>
-                                                    <a v-if="data.is_mine" @click="deleteArticalComment($event)">删除</a>
+                                                    <a v-if="data.is_mine" @click="deleteArticleComment($event)">删除</a>
                                                 </span>
                                             </div>
                                         </div>
@@ -120,14 +120,14 @@
     import marked from 'marked'
 
     export default {
-        name: "showArtical",
+        name: "showArticle",
         inject: ['reload'],
         data() {
             return {
-                browseTopArtical: [],
-                newArtical: [],
+                browseTopArticle: [],
+                newArticle: [],
                 comments: [],
-                articalData: {},
+                articleData: {},
                 getMusicUrl: ApiPath.common.getMusicFile,
                 isLogin: store.state.user,
                 headPortraiBasetUrl: ApiPath.common.getHeadPortrait,
@@ -137,7 +137,7 @@
                 publishContent: "",
                 praise: false,
                 trample: false,
-                articalTypes: [],
+                articleTypes: [],
                 fatherCommentId: '',
                 wordObjectArray: [],
                 wordArraySubscript: 0,
@@ -201,9 +201,9 @@
                         }
                     }
             },
-            getArticalInfo(artId) {
+            getArticleInfo(artId) {
                 let self = this;
-                self.GET(ApiPath.artical.showArticalDetail, {
+                self.GET(ApiPath.article.showArticleDetail, {
                     art_id: artId
                 })
                     .then(function (res) {
@@ -214,14 +214,14 @@
                             for (let item in musicData.lines) musicData.lines[item].time = musicData.lines[item].time / 1000;
                             self.wordObjectArray = musicData.lines;
                             self.musicFileUrl = self.getMusicUrl + data.data.music_path;
-                            self.newArtical = data.data.new_articals;
-                            self.browseTopArtical = data.data.browse_top;
+                            self.newArticle = data.data.new_articles;
+                            self.browseTopArticle = data.data.browse_top;
                             self.comments = data.data.comments;
-                            self.articalData = data.data.artical_data[0];
-                            self.articalData.arti_content = marked(self.articalData.arti_content);
+                            self.articleData = data.data.article_data[0];
+                            self.articleData.arti_content = marked(self.articleData.arti_content);
                             self.praise = data.data.praise_trample_status.praise;
                             self.trample = data.data.praise_trample_status.trample;
-                            self.articalTypes = data.data.artical_types;
+                            self.articleTypes = data.data.article_types;
                             self.artSay = data.data.art_say;
                         }
                     })
@@ -308,10 +308,10 @@
                     if (!self.validateContent(self.replayContent)) return;
                     self.replayContent = self.filterContent(self.replayContent);
                     obj = $(obj.target).parents(".replay-box");
-                    self.POST(ApiPath.artical.sendReplayComment, {
+                    self.POST(ApiPath.article.sendReplayComment, {
                         top_level_id: self.topId,
                         father_id: self.fatherCommentId,
-                        art_id: self.articalData.arti_id,
+                        art_id: self.articleData.arti_id,
                         replay_content: self.replayContent
                     })
                         .then(function (res) {
@@ -352,9 +352,9 @@
                 });
                 if (!this.validateContent(self.publishContent)) return;
                 self.replayContent = this.filterContent(self.publishContent);
-                self.POST(ApiPath.artical.addPublishComment, {
+                self.POST(ApiPath.article.addPublishComment, {
                     publish_content: self.publishContent,
-                    art_id: self.articalData.arti_id
+                    art_id: self.articleData.arti_id
                 })
                     .then(function (res) {
                         let data = res.data;
@@ -369,11 +369,11 @@
                         }
                     })
             },
-            deleteArticalComment(event) {
+            deleteArticleComment(event) {
                 let self = this;
-                self.POST(ApiPath.artical.deleteArticalComment, {
+                self.POST(ApiPath.article.deleteArticleComment, {
                     comment_id: $(event.currentTarget).parents(".content").attr("rel"),
-                    art_id: self.articalData.arti_id
+                    art_id: self.articleData.arti_id
                 })
                     .then(function (res) {
                         let data = res.data;
@@ -397,15 +397,15 @@
                     self.$message.error("亲，你没有登录");
                     return false;
                 }
-                self.POST(ApiPath.artical.praiseOrTrampleArtical, {
+                self.POST(ApiPath.article.praiseOrTrampleArticle, {
                     praise_trample_status: status,
-                    art_id: self.articalData.arti_id,
+                    art_id: self.articleData.arti_id,
                 })
                     .then(function (res) {
                         let data = res.data;
                         if (data.code === 0) {
-                            self.articalData.arti_praise_points = data.data.num.arti_praise_points;
-                            self.articalData.arti_trample_points = data.data.num.arti_trample_points;
+                            self.articleData.arti_praise_points = data.data.num.arti_praise_points;
+                            self.articleData.arti_trample_points = data.data.num.arti_trample_points;
                             if (data.data.is_same) {         //和上次的操作一样
                                 (status === 1) ? self.praise = false : self.trample = false;
                                 return;
@@ -437,7 +437,7 @@
                 self.playMusic();
             });
 
-            this.getArticalInfo(this.$route.query.artId);
+            this.getArticleInfo(this.$route.query.artId);
         },
     }
 </script>
@@ -645,7 +645,7 @@
         margin-left: 5px;
     }
 
-    #artical {
+    #article {
         border: 1px solid #F3F3F3;
         padding: 10px;
         margin: 20px auto 15px auto;
@@ -1033,7 +1033,7 @@
     }
 
     @media screen and (min-width: 960px) and (max-width: 1023px) {
-        header, .main-artical {
+        header, .main-article {
             width: 96%;
             margin: auto
         }
@@ -1052,7 +1052,7 @@
     }
 
     @media screen and (min-width: 768px) and (max-width: 959px) {
-        header, .main-artical {
+        header, .main-article {
             width: 96%;
             margin: auto
         }
@@ -1071,7 +1071,7 @@
     }
 
     @media only screen and (min-width: 480px) and (max-width: 767px) {
-        header, .main-artical {
+        header, .main-article {
             width: 96%;
             margin: auto
         }
@@ -1123,7 +1123,7 @@
     }
 
     @media only screen and (max-width: 479px) {
-        header, .main-artical {
+        header, .main-article {
             width: 96%;
             margin: auto
         }

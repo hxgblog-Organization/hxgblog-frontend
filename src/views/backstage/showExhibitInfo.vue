@@ -371,7 +371,7 @@
                 }
                 self.exhibitName = self.exhibitData[index].exht_name;
                 self.exhibitId = self.exhibitData[index].exht_id;
-                self.GET(ApiPath.maexhibit.selectAloneExhitbit, {
+                self.GET(ApiPath.maexhibit.selectAloneExhibit, {
                     exht_id: self.exhibitId
                 }).then(function (res) {
                     if (res.data.code === 0) {
@@ -397,7 +397,7 @@
                 self.exhibitName = self.exhibitData[index].exht_name;
                 self.exhibitId = self.exhibitData[index].exht_id;
                 self.exhibitCreatedTime = self.exhibitData[index].created_at;
-                self.GET(ApiPath.maexhibit.selectAloneExhitbit, {
+                self.GET(ApiPath.maexhibit.selectAloneExhibit, {
                     exht_id: self.exhibitId
                 }).then(function (res) {
                     if (res.data.code === 0) {

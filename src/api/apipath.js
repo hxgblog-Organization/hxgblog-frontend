@@ -1,6 +1,6 @@
 import homePage from './reception/homePage'
 import article from './reception/article'
-import common from './commen/commen'
+import common from './common/common'
 import album from './reception/album'
 import leaveMessage from './reception/leaveMessage'
 import maarticle from './backstage/maarticle'

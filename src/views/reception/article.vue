@@ -12,15 +12,17 @@
                 </div>
                 <ul class="cbp_tmtimeline">
                     <li v-for="article in articleDatas">
-                        <time class="cbp_tmtime"><span>{{ article.monthDay }}</span><span>{{ article.years }}</span>
+                        <time class="cbp_tmtime">
+                            <span>{{ article.monthDay }}</span>
+                            <span>{{ article.years }}</span>
                         </time>
                         <div class="cbp_tmicon"></div>
                         <div class="cbp_tmlabel" data-scroll-reveal="enter right over 1s">
-                            <h2>{{ article.arti_title }}</h2>
+                            <h2>{{ article.art_title }}</h2>
                             <p><span class="blogpic"><a href="#"><img
-                                :src="getArticleCover + article.arti_cover"></a></span><span>{{ article.arti_content }}</span>
+                                :src="article.art_cover"></a></span><span>{{ article.art_content }}</span>
                             </p>
-                            <router-link :to="{ name: 'showArticle', query: { artId: article.arti_id } }"
+                            <router-link :to="{ name: 'showArticle', query: { artId: article.art_id } }"
                                          target="_blank"
                                          class="readmore">阅读全文&gt;&gt;
                             </router-link>
@@ -39,12 +41,11 @@
         data() {
             return {
                 articleTypes: [],
-                articleDatas: [],
+                articleData: [],
                 typeId: 0,
                 active: '',
                 page: 0,
                 isHave: true,
-                getArticleCover: ApiPath.common.getArticleCover,
                 isGetArtData: true,
             }
         },
@@ -78,10 +79,10 @@
                             }
                             self.isGetArtData = true;
                             if (getStatus === 3) {
-                                self.articleDatas = self.articleDatas.concat(data);
+                                self.articleData = self.articleData.concat(data);
                                 return;
                             }
-                            self.articleDatas = data;
+                            self.articleData = data;
                         }
                     });
             },
@@ -90,7 +91,7 @@
                 this.typeId = typeId;
                 this.active = typeName;
                 this.page = 0;
-                this.articleDatas = [];
+                this.articleData = [];
                 this.getArticle(2);
             },
         },
@@ -102,7 +103,7 @@
                         self.articleTypes = res.data.data.art_types;
                         self.typeId = self.articleTypes[0].type_id;
                         self.active = self.articleTypes[0].type_name;
-                        self.articleDatas = res.data.data.articles;
+                        self.articleData = res.data.data.articles;
                     }
                     window.addEventListener('scroll', self.handleScrolls);
                 });

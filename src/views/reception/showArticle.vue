@@ -19,13 +19,13 @@
             </div>
             <div class="infosbox">
                 <div class="newsview">
-                    <h3 class="news_title">{{ articleData.arti_title }}</h3>
+                    <h3 class="news_title">{{ articleData.art_title }}</h3>
                     <div class="bloginfo">
                         <ul>
                             <li class="author">作者：<span>坏小哥</span></li>
                             <li class="lmname"><span>学无止境</span></li>
                             <li class="timer">时间：{{ articleData.created_at }}</li>
-                            <li class="view">{{ articleData.arti_browse }}人已阅读</li>
+                            <li class="view">{{ articleData.art_browse }}人已阅读</li>
                         </ul>
                     </div>
                     <div class="tags">
@@ -33,17 +33,17 @@
                     </div>
                     <div class="news_about"><strong>简介</strong>{{ artSay }}</div>
                     <div class="news_con">
-                        <div id="article" v-highlight v-html="articleData.arti_content"></div>
+                        <div id="article" v-highlight v-html="articleData.art_content"></div>
                         <div id="ico-div">
                             <span v-if="praise" @click="praiseOrTrample(1, $event)"
                                   class="hand-ico light-praise fa fa-thumbs-o-up"></span>
                             <span v-else @click="praiseOrTrample(1, $event)" class="hand-ico fa fa-thumbs-o-up"></span>
-                            <span>&nbsp;: {{ articleData.arti_praise_points }}</span>
+                            <span>&nbsp;: {{ articleData.art_praise_points }}</span>
                             <span v-if="trample" @click="praiseOrTrample(2, $event)" id="trample-ico"
                                   class="hand-ico praise fa fa-thumbs-o-down"></span>
                             <span v-else @click="praiseOrTrample(2, $event)"
                                   class="hand-ico praise fa fa-thumbs-o-down"></span>
-                            <span>&nbsp;: {{ articleData.arti_trample_points }}</span>
+                            <span>&nbsp;: {{ articleData.art_trample_points }}</span>
                         </div>
                     </div>
                 </div>
@@ -58,48 +58,48 @@
                             </button>
                         </div>
                         <ul v-for="com in comments">
-                            <li class="content" :rel="com.come_id" @mouseenter="commentButtonStatus(1, $event)"
+                            <li class="content" :rel="com.com_id" @mouseenter="commentButtonStatus(1, $event)"
                                 @mouseleave="commentButtonStatus(2, $event)">
                                 <a class="head">
-                                    <img class="user-head-portrait" :src="headPortraiBasetUrl + com.head_portrait"/>
+                                    <img class="user-head-portrait" :src="com.head_portrait"/>
                                 </a>
                                 <div class="gbko">
                                     <div>
                                         <span>{{ com.nick_name }}:</span>
-                                        <span>{{ com.come_content }}</span>
+                                        <span>{{ com.com_content }}</span>
                                         <span>{{ com.created_at }}</span>
                                         <span class="comment-btn">
-                                            <span v-if="com.come_count != 0" class="see-comment">
-                                            <a @click="commentStatus(com.come_id, $event, true)">查看回复({{ com.come_count }})</a>
-                                            <a class="close-comment" @click="commentStatus(com.come_id, $event, false)">收起回复</a>
+                                            <span v-if="com.com_count != 0" class="see-comment">
+                                            <a @click="commentStatus(com.com_id, $event, true)">查看回复({{ com.com_count }})</a>
+                                            <a class="close-comment" @click="commentStatus(com.com_id, $event, false)">收起回复</a>
                                             </span>
                                             <span v-if="isLogin" class="dl-replay-btn">
-                                                <a @click="showCommentTextarea($event, com.come_id, com.come_id)">回复</a>
+                                                <a @click="showCommentTextarea($event, com.com_id, com.com_id)">回复</a>
                                                 <a v-if="com.is_mine" @click="deleteArticleComment($event)">删除</a>
                                             </span>
                                         </span>
                                     </div>
                                 </div>
                             </li>
-                            <li class="replay-box" :id="com.come_id" v-if="com.come_count != 0">
+                            <li class="replay-box" :id="com.com_id" v-if="com.com_count != 0">
                                 <ul class="comment-list">
-                                    <li v-for="data in com.child_comment" :key="data.come_id" :rel="data.come_id"
+                                    <li v-for="data in com.child_comment" :key="data.com_id" :rel="data.com_id"
                                         class="content"
                                         @mouseenter="commentButtonStatus(1, $event)"
                                         @mouseleave="commentButtonStatus(2, $event)">
                                         <a class="head">
                                             <img class="user-head-portrait"
-                                                 :src="headPortraiBasetUrl + data.head_portrait"/>
+                                                 :src="data.head_portrait"/>
                                         </a>
                                         <div class="gbko">
                                             <div>
                                                 <span>{{ data.nick_name }}</span>
                                                 <span>回复</span>
                                                 <span>{{ data.father_nick_name }}:</span>
-                                                <span>{{ data.come_content }}</span>
+                                                <span>{{ data.com_content }}</span>
                                                 <span>{{ data.created_at }}</span>
                                                 <span v-if="isLogin" class="dl-replay-btn">
-                                                    <a @click="showCommentTextarea($event, data.come_id, com.come_id)">回复</a>
+                                                    <a @click="showCommentTextarea($event, data.com_id, com.com_id)">回复</a>
                                                     <a v-if="data.is_mine" @click="deleteArticleComment($event)">删除</a>
                                                 </span>
                                             </div>
@@ -128,9 +128,7 @@
                 newArticle: [],
                 comments: [],
                 articleData: {},
-                getMusicUrl: ApiPath.common.getMusicFile,
                 isLogin: store.state.user,
-                headPortraiBasetUrl: ApiPath.common.getHeadPortrait,
                 num: 0,
                 isRegister: false,
                 replayContent: "",
@@ -209,16 +207,17 @@
                     .then(function (res) {
                         let data = res.data;
                         if (data.code === 0) {
+                            console.log(data);
                             let lyric = data.data.music_lyric;
                             let musicData = new Lyric(lyric, self.handleLyric);//this.handleLyric回调函数
                             for (let item in musicData.lines) musicData.lines[item].time = musicData.lines[item].time / 1000;
                             self.wordObjectArray = musicData.lines;
-                            self.musicFileUrl = self.getMusicUrl + data.data.music_path;
+                            self.musicFileUrl = data.data.music_path;
                             self.newArticle = data.data.new_articles;
                             self.browseTopArticle = data.data.browse_top;
                             self.comments = data.data.comments;
                             self.articleData = data.data.article_data[0];
-                            self.articleData.arti_content = marked(self.articleData.arti_content);
+                            self.articleData.art_content = marked(self.articleData.art_content);
                             self.praise = data.data.praise_trample_status.praise;
                             self.trample = data.data.praise_trample_status.trample;
                             self.articleTypes = data.data.article_types;
@@ -311,7 +310,7 @@
                     self.POST(ApiPath.article.sendReplayComment, {
                         top_level_id: self.topId,
                         father_id: self.fatherCommentId,
-                        art_id: self.articleData.arti_id,
+                        art_id: self.articleData.art_id,
                         replay_content: self.replayContent
                     })
                         .then(function (res) {
@@ -354,7 +353,7 @@
                 self.replayContent = this.filterContent(self.publishContent);
                 self.POST(ApiPath.article.addPublishComment, {
                     publish_content: self.publishContent,
-                    art_id: self.articleData.arti_id
+                    art_id: self.articleData.art_id
                 })
                     .then(function (res) {
                         let data = res.data;
@@ -373,7 +372,7 @@
                 let self = this;
                 self.POST(ApiPath.article.deleteArticleComment, {
                     comment_id: $(event.currentTarget).parents(".content").attr("rel"),
-                    art_id: self.articleData.arti_id
+                    art_id: self.articleData.art_id
                 })
                     .then(function (res) {
                         let data = res.data;
@@ -399,13 +398,13 @@
                 }
                 self.POST(ApiPath.article.praiseOrTrampleArticle, {
                     praise_trample_status: status,
-                    art_id: self.articleData.arti_id,
+                    art_id: self.articleData.art_id,
                 })
                     .then(function (res) {
                         let data = res.data;
                         if (data.code === 0) {
-                            self.articleData.arti_praise_points = data.data.num.arti_praise_points;
-                            self.articleData.arti_trample_points = data.data.num.arti_trample_points;
+                            self.articleData.art_praise_points = data.data.num.art_praise_points;
+                            self.articleData.art_trample_points = data.data.num.art_trample_points;
                             if (data.data.is_same) {         //和上次的操作一样
                                 (status === 1) ? self.praise = false : self.trample = false;
                                 return;

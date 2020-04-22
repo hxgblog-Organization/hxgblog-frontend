@@ -6,15 +6,15 @@
                 <div class="album" data-scroll-reveal="enter top">
                     <figure v-for="(album, index) in albumData">
                         <ul class="pic">
-                            <i class="el-icon-close" @click="deleteAlbum(album.albu_id)"></i>
-                            <img class="show-photo" v-if="album.is_has_photo" :src="albumPhotoUrl + album.first_photo"
-                                 @click="showPhotoPage(album.albu_id)"/>
-                            <img class="show-photo" v-else @click="showPhotoPage(album.albu_id)"
+                            <i class="el-icon-close" @click="deleteAlbum(album.alb_id)"></i>
+                            <img class="show-photo" v-if="album.is_has_photo" :src="albumPhotoUrl + album.first_photo_path"
+                                 @click="showPhotoPage(album.alb_id)"/>
+                            <img class="show-photo" v-else @click="showPhotoPage(album.alb_id)"
                                  src="../../images/reception/album-empty.png"/>
                         </ul>
-                        <p>{{ album.albu_name }}</p>
+                        <p>{{ album.alb_name }}</p>
                         <figcaption>
-                            <p>{{ album.albu_introduce }}</p>
+                            <p>{{ album.alb_introduce }}</p>
                             <span>时间：</span>
                             <span>{{ album.created_at }} &nbsp;</span>
                             <span v-if="album.is_has_photo">
@@ -24,7 +24,7 @@
                             <div class="operate-album">
                                 <el-button type="primary" @click="showAddAlbumDiag(index)">修改信息</el-button>
                                 <el-button type="danger" v-if="album.is_has_question"
-                                           @click="deleteSecretSecurity(album.albu_id)">删除密保
+                                           @click="deleteSecretSecurity(album.alb_id)">删除密保
                                 </el-button>
                                 <el-button type="warning" v-if="album.is_has_question"
                                            @click="showEdtSecStyModel(true, index)">修改密保
@@ -39,10 +39,10 @@
         <el-dialog :title="secretSecurityTitle" :visible.sync="diaEditSecStyFormVisible" width="350px">
             <el-form>
                 <el-form-item label="相册问题" :label-width="formLabelWidth" :required="true">
-                    <el-input v-model="albu_question" maxlength="10px" auto-complete="off"></el-input>
+                    <el-input v-model="alb_question" maxlength="10px" auto-complete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="相册答案" :label-width="formLabelWidth" :required="true">
-                    <el-input v-model="albu_answer" maxlength="10px" auto-complete="off"></el-input>
+                    <el-input v-model="alb_answer" maxlength="10px" auto-complete="off"></el-input>
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
@@ -55,16 +55,16 @@
                    class="add-alum-diag">
             <el-form :model="newAlbumForm">
                 <el-form-item label="相册名字" :label-width="formLabelWidth" :required="true">
-                    <el-input v-model="newAlbumForm.albu_name" maxlength="10px" auto-complete="off"></el-input>
+                    <el-input v-model="newAlbumForm.alb_name" maxlength="10px" auto-complete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="相册问题" :label-width="formLabelWidth" v-if="! isUpdateAlbumInfo">
-                    <el-input v-model="newAlbumForm.albu_question" maxlength="10px" auto-complete="off"></el-input>
+                    <el-input v-model="newAlbumForm.alb_question" maxlength="10px" auto-complete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="相册答案" :label-width="formLabelWidth" v-if="! isUpdateAlbumInfo">
-                    <el-input v-model="newAlbumForm.albu_answer" maxlength="10px" auto-complete="off"></el-input>
+                    <el-input v-model="newAlbumForm.alb_answer" maxlength="10px" auto-complete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="相册介绍" :label-width="formLabelWidth" :required="true">
-                    <el-input type="textarea" maxlength="50px" v-model="newAlbumForm.albu_introduce"
+                    <el-input type="textarea" maxlength="50px" v-model="newAlbumForm.alb_introduce"
                               auto-complete="off"></el-input>
                 </el-form-item>
             </el-form>
@@ -87,15 +87,15 @@
                 albumData: [],
                 albumPhotoUrl: ApiPath.common.getAlbumPhoto,
                 diaEditSecStyFormVisible: false,
-                albu_question: '',
-                albu_answer: '',
+                alb_question: '',
+                alb_answer: '',
                 newAlbumForm: {
-                    albu_name: '',
-                    albu_question: '',
-                    albu_answer: '',
-                    albu_introduce: '',
+                    alb_name: '',
+                    alb_question: '',
+                    alb_answer: '',
+                    alb_introduce: '',
                 },
-                albu_id: '',
+                alb_id: '',
                 formLabelWidth: '80px',
                 secretSecurityTitle: '添加相册密保',
                 isUpdateSecSty: true,
@@ -108,10 +108,10 @@
             addAlbum() {
                 let self = this;
                 self.POST(ApiPath.maalbum.addAlbum, {
-                    albu_name: self.newAlbumForm.albu_name,
-                    albu_question: self.newAlbumForm.albu_question,
-                    albu_answer: self.newAlbumForm.albu_answer,
-                    albu_introduce: self.newAlbumForm.albu_introduce
+                    alb_name: self.newAlbumForm.alb_name,
+                    alb_question: self.newAlbumForm.alb_question,
+                    alb_answer: self.newAlbumForm.alb_answer,
+                    alb_introduce: self.newAlbumForm.alb_introduce
                 }).then(function (res) {
                     if (res.data.code === 0) {
                         self.$message.success(res.data.msg);
@@ -125,7 +125,7 @@
             deleteAlbum(album_id) {
                 let self = this;
                 self.POST(ApiPath.maalbum.deleteAlbum, {
-                    albu_id: album_id
+                    alb_id: album_id
                 }).then(function (res) {
                     if (res.data.code === 0) {
                         self.$message.success(res.data.msg);
@@ -140,9 +140,9 @@
             updateAlbumInfo() {
                 let self = this;
                 self.POST(ApiPath.maalbum.updateAlbumInfor, {
-                    albu_id: self.albu_id,
-                    albu_name: self.newAlbumForm.albu_name,
-                    albu_introduce: self.newAlbumForm.albu_introduce,
+                    alb_id: self.alb_id,
+                    alb_name: self.newAlbumForm.alb_name,
+                    alb_introduce: self.newAlbumForm.alb_introduce,
                 }).then(function (res) {
                     if (res.data.code === 0) {
                         self.$message.success(res.data.msg);
@@ -157,9 +157,9 @@
             addSecretSecurity() {
                 let self = this;
                 self.POST(ApiPath.maalbum.addAlbumSecretSecurity, {
-                    albu_id: self.albu_id,
-                    albu_question: self.albu_question,
-                    albu_answer: self.albu_answer
+                    alb_id: self.alb_id,
+                    alb_question: self.alb_question,
+                    alb_answer: self.alb_answer
                 }).then(function (res) {
                     if (res.data.code === 0) {
                         self.$message.success(res.data.msg);
@@ -172,7 +172,7 @@
             },
             deleteSecretSecurity(album_id) {
                 let self = this;
-                self.POST(ApiPath.maalbum.deleteAlbumSecretSecurity, {albu_id: album_id})
+                self.POST(ApiPath.maalbum.deleteAlbumSecretSecurity, {alb_id: album_id})
                     .then(function (res) {
                         if (res.data.code === 0) {
                             self.$message.success(res.data.msg);
@@ -186,9 +186,9 @@
             updateSecretSecurity() {
                 let self = this;
                 self.POST(ApiPath.maalbum.updateAlbumSecretSecurity, {
-                    albu_id: self.albu_id,
-                    albu_question: self.albu_question,
-                    albu_answer: self.albu_answer,
+                    alb_id: self.alb_id,
+                    alb_question: self.alb_question,
+                    alb_answer: self.alb_answer,
                 }).then(function (res) {
                     if (res.data.code === 0) {
                         self.$message.success(res.data.msg);
@@ -213,15 +213,15 @@
                 if (isUpdate) {
                     this.isUpdateSecSty = true;
                     this.secretSecurityTitle = "修改相册密保";
-                    this.albu_question = this.albumData[index].albu_question;
-                    this.albu_answer = this.albumData[index].albu_answer;
-                    this.albu_id = this.albumData[index].albu_id;
+                    this.alb_question = this.albumData[index].alb_question;
+                    this.alb_answer = this.albumData[index].alb_answer;
+                    this.alb_id = this.albumData[index].alb_id;
                     return true;
                 }
-                this.albu_question = "";
-                this.albu_answer = "";
+                this.alb_question = "";
+                this.alb_answer = "";
                 this.isUpdateSecSty = false;
-                this.albu_id = this.albumData[index].albu_id;
+                this.alb_id = this.albumData[index].alb_id;
                 return true;
 
             },
@@ -229,19 +229,19 @@
                 this.dialogEditAlbumFormVisible = true;
                 if (index === -1) {
                     this.isUpdateAlbumInfo = false;
-                    this.newAlbumForm.albu_name = "";
-                    this.newAlbumForm.albu_question = "";
-                    this.newAlbumForm.albu_answer = "";
-                    this.newAlbumForm.albu_introduce = "";
+                    this.newAlbumForm.alb_name = "";
+                    this.newAlbumForm.alb_question = "";
+                    this.newAlbumForm.alb_answer = "";
+                    this.newAlbumForm.alb_introduce = "";
                     return true;
                 }
                 this.isUpdateAlbumInfo = true;
                 this.secretSecurityTitle = "修改相册信息";
-                this.newAlbumForm.albu_name = this.albumData[index].albu_name;
-                this.newAlbumForm.albu_question = this.albumData[index].albu_question;
-                this.newAlbumForm.albu_answer = this.albumData[index].albu_answer;
-                this.newAlbumForm.albu_introduce = this.albumData[index].albu_introduce;
-                this.albu_id = this.albumData[index].albu_id;
+                this.newAlbumForm.alb_name = this.albumData[index].alb_name;
+                this.newAlbumForm.alb_question = this.albumData[index].alb_question;
+                this.newAlbumForm.alb_answer = this.albumData[index].alb_answer;
+                this.newAlbumForm.alb_introduce = this.albumData[index].alb_introduce;
+                this.alb_id = this.albumData[index].alb_id;
             },
             showPhotoPage(albumId) {
                 this.$router.push({path: `showAlbumPhoto/${albumId}`});

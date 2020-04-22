@@ -17,7 +17,7 @@
                 self.checkBackLogin().then(function (res) {
                     if (res) return true;
                     self.$message.warning("请你重新登录");
-                    self.emptyUserInformation();
+                    // self.emptyUserInformation();
                     self.reload();
                 });
             }

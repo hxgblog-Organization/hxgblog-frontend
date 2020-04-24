@@ -29,7 +29,7 @@
         <div class="template">
             <div class="box scroll-photo">
                 <ul id="photo-ul">
-                    <li v-for="photo in photoData"><img :src="getPhotoUrl + photo.phot_path"></li>
+                    <li v-for="photo in photoData"><img :src="getPhotoUrl + photo.pho_path"></li>
                 </ul>
             </div>
         </div>
@@ -40,18 +40,18 @@
             <div class="bloglist left">
                 <div v-for="item in articleData" :key="item.id" class="article-info">
                     <h4>
-                        <span>{{ item.arti_title }}</span>
+                        <span>{{ item.art_title }}</span>
                         <span class="date">{{ item.years }}-{{item.monthDay }}</span>
                     </h4>
-                    <figure><img :src="getArticleCover + item.arti_cover"></figure>
+                    <figure><img :src="getArticleCover + item.art_cover"></figure>
                     <ul>
-                        <p>{{ item.arti_content }}</p>
-                        <router-link :to="{ name: 'showArticle', query: {artId: item.arti_id}}" title="/"
+                        <p>{{ item.art_content }}</p>
+                        <router-link :to="{ name: 'showArticle', query: {artId: item.art_id}}" title="/"
                                      target="_blank" class="readmore">阅读全文>>
                         </router-link>
                     </ul>
                     <p class="dateview">
-                        <span>{{ item.arti_create_time}}</span><span>作者：张腾飞</span><span>个人博客：[<span>坏小哥</span>]</span>
+                        <span>{{ item.art_create_time}}</span><span>作者：张腾飞</span><span>个人博客：[<span>坏小哥</span>]</span>
                     </p>
                 </div>
             </div>
@@ -106,8 +106,8 @@
                         <p>点击<span>排行</span></p>
                     </h3>
                     <ul class="paih">
-                        <li v-for="items in browseTop" :key="items.id"><a @click="showArticle(items.arti_id)"
-                                                                          target="_blank">{{ items.arti_title }}</a>
+                        <li v-for="items in browseTop" :key="items.id"><a @click="showArticle(items.art_id)"
+                                                                          target="_blank">{{ items.art_title }}</a>
                         </li>
                     </ul>
                     <h3 class="links">
@@ -164,10 +164,10 @@
                                 let cubeDiv = cube.querySelectorAll('div');
                                 let cubeSpan = cube.querySelectorAll('span');
                                 for (let i = 0; i < cubeDiv.length; i++) {
-                                    $(cubeDiv[i]).css('background-image', "url(" + self.getPhotoUrl + self.photoData[i].phot_path + ")");//内部添加图片
+                                    $(cubeDiv[i]).css('background-image', "url(" + self.getPhotoUrl + self.photoData[i].pho_path + ")");//内部添加图片
                                 }
                                 for (let i = 0; i < cubeSpan.length; i++) {
-                                    $(cubeSpan[i]).css('background-image', "url(" + self.getPhotoUrl + self.photoData[i].phot_path + ")");//外部添加图片
+                                    $(cubeSpan[i]).css('background-image', "url(" + self.getPhotoUrl + self.photoData[i].pho_path + ")");//外部添加图片
                                 }
                                 // setInterval(function(){
                                 //     $(roll).css('left',(roll.offsetLeft - 1) + "px");

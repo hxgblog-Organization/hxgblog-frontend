@@ -51,7 +51,7 @@
                             oDiv.className = "grid-item";
                             //生成一个图片对象
                             var oImg = new Image();
-                            oImg.src = self.getPhotoBaseUrl + self.data[i].phot_path;
+                            oImg.src = self.getPhotoBaseUrl + self.data[i].pho_path;
                             //把图片放入div盒子
                             oDiv.appendChild(oImg);
                             //把div放入大盒子

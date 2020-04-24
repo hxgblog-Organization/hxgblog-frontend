@@ -15,8 +15,8 @@
                     <el-input v-else v-model.number="userForm.phone" autocomplete="off" :disabled="true"
                               maxlength="11"></el-input>
                 </el-form-item>
-                <el-form-item prop="emails" label="邮箱" :label-width="formLabelWidth">
-                    <el-input v-model="userForm.emails" autocomplete="off"></el-input>
+                <el-form-item prop="email" label="邮箱" :label-width="formLabelWidth">
+                    <el-input v-model="userForm.email" autocomplete="off"></el-input>
                 </el-form-item>
                 <el-form-item v-if="status === 1" label="密码:" :label-width="formLabelWidth" prop="password"
                               maxlength="20">
@@ -81,7 +81,7 @@
                     sex: '0',
                     nickName: '',
                     phone: '',
-                    emails: '',
+                    email: '',
                     password: '',
                     introduce: '',
                 },
@@ -95,7 +95,7 @@
                         {required: true, message: '请输入昵称', trigger: 'blur'},
                         {required: true, max: 5, message: '长度在3-5个字符', trigger: 'blur'}
                     ],
-                    emails: [
+                    email: [
                         {required: true, message: '请输入邮箱地址', trigger: 'blur'},
                         {type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur']}
                     ],
@@ -179,7 +179,7 @@
                 self.userForm.sex = userInformation.sex.toString();
                 self.userForm.nickName = userInformation.nick_name;
                 self.userForm.phone = userInformation.phone;
-                self.userForm.emails = userInformation.email;
+                self.userForm.email = userInformation.email;
                 self.userForm.introduce = userInformation.introduce;
                 self.imageUrl = ApiPath.common.getHeadPortrait + userInformation.head_portrait;
             }

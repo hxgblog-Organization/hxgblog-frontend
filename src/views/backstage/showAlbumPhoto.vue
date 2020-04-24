@@ -74,7 +74,7 @@
                 let self = this;
                 for (let index in self.fileList) self.photoFormData.append(index, self.fileList[index].raw);
                 self.photoFormData.append('album_id', this.albumId);
-                self.POST(ApiPath.maalbum.addAlbumImage, self.photoFormData)
+                self.POST(ApiPath.maAlbum.addAlbumImage, self.photoFormData)
                     .then(function (res) {
                         if (res.data.code === 0) {
                             self.$message.success(res.data.msg);
@@ -104,7 +104,7 @@
                     self.deletePhotoRoadData.push(del_road);
                     self.deletePhotoIdData.push(del_id);
                 }
-                self.POST(ApiPath.maalbum.deleteAlbumPhoto, {
+                self.POST(ApiPath.maAlbum.deleteAlbumPhoto, {
                     album_id: self.albumId,
                     del_photo_road: self.deletePhotoRoadData,
                     del_photo_id: self.deletePhotoIdData
@@ -133,7 +133,7 @@
             },
             getAlbumImage() {
                 let self = this;
-                self.GET(ApiPath.maalbum.selectAlbumPhoto, {
+                self.GET(ApiPath.maAlbum.selectAlbumPhoto, {
                     albu_id: self.albumId,
                     page: self.page
                 })
@@ -157,13 +157,13 @@
                                 "height": "16px"
                             });
                             oCheckbox.setAttribute("type", "checkbox");
-                            oCheckbox.setAttribute("id", self.data[i].phot_id);
+                            oCheckbox.setAttribute("id", self.data[i].pho_id);
                             oDiv.appendChild(oCheckbox);
                             oDiv.className = "grid-item";
                             //生成一个图片对象
                             var oImg = new Image();
                             $(oImg).css('position', 'relative');
-                            oImg.src = self.getPhotoBaseUrl + self.data[i].phot_path;
+                            oImg.src = self.getPhotoBaseUrl + self.data[i].pho_path;
                             //把图片放入div盒子
                             oDiv.appendChild(oImg);
                             //把div放入大盒子

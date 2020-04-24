@@ -52,27 +52,27 @@
                 width="55">
             </el-table-column>
             <el-table-column
-                prop="arti_title"
+                prop="art_title"
                 label="题目"
                 width="120">
             </el-table-column>
             <el-table-column
-                prop="arti_reward_money"
+                prop="art_reward_money"
                 label="赏钱"
                 width="80">
             </el-table-column>
             <el-table-column
-                prop="arti_praise_points"
+                prop="art_praise_points"
                 label="赞"
                 width="80">
             </el-table-column>
             <el-table-column
-                prop="arti_trample_points"
+                prop="art_trample_points"
                 label="踩"
                 width="80">
             </el-table-column>
             <el-table-column
-                prop="arti_browse"
+                prop="art_browse"
                 label="浏览量"
                 width="100">
             </el-table-column>
@@ -90,10 +90,10 @@
                         type="text"
                         size="small">
                         <el-button type="primary" icon="el-icon-edit" size="mini"
-                                   @click="updateArticle(articleData[scope.$index].arti_id)">修改
+                                   @click="updateArticle(articleData[scope.$index].art_id)">修改
                         </el-button>
                         <el-button type="danger" icon="el-icon-delete" size="mini"
-                                   @click="beforedeleteArticle(articleData[scope.$index].arti_id)">删除
+                                   @click="beforedeleteArticle(articleData[scope.$index].art_id)">删除
                         </el-button>
                     </el-button>
                 </template>
@@ -169,12 +169,12 @@
             },
             handleSelectionChange(val) {
                 this.art_id_data = [];   //每次添加前，先清空之前的。
-                for (let i = 0; i < val.length; i++) this.art_id_data[i] = val[i].arti_id;
+                for (let i = 0; i < val.length; i++) this.art_id_data[i] = val[i].art_id;
             },
             getArtifcalData() {
                 let self = this;
                 self.isTypeSelect = false;
-                self.GET(ApiPath.maarticle.getArticle, {
+                self.GET(ApiPath.maArticle.getArticle, {
                     total: self.pageSize,
                     page: self.currentPages
                 }).then(function (res) {
@@ -193,7 +193,7 @@
                     self.timeSection[0] = self.timeSection[0] / 1000;
                     self.timeSection[1] = self.timeSection[1] / 1000;
                 }
-                self.GET(ApiPath.maarticle.combinateSelectArticle, {
+                self.GET(ApiPath.maArticle.combinateSelectArticle, {
                     time: self.timeSection,
                     art_name: self.articleName,
                     total: self.pageSize,
@@ -211,7 +211,7 @@
             byTypeSelectArticle() {
                 let self = this;
                 self.isTypeSelect = true;
-                self.GET(ApiPath.maarticle.byTypeSelectArticle, {
+                self.GET(ApiPath.maArticle.byTypeSelectArticle, {
                     type_id_data: self.typeIdData,
                     total: self.pageSize,
                     page: self.currentPages
@@ -225,7 +225,7 @@
             },
             deleteArticle() {
                 let self = this;
-                self.POST(ApiPath.maarticle.deleteArticle, {art_id_data: self.art_id_data})
+                self.POST(ApiPath.maArticle.deleteArticle, {art_id_data: self.art_id_data})
                     .then(function (res) {
                         if (res.data.code === 0) {
                             self.$message.success(res.data.msg);

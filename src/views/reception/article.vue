@@ -16,11 +16,11 @@
                         </time>
                         <div class="cbp_tmicon"></div>
                         <div class="cbp_tmlabel" data-scroll-reveal="enter right over 1s">
-                            <h2>{{ article.arti_title }}</h2>
+                            <h2>{{ article.art_title }}</h2>
                             <p><span class="blogpic"><a href="#"><img
-                                :src="getArticleCover + article.arti_cover"></a></span><span>{{ article.arti_content }}</span>
+                                :src="getArticleCover + article.art_cover"></a></span><span>{{ article.art_content }}</span>
                             </p>
-                            <router-link :to="{ name: 'showArticle', query: { artId: article.arti_id } }"
+                            <router-link :to="{ name: 'showArticle', query: { artId: article.art_id } }"
                                          target="_blank"
                                          class="readmore">阅读全文&gt;&gt;
                             </router-link>

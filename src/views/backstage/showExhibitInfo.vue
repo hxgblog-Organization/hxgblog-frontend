@@ -39,13 +39,13 @@
                 width="55">
             </el-table-column>
             <el-table-column
-                prop="exht_name"
+                prop="exh_name"
                 label="名字"
                 width="200">
             </el-table-column>
             <el-table-column
                 v-if="exhibitDist !== '4'"
-                prop="exht_content"
+                prop="exh_content"
                 label="内容"
                 width="200">
             </el-table-column>
@@ -69,14 +69,14 @@
                                    @click="showDetails(scope.$index)">查看详情
                         </el-button>
                         <el-button type="danger" icon="el-icon-delete" size="mini"
-                                   @click="beforedeleteExhibit(exhibitData[scope.$index].exht_id)">删除
+                                   @click="beforedeleteExhibit(exhibitData[scope.$index].exh_id)">删除
                         </el-button>
-                        <el-button v-if="exhibitData[scope.$index].exht_status !== 1 " type="warning"
+                        <el-button v-if="exhibitData[scope.$index].exh_status !== 1 " type="warning"
                                    icon="el-icon-edit" size="mini"
-                                   @click="replaceExhibitData(exhibitData[scope.$index].exht_id)">替换
+                                   @click="replaceExhibitData(exhibitData[scope.$index].exh_id)">替换
                         </el-button>
                         <el-button v-if="exhibitDist === '4'" type="success" icon="el-icon-download" size="mini"
-                                   @click="downloadExhibit(exhibitData[scope.$index].exht_name)">下载
+                                   @click="downloadExhibit(exhibitData[scope.$index].exh_name)">下载
                         </el-button>
                     </el-button>
                 </template>
@@ -242,7 +242,7 @@
             },
             handleSelectionChange(val) {
                 this.delExhibitIdData = [];   //每次添加前，先清空之前的。
-                for (let i = 0; i < val.length; i++) this.delExhibitIdData[i] = val[i].exht_id;
+                for (let i = 0; i < val.length; i++) this.delExhibitIdData[i] = val[i].exh_id;
             },
             validateMusic(file, fileList) {
                 if (file.size / 1024 / 1024 >= 10) {                 //图片大小不超过10MB
@@ -256,7 +256,7 @@
                     fileList = [];
                     return false;
                 }
-                this.musicFormData.append('exht_music', file.raw);
+                this.musicFormData.append('exh_music', file.raw);
                 return true;
             },
             validateMusicLyric(file, fileList) {
@@ -271,11 +271,11 @@
                     fileList = [];
                     return false;
                 }
-                this.musicFormData.append('exht_lyric', file.raw);
+                this.musicFormData.append('exh_lyric', file.raw);
             },
             addMusic() {
                 let self = this;
-                self.musicFormData.append('exht_dist', 4);
+                self.musicFormData.append('exh_dist', 4);
                 self.POST(ApiPath.maexhibit.addExhibit, self.musicFormData)
                     .then(function (res) {
                         if (res.data.code === 0) {
@@ -309,9 +309,9 @@
                 (self.exhibitDist === 1) ? exhibitContentData = self.homeExhibitForm.first + '+' + self.homeExhibitForm.second + '+' + self.homeExhibitForm.third
                     : exhibitContentData = self.exhibitContent;
                 self.POST(ApiPath.maexhibit.addExhibit, {
-                    exht_dist: self.exhibitDist,
-                    exht_name: self.exhibitName,
-                    exht_content: exhibitContentData
+                    exh_dist: self.exhibitDist,
+                    exh_name: self.exhibitName,
+                    exh_content: exhibitContentData
                 }).then(function (res) {
                     if (res.data.code === 0) {
                         self.$message.success(res.data.msg);
@@ -328,7 +328,7 @@
                 time[0] = self.timeSection[0] / 1000;
                 time[1] = self.timeSection[1] / 1000;
                 self.GET(ApiPath.maexhibit.byTimeSelectExhibit, {
-                    exht_dist: self.exhibitDist,
+                    exh_dist: self.exhibitDist,
                     page: self.pageSize,
                     total: self.currentPages,
                     time: time
@@ -343,7 +343,7 @@
             getSelectExhibit() {
                 let self = this;
                 self.GET(ApiPath.maexhibit.selectExhibit, {
-                    exht_dist: self.exhibitDist,
+                    exh_dist: self.exhibitDist,
                     page: self.currentPages,
                     total: self.pageSize
                 }).then(function (res) {
@@ -369,13 +369,13 @@
                         self.editExhibitTitle = "修改留言名言";
                         break;
                 }
-                self.exhibitName = self.exhibitData[index].exht_name;
-                self.exhibitId = self.exhibitData[index].exht_id;
+                self.exhibitName = self.exhibitData[index].exh_name;
+                self.exhibitId = self.exhibitData[index].exh_id;
                 self.GET(ApiPath.maexhibit.selectAloneExhibit, {
-                    exht_id: self.exhibitId
+                    exh_id: self.exhibitId
                 }).then(function (res) {
                     if (res.data.code === 0) {
-                        (self.exhibitDist === '1') ? self.convertHomeExtData(res.data.data.exht_content.split('+')) : self.exhibitContent = res.data.data.exht_content;
+                        (self.exhibitDist === '1') ? self.convertHomeExtData(res.data.data.exh_content.split('+')) : self.exhibitContent = res.data.data.exh_content;
                     }
                 });
                 self.diaEditExhibitVisible = true;
@@ -394,14 +394,14 @@
                         self.showDetailTitle = "留言名言详情";
                         break;
                 }
-                self.exhibitName = self.exhibitData[index].exht_name;
-                self.exhibitId = self.exhibitData[index].exht_id;
+                self.exhibitName = self.exhibitData[index].exh_name;
+                self.exhibitId = self.exhibitData[index].exh_id;
                 self.exhibitCreatedTime = self.exhibitData[index].created_at;
                 self.GET(ApiPath.maexhibit.selectAloneExhibit, {
-                    exht_id: self.exhibitId
+                    exh_id: self.exhibitId
                 }).then(function (res) {
                     if (res.data.code === 0) {
-                        (self.exhibitDist === '1') ? self.convertHomeExtData(res.data.data.exht_content.split('+')) : self.exhibitContent = res.data.data.exht_content;
+                        (self.exhibitDist === '1') ? self.convertHomeExtData(res.data.data.exh_content.split('+')) : self.exhibitContent = res.data.data.exh_content;
                     }
                 });
                 self.diaShowDetailVisible = true;
@@ -416,9 +416,9 @@
                 (self.exhibitDist === '1') ? self.content = this.homeExhibitForm.first + '+' + this.homeExhibitForm.second + '+' + this.homeExhibitForm.third
                     : self.content = self.exhibitContent;
                 self.POST(ApiPath.maexhibit.updateExhibit, {
-                    exht_id: self.exhibitId,
-                    exht_name: self.exhibitName,
-                    exht_content: self.content
+                    exh_id: self.exhibitId,
+                    exh_name: self.exhibitName,
+                    exh_content: self.content
                 }).then(function (res) {
                     if (res.data.code === 0) {
                         self.$message.success(res.data.msg);
@@ -436,8 +436,8 @@
             deleteExhibit() {
                 let self = this;
                 self.POST(ApiPath.maexhibit.deleteExhibit, {
-                    exht_id_data: self.delExhibitIdData,
-                    exht_dist: self.exhibitDist
+                    exh_id_data: self.delExhibitIdData,
+                    exh_dist: self.exhibitDist
                 }).then(function (res) {
                     if (res.data.code === 0) {
                         self.$message.success(res.data.msg);
@@ -451,7 +451,7 @@
             replaceExhibitData(exhibitId) {
                 let self = this;
                 self.POST(ApiPath.maexhibit.replaceExhibit, {
-                    orig_select_id: self.exhibitData[0].exht_id,
+                    orig_select_id: self.exhibitData[0].exh_id,
                     new_select_id: exhibitId
                 }).then(function (res) {
                     if (res.data.code === 0) {

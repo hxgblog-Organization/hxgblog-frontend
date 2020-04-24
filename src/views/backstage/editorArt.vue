@@ -3,10 +3,10 @@
         <div class="add">
             <el-form ref="form" :model="articleForm" label-width="90px">
                 <el-form-item label="文章题目:" :required="true">
-                    <el-input class="art-title" v-model="articleForm.arti_title"></el-input>
+                    <el-input class="art-title" v-model="articleForm.art_title"></el-input>
                 </el-form-item>
                 <el-form-item label="文章类型:" :required="true">
-                    <el-checkbox-group v-model="articleForm.arti_type">
+                    <el-checkbox-group v-model="articleForm.art_type">
                         <el-checkbox-button v-for="type in artTypeData" :label="type.type_id" :key="type.type_id">{{
                             type.type_name }}
                         </el-checkbox-button>
@@ -26,7 +26,7 @@
                     </el-upload>
                     <el-button v-if="isUpdateCover" @click="cancelUpdateCover">取消更改封面</el-button>
                 </el-form-item>
-                <mavon-editor v-model="articleForm.arti_content" :toolbars="toolbars"/>
+                <mavon-editor v-model="articleForm.art_content" :toolbars="toolbars"/>
                 <el-form-item class="submit">
                     <el-button v-if="isAdd" type="primary" @click="addArticleInfor">添加</el-button>
                     <el-button v-else type="primary" @click="updateArtInfor">修改</el-button>
@@ -49,12 +49,12 @@
                 isUpdateCover: false,
                 artTypeData: [],
                 articleForm: {
-                    arti_id: '',
-                    arti_title: "",
-                    arti_type: [],
-                    arti_content: "",
-                    orig_arti_type: [],
-                    arti_cover: '',
+                    art_id: '',
+                    art_title: "",
+                    art_type: [],
+                    art_content: "",
+                    orig_art_type: [],
+                    art_cover: '',
                 },
                 artCoverUrl: '',
                 formWidth: '120px',
@@ -100,7 +100,7 @@
             },
             getArtInformation() {
                 let self = this;
-                self.GET(ApiPath.maarticle.getAloneArticle, {
+                self.GET(ApiPath.maArticle.getAloneArticle, {
                     art_id: self.art_id,
                 }).then(function (res) {
                     if (res.data.code === 3) {
@@ -111,14 +111,14 @@
                         return false;
                     }
                     let data = res.data.data;
-                    self.articleForm.arti_title = data.article[0].arti_title;
-                    self.articleForm.arti_type = data.art_type;
-                    self.articleForm.orig_arti_type = data.art_type;
-                    self.articleForm.arti_id = data.article[0].arti_id;
-                    self.articleForm.arti_content = data.article[0].arti_content;
-                    self.articleForm.arti_cover = data.article[0].arti_cover;
+                    self.articleForm.art_title = data.article[0].art_title;
+                    self.articleForm.art_type = data.art_type;
+                    self.articleForm.orig_art_type = data.art_type;
+                    self.articleForm.art_id = data.article[0].art_id;
+                    self.articleForm.art_content = data.article[0].art_content;
+                    self.articleForm.art_cover = data.article[0].art_cover;
                     self.artTypeData = data.art_type_data;
-                    self.originalArtCoverUrl = data.article[0].arti_cover;
+                    self.originalArtCoverUrl = data.article[0].art_cover;
                     self.artCoverUrl = self.getArticleCover + self.originalArtCoverUrl;
                 })
             },
@@ -131,14 +131,14 @@
                 let self = this;
                 if (!self.artFormData.has('art_cover')) return self.$message.error("你没有上传文章封面");
                 if (!self.validateArticleInfor()) return false;
-                delete self.articleForm.orig_arti_type;
-                delete self.articleForm.arti_id;
-                delete self.articleForm.arti_cover;
-                self.articleForm.arti_content = self.filterContent(self.articleForm.arti_content);
+                delete self.articleForm.orig_art_type;
+                delete self.articleForm.art_id;
+                delete self.articleForm.art_cover;
+                self.articleForm.art_content = self.filterContent(self.articleForm.art_content);
                 $.each(self.articleForm, function (i, val) {
                     self.artFormData.append(i, val);
                 });
-                self.POST(ApiPath.maarticle.addArticle, self.artFormData)
+                self.POST(ApiPath.maArticle.addArticle, self.artFormData)
                     .then(function (res) {
                         if (res.data.code === 0) {
                             self.$message.success(res.data.msg);
@@ -155,9 +155,9 @@
                 $.each(self.articleForm, function (i, val) {
                     self.artFormData.append(i, val);
                 });
-                self.articleForm.arti_content = self.filterContent(self.articleForm.arti_content);
+                self.articleForm.art_content = self.filterContent(self.articleForm.art_content);
                 self.artFormData.append('is_update_cover', self.isUpdateCover);
-                self.POST(ApiPath.maarticle.updateArticle, self.artFormData)
+                self.POST(ApiPath.maArticle.updateArticle, self.artFormData)
                     .then(function (res) {
                         if (res.data.code === 0) {
                             self.$message.success(res.data.msg);
@@ -168,11 +168,11 @@
                     })
             },
             validateArticleInfor() {
-                if (this.articleForm.arti_title.length > 100) {
+                if (this.articleForm.art_title.length > 100) {
                     this.$message.error("文章题目过长");
                     return false;
                 }
-                if (this.articleForm.arti_type.length === 0) {
+                if (this.articleForm.art_type.length === 0) {
                     this.$message.error("你没有选择文章类型");
                     return false;
                 }

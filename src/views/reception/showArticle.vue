@@ -19,13 +19,13 @@
             </div>
             <div class="infosbox">
                 <div class="newsview">
-                    <h3 class="news_title">{{ articleData.arti_title }}</h3>
+                    <h3 class="news_title">{{ articleData.art_title }}</h3>
                     <div class="bloginfo">
                         <ul>
                             <li class="author">作者：<span>坏小哥</span></li>
                             <li class="lmname"><span>学无止境</span></li>
                             <li class="timer">时间：{{ articleData.created_at }}</li>
-                            <li class="view">{{ articleData.arti_browse }}人已阅读</li>
+                            <li class="view">{{ articleData.art_browse }}人已阅读</li>
                         </ul>
                     </div>
                     <div class="tags">
@@ -33,17 +33,17 @@
                     </div>
                     <div class="news_about"><strong>简介</strong>{{ artSay }}</div>
                     <div class="news_con">
-                        <div id="article" v-highlight v-html="articleData.arti_content"></div>
+                        <div id="article" v-highlight v-html="articleData.art_content"></div>
                         <div id="ico-div">
                             <span v-if="praise" @click="praiseOrTrample(1, $event)"
                                   class="hand-ico light-praise fa fa-thumbs-o-up"></span>
                             <span v-else @click="praiseOrTrample(1, $event)" class="hand-ico fa fa-thumbs-o-up"></span>
-                            <span>&nbsp;: {{ articleData.arti_praise_points }}</span>
+                            <span>&nbsp;: {{ articleData.art_praise_points }}</span>
                             <span v-if="trample" @click="praiseOrTrample(2, $event)" id="trample-ico"
                                   class="hand-ico praise fa fa-thumbs-o-down"></span>
                             <span v-else @click="praiseOrTrample(2, $event)"
                                   class="hand-ico praise fa fa-thumbs-o-down"></span>
-                            <span>&nbsp;: {{ articleData.arti_trample_points }}</span>
+                            <span>&nbsp;: {{ articleData.art_trample_points }}</span>
                         </div>
                     </div>
                 </div>
@@ -218,7 +218,7 @@
                             self.browseTopArticle = data.data.browse_top;
                             self.comments = data.data.comments;
                             self.articleData = data.data.article_data[0];
-                            self.articleData.arti_content = marked(self.articleData.arti_content);
+                            self.articleData.art_content = marked(self.articleData.art_content);
                             self.praise = data.data.praise_trample_status.praise;
                             self.trample = data.data.praise_trample_status.trample;
                             self.articleTypes = data.data.article_types;
@@ -311,7 +311,7 @@
                     self.POST(ApiPath.article.sendReplayComment, {
                         top_level_id: self.topId,
                         father_id: self.fatherCommentId,
-                        art_id: self.articleData.arti_id,
+                        art_id: self.articleData.art_id,
                         replay_content: self.replayContent
                     })
                         .then(function (res) {
@@ -354,7 +354,7 @@
                 self.replayContent = this.filterContent(self.publishContent);
                 self.POST(ApiPath.article.addPublishComment, {
                     publish_content: self.publishContent,
-                    art_id: self.articleData.arti_id
+                    art_id: self.articleData.art_id
                 })
                     .then(function (res) {
                         let data = res.data;
@@ -373,7 +373,7 @@
                 let self = this;
                 self.POST(ApiPath.article.deleteArticleComment, {
                     comment_id: $(event.currentTarget).parents(".content").attr("rel"),
-                    art_id: self.articleData.arti_id
+                    art_id: self.articleData.art_id
                 })
                     .then(function (res) {
                         let data = res.data;
@@ -399,13 +399,13 @@
                 }
                 self.POST(ApiPath.article.praiseOrTrampleArticle, {
                     praise_trample_status: status,
-                    art_id: self.articleData.arti_id,
+                    art_id: self.articleData.art_id,
                 })
                     .then(function (res) {
                         let data = res.data;
                         if (data.code === 0) {
-                            self.articleData.arti_praise_points = data.data.num.arti_praise_points;
-                            self.articleData.arti_trample_points = data.data.num.arti_trample_points;
+                            self.articleData.art_praise_points = data.data.num.art_praise_points;
+                            self.articleData.art_trample_points = data.data.num.art_trample_points;
                             if (data.data.is_same) {         //和上次的操作一样
                                 (status === 1) ? self.praise = false : self.trample = false;
                                 return;

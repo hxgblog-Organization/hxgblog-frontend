@@ -107,7 +107,7 @@
         methods: {
             addAlbum() {
                 let self = this;
-                self.POST(ApiPath.maalbum.addAlbum, {
+                self.POST(ApiPath.maAlbum.addAlbum, {
                     albu_name: self.newAlbumForm.albu_name,
                     albu_question: self.newAlbumForm.albu_question,
                     albu_answer: self.newAlbumForm.albu_answer,
@@ -124,7 +124,7 @@
             },
             deleteAlbum(album_id) {
                 let self = this;
-                self.POST(ApiPath.maalbum.deleteAlbum, {
+                self.POST(ApiPath.maAlbum.deleteAlbum, {
                     albu_id: album_id
                 }).then(function (res) {
                     if (res.data.code === 0) {
@@ -139,7 +139,7 @@
             },
             updateAlbumInfo() {
                 let self = this;
-                self.POST(ApiPath.maalbum.updateAlbumInfor, {
+                self.POST(ApiPath.maAlbum.updateAlbumInfor, {
                     albu_id: self.albu_id,
                     albu_name: self.newAlbumForm.albu_name,
                     albu_introduce: self.newAlbumForm.albu_introduce,
@@ -156,7 +156,7 @@
             },
             addSecretSecurity() {
                 let self = this;
-                self.POST(ApiPath.maalbum.addAlbumSecretSecurity, {
+                self.POST(ApiPath.maAlbum.addAlbumSecretSecurity, {
                     albu_id: self.albu_id,
                     albu_question: self.albu_question,
                     albu_answer: self.albu_answer
@@ -172,7 +172,7 @@
             },
             deleteSecretSecurity(album_id) {
                 let self = this;
-                self.POST(ApiPath.maalbum.deleteAlbumSecretSecurity, {albu_id: album_id})
+                self.POST(ApiPath.maAlbum.deleteAlbumSecretSecurity, {albu_id: album_id})
                     .then(function (res) {
                         if (res.data.code === 0) {
                             self.$message.success(res.data.msg);
@@ -185,7 +185,7 @@
             },
             updateSecretSecurity() {
                 let self = this;
-                self.POST(ApiPath.maalbum.updateAlbumSecretSecurity, {
+                self.POST(ApiPath.maAlbum.updateAlbumSecretSecurity, {
                     albu_id: self.albu_id,
                     albu_question: self.albu_question,
                     albu_answer: self.albu_answer,
@@ -201,7 +201,7 @@
             },
             getAlbumData() {
                 let self = this;
-                self.GET(ApiPath.maalbum.getAlbumInfor)
+                self.GET(ApiPath.maAlbum.getAlbumInfor)
                     .then(function (res) {
                         if (res.data.code === 0) {
                             self.albumData = res.data.data;

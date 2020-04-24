@@ -162,17 +162,13 @@
                                 let cubeDiv = cube.querySelectorAll('div');
                                 let cubeSpan = cube.querySelectorAll('span');
                                 for (let i = 0; i < cubeDiv.length; i++) {
-<<<<<<< HEAD
                                     $(cubeDiv[i]).css('background-image', "url(" + self.getPhotoUrl + self.photoData[i].pho_path + ")");//内部添加图片
                                 }
                                 for (let i = 0; i < cubeSpan.length; i++) {
-                                    $(cubeSpan[i]).css('background-image', "url(" + self.getPhotoUrl + self.photoData[i].pho_path + ")");//外部添加图片
-=======
                                     $(cubeDiv[i]).css('background-image', "url(" + self.photoData[i].photo_path + ")");//内部添加图片
                                 }
                                 for (let i = 0; i < cubeSpan.length; i++) {
                                     $(cubeSpan[i]).css('background-image', "url(" + self.photoData[i].photo_path + ")");//外部添加图片
->>>>>>> 7941db69eec2d5bcdfbefbdbea7dc5cc0e2436b9
                                 }
                                 // setInterval(function(){
                                 //     $(roll).css('left',(roll.offsetLeft - 1) + "px");

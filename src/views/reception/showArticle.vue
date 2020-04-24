@@ -58,48 +58,48 @@
                             </button>
                         </div>
                         <ul v-for="com in comments">
-                            <li class="content" :rel="com.come_id" @mouseenter="commentButtonStatus(1, $event)"
+                            <li class="content" :rel="com.com_id" @mouseenter="commentButtonStatus(1, $event)"
                                 @mouseleave="commentButtonStatus(2, $event)">
                                 <a class="head">
-                                    <img class="user-head-portrait" :src="headPortraiBasetUrl + com.head_portrait"/>
+                                    <img class="user-head-portrait" :src="com.head_portrait"/>
                                 </a>
                                 <div class="gbko">
                                     <div>
                                         <span>{{ com.nick_name }}:</span>
-                                        <span>{{ com.come_content }}</span>
+                                        <span>{{ com.com_content }}</span>
                                         <span>{{ com.created_at }}</span>
                                         <span class="comment-btn">
-                                            <span v-if="com.come_count != 0" class="see-comment">
-                                            <a @click="commentStatus(com.come_id, $event, true)">查看回复({{ com.come_count }})</a>
-                                            <a class="close-comment" @click="commentStatus(com.come_id, $event, false)">收起回复</a>
+                                            <span v-if="com.com_count != 0" class="see-comment">
+                                            <a @click="commentStatus(com.com_id, $event, true)">查看回复({{ com.com_count }})</a>
+                                            <a class="close-comment" @click="commentStatus(com.com_id, $event, false)">收起回复</a>
                                             </span>
                                             <span v-if="isLogin" class="dl-replay-btn">
-                                                <a @click="showCommentTextarea($event, com.come_id, com.come_id)">回复</a>
+                                                <a @click="showCommentTextarea($event, com.com_id, com.com_id)">回复</a>
                                                 <a v-if="com.is_mine" @click="deleteArticleComment($event)">删除</a>
                                             </span>
                                         </span>
                                     </div>
                                 </div>
                             </li>
-                            <li class="replay-box" :id="com.come_id" v-if="com.come_count != 0">
+                            <li class="replay-box" :id="com.com_id" v-if="com.com_count != 0">
                                 <ul class="comment-list">
-                                    <li v-for="data in com.child_comment" :key="data.come_id" :rel="data.come_id"
+                                    <li v-for="data in com.child_comment" :key="data.com_id" :rel="data.com_id"
                                         class="content"
                                         @mouseenter="commentButtonStatus(1, $event)"
                                         @mouseleave="commentButtonStatus(2, $event)">
                                         <a class="head">
                                             <img class="user-head-portrait"
-                                                 :src="headPortraiBasetUrl + data.head_portrait"/>
+                                                 :src="data.head_portrait"/>
                                         </a>
                                         <div class="gbko">
                                             <div>
                                                 <span>{{ data.nick_name }}</span>
                                                 <span>回复</span>
                                                 <span>{{ data.father_nick_name }}:</span>
-                                                <span>{{ data.come_content }}</span>
+                                                <span>{{ data.com_content }}</span>
                                                 <span>{{ data.created_at }}</span>
                                                 <span v-if="isLogin" class="dl-replay-btn">
-                                                    <a @click="showCommentTextarea($event, data.come_id, com.come_id)">回复</a>
+                                                    <a @click="showCommentTextarea($event, data.com_id, com.com_id)">回复</a>
                                                     <a v-if="data.is_mine" @click="deleteArticleComment($event)">删除</a>
                                                 </span>
                                             </div>
@@ -128,9 +128,7 @@
                 newArticle: [],
                 comments: [],
                 articleData: {},
-                getMusicUrl: ApiPath.common.getMusicFile,
                 isLogin: store.state.user,
-                headPortraiBasetUrl: ApiPath.common.getHeadPortrait,
                 num: 0,
                 isRegister: false,
                 replayContent: "",
@@ -209,11 +207,12 @@
                     .then(function (res) {
                         let data = res.data;
                         if (data.code === 0) {
+                            console.log(data);
                             let lyric = data.data.music_lyric;
                             let musicData = new Lyric(lyric, self.handleLyric);//this.handleLyric回调函数
                             for (let item in musicData.lines) musicData.lines[item].time = musicData.lines[item].time / 1000;
                             self.wordObjectArray = musicData.lines;
-                            self.musicFileUrl = self.getMusicUrl + data.data.music_path;
+                            self.musicFileUrl = data.data.music_path;
                             self.newArticle = data.data.new_articles;
                             self.browseTopArticle = data.data.browse_top;
                             self.comments = data.data.comments;

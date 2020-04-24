@@ -37,7 +37,7 @@
                                 <div class="gbko content"
                                      @mouseenter="messageButtonStatus(1, $event)"
                                      @mouseleave="messageButtonStatus(2, $event)">
-                                    <img :src="headPortraiBasetUrl + msg.head_portrait" class="user-head-portrait">
+                                    <img :src="msg.head_portrait" class="user-head-portrait">
                                     <div class="top-msg-content">
                                         <span>{{ msg.nick_name }}：</span>
                                         <span class="msg-span">{{ msg.msg_content}}</span>
@@ -56,13 +56,13 @@
                                 <ul :id="msg.msg_id" class="child-msg-ul" v-if="msg.msg_count != 0">
                                     <li>
                                         <ul class="msg-list">
-                                            <li v-for="(data, childIndex) in msg.child_message" :key="data.come_id"
-                                                :rel="data.come_id" class="content"
+                                            <li v-for="(data, childIndex) in msg.child_message" :key="data.com_id"
+                                                :rel="data.com_id" class="content"
                                                 @mouseenter="messageButtonStatus(1, $event)"
                                                 @mouseleave="messageButtonStatus(2, $event)">
                                                 <a class="head">
                                                     <img class="user-head-portrait"
-                                                         :src="headPortraiBasetUrl + data.head_portrait"/>
+                                                         :src="data.head_portrait"/>
                                                 </a>
                                                 <div class="gbko">
                                                     <div>
@@ -93,7 +93,6 @@
 </template>
 
 <script>
-
     export default {
         name: "messageBoard",
         inject: ['reload'],
@@ -102,7 +101,6 @@
                 leaveMessage: '',
                 page: 0,
                 leaveMessageData: [],
-                headPortraiBasetUrl: ApiPath.common.getHeadPortrait,
                 isHave: true,
                 isRegister: false,
                 num: 0,
@@ -201,29 +199,30 @@
                                     'nick_name': self.isLogin.nick_name,
                                     'user_id': self.isLogin.user_id
                                 };
-                                if (!(self.topId === self.fatherMsgId)) {    //显示回复内容列表
+                                // if (!(self.topId === self.fatherMsgId)) {    //显示回复内容列表
                                     self.leaveMessageData[self.topMsgIndex].child_message.splice(self.replayMsgIndex + 1, 0, replayData);
-                                    return true;
-                                }
+
+                                    // return true;
+                                // }
                                 //没有子评论
-                                if (self.leaveMessageData[self.topMsgIndex].child_message === null) {
-                                    self.leaveMessageData[self.topMsgIndex].child_message = [replayData];
-                                    self.leaveMessageData[self.topMsgIndex].msg_count = 1;
-                                    setTimeout(function () {
+                                // if (self.leaveMessageData[self.topMsgIndex].child_message === null) {
+                                //     self.leaveMessageData[self.topMsgIndex].child_message = [replayData];
+                                //     self.leaveMessageData[self.topMsgIndex].msg_count = 1;
+                                //     setTimeout(function () {
                                         let parent = $('#' + self.topId);
                                         let close = parent.prev('.content');
                                         $(close.find(".close-msg")).show();
                                         $(close.find(".close-msg")).prev().hide();
                                         $(parent).show();
-                                    }, 800);
-                                    return true;
-                                }
+                                //     }, 800);
+                                //     return true;
+                                // }
                                 //有子评论
                                 // let len = self.leaveMessageData[self.topMsgIndex].child_message.length;
                                 // for(var i = 0; i < len; i++){
                                 //     if(self.leaveMessageData[self.topMsgIndex].child_message[i].msg_father_id !== self.topId) break;
                                 // }
-                                self.leaveMessageData[self.topMsgIndex].child_message.push(replayData);
+                                // self.leaveMessageData[self.topMsgIndex].child_message.push(replayData);
                                 return true;
                             }
                             self.$message.error(data.msg);

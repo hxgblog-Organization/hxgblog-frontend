@@ -48,8 +48,9 @@
         </header>
 
         <frontLogin ref='frontLogin' @sendFatherMsg="loginChild"
-                    @showByCodeUpdatePwd="showByCodeUpdatePwd"></frontLogin>
-        <infor ref="infor"></infor>
+                    @showByCodeUpdatePwd="showByCodeUpdatePwd">
+        </frontLogin>
+        <info ref="info"></info>
         <byCodeUpdatePwd ref="byCodeUpdatePwd"></byCodeUpdatePwd>
 
         <el-dialog title="修改密码" :visible.sync="updatePasswordDiag" width="350px">
@@ -177,7 +178,7 @@
             this.rushRouter();
             if (this.isLogin) {
                 this.information = store.state.user;
-                this.headPortraitUrl = ApiPath.common.getHeadPortrait + this.information.head_portrait;
+                this.headPortraitUrl = this.information.head_portrait;
             }
         }
     }

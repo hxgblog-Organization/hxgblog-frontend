@@ -11,13 +11,13 @@
                             <img v-else src="../../images/reception/album-psd.jpg" @click="showPasswordModel(index, 2)">
                         </ul>
                         <ul v-else>
-                            <img v-if="album.is_has_photo" :src="albumPhotoUrl + album.first_photo"
+                            <img v-if="album.is_has_photo" :src="album.first_photo_path"
                                  @click="showPasswordModel(index, 3)">
                             <img v-else src="../../images/reception/album-empty.png"
                                  @click="showPasswordModel(index, 4)">
                         </ul>
-                        <p><a href="/">{{ album.albu_name }}</a></p>
-                        <figcaption>{{ album.albu_introduce }}</figcaption>
+                        <p><a href="/">{{ album.alb_name }}</a></p>
+                        <figcaption>{{ album.alb_introduce }}</figcaption>
                     </figure>
                 </div>
             </div>
@@ -46,7 +46,6 @@
         data() {
             return {
                 albumData: [],
-                albumPhotoUrl: ApiPath.common.getAlbumPhoto,
                 formLabelWidth: '70px',
                 dialogFormVisible: false,
                 question: '',
@@ -65,9 +64,9 @@
                     })
             },
             showPasswordModel(index, status) {
-                this.albumId = this.albumData[index].albu_id;
-                this.question = this.albumData[index].albu_question;
-                this.correctAnswer = this.albumData[index].albu_answer;
+                this.albumId = this.albumData[index].alb_id;
+                this.question = this.albumData[index].alb_question;
+                this.correctAnswer = this.albumData[index].alb_answer;
                 this.status = status;
                 if (this.status === 3) {
                     this.frontShowAlbumPhoto();

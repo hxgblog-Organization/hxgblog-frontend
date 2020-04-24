@@ -52,7 +52,7 @@
                 imageArr: [],
                 page: 0,
                 albumId: '',
-                getPhotoBaseUrl: ApiPath.common.getAlbumPhoto,
+                // getPhotoBaseUrl: ApiPath.common.getAlbumPhoto,
                 data: [],
                 isHave: true,
                 isSelected: false,
@@ -134,7 +134,7 @@
             getAlbumImage() {
                 let self = this;
                 self.GET(ApiPath.maAlbum.selectAlbumPhoto, {
-                    albu_id: self.albumId,
+                    alb_id: self.albumId,
                     page: self.page
                 })
                     .then(function (res) {
@@ -163,7 +163,7 @@
                             //生成一个图片对象
                             var oImg = new Image();
                             $(oImg).css('position', 'relative');
-                            oImg.src = self.getPhotoBaseUrl + self.data[i].pho_path;
+                            oImg.src = self.data[i].photo_path;
                             //把图片放入div盒子
                             oDiv.appendChild(oImg);
                             //把div放入大盒子
@@ -186,9 +186,9 @@
                 let self = this;
                 if (!self.isHave) return;
                 let obj = $("#con");
-                var nScrollHight = 0; //滚动距离总长(注意不是滚动条的长度)
-                var nScrollTop = 0;   //滚动到的当前位置
-                var nDivHight = $(obj).height();
+                let nScrollHight = 0; //滚动距离总长(注意不是滚动条的长度)
+                let nScrollTop = 0;   //滚动到的当前位置
+                let nDivHight = $(obj).height();
                 nScrollHight = $(obj)[0].scrollHeight;
                 nScrollTop = $(obj)[0].scrollTop;
                 // console.log(nScrollTop + "-----" +  nDivHight + "-----" + nScrollHight)

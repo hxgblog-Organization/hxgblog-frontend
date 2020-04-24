@@ -160,7 +160,7 @@
     }
 
     .code-btn {
-        margin-left: 5%;
+        margin-left: 23%;
     }
 
     .el-form-item {

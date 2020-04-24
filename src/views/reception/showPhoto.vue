@@ -26,7 +26,6 @@
                 page: 0,
                 albumId: 0,
                 is_has_photo: true,
-                getPhotoBaseUrl: ApiPath.common.getAlbumPhoto,
                 data: [],
                 isHave: true
             }
@@ -51,7 +50,7 @@
                             oDiv.className = "grid-item";
                             //生成一个图片对象
                             var oImg = new Image();
-                            oImg.src = self.getPhotoBaseUrl + self.data[i].pho_path;
+                            oImg.src = self.data[i].photo_path;
                             //把图片放入div盒子
                             oDiv.appendChild(oImg);
                             //把div放入大盒子

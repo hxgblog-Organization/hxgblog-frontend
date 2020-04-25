@@ -56,7 +56,7 @@
                 <el-button type="primary" @click="updatePassword">修改</el-button>
             </div>
         </el-dialog>
-        <infor ref="adminInfo"></infor>
+        <info ref="adminInfo"></info>
     </div>
 </template>
 <script>
@@ -175,20 +175,22 @@
             this.rushRouter();
             let self = this;
             document.title = "坏小哥的博客后台";
-            //前台登录,但是后台没有登录
-            if (self.checkFrontLogin()) {
-                self.checkBackLogin(2).then(function (res) {
-                    if (res) return true;
-                    self.$message.warning("请你重新登录!");
+            //判断是否登录
+            self.checkBackLogin().then(function (res) {
+                if (res === false) {
+                    if (self.checkFrontLogin()) {
+                        self.$message.warning("请你重新登录!first");
+                    }
                     setTimeout(function () {
                         self.$router.push({path: '/backLogin'});
                     }, 2000);
-                });
-                return true;
-            }
-            setTimeout(function () {
-                self.$router.push({path: '/backLogin'});
-            }, 2000);
+                    return false;
+                }
+                if (! self.checkFrontLogin()) {
+                    store.commit(types.USER, res);
+                    self.reload();
+                }
+            });
         },
         created() {
             $('body').css('background-color', '#fff');

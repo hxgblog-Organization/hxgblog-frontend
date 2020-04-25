@@ -17,8 +17,8 @@
                 <li id="last-nav-li">
                     <router-link target="_blank" to="messageBoard" id="speach">闲言碎语<span class="en">Leave</span></router-link>
                 </li>
-                <div class="infor-content" v-if="isLogin">
-                    <ul class="infor-ul">
+                <div class="info-content" v-if="isLogin">
+                    <ul class="info-ul">
                         <li>
                             <el-col :span="12">
                                 <el-dropdown>
@@ -85,7 +85,7 @@
                 this.$refs.byCodeUpdatePwd.showUpdatePasswordModel();
             },
             showModel(num) {
-                (num === 1) ? this.$refs.frontLogin.showLoginModel(true) : this.$refs.infor.showInforModel(true, 1);
+                (num === 1) ? this.$refs.frontLogin.showLoginModel(true) : this.$refs.info.showInforModel(true, 1);
             },
             updatePassword() {
                 let self = this;
@@ -112,7 +112,7 @@
                 this.checkBackLogin()
                     .then(function (res) {
                         if (res) {
-                            self.$refs.infor.showInforModel(true, 2);
+                            self.$refs.info.showInforModel(true, 2);
                             return true;
                         }
                         self.emptyUserInformation();
@@ -453,17 +453,17 @@
             width: 250px;
         }
 
-        .infor-ul li {
+        .info-ul li {
             float: left;
             width: 150px;
         }
 
-        .infor-content, #login-register {
+        .info-content, #login-register {
             float: right;
             width: 38%;
         }
 
-        .infor-ul {
+        .info-ul {
             margin-left: 24px;
             align-items: center;
             display: flex;

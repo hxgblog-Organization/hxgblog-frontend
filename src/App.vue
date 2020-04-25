@@ -27,16 +27,19 @@
         },
         created() {
             // let self = this;
-            // //前台登录,但是后台没有登录
-            // if(self.checkFrontLogin()){
-            //     self.checkBackLogin().then(function (res) {
-            //         console.log(res);
-            //         if(res) return true;
+            //判断是否登录
+            // self.checkBackLogin().then(function (res) {
+            // if (res === false) {
+            //     if (self.checkFrontLogin()) {
             //         self.$message.warning("请你重新登录!first");
-            //         self.emptyUserInformation();   //清空前台的登录状态
-            //     });
+            //     }
+            //     return false;
             // }
-
+            // if (! self.checkFrontLogin()) {
+            //     store.commit(types.USER, res);
+            //     self.reload();
+            // }
+            // });
         }
     }
 </script>

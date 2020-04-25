@@ -59,7 +59,7 @@
 
 <script>
     export default {
-        name: "infor",
+        name: "info",
         inject: ['reload'],
         data() {
             var checkPhone = (rule, value, callback) => {

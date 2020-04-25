@@ -109,7 +109,7 @@ export default {
                         self.emptyUserInformation();  //清空前台信息
                         return false;
                     }else {
-                        return true;
+                        return res.data.data;
                     }
                 }).then(res => {
                 resolve(res);

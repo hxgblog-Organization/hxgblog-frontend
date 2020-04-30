@@ -15,7 +15,7 @@
     "element-ui": "^2.5.4",
     "font-awesome": "^4.7.0",
     "highlight.js": "^9.15.8",
-    "jquery": "^3.3.1",
+    "jquery": "^3.5.0",
     "js-base64": "^2.5.1",
     "js-pinyin": "^0.1.9",
     "jsencrypt": "^3.0.0-rc.1",

@@ -11,7 +11,7 @@
                     </ul>
                 </div>
                 <ul class="cbp_tmtimeline">
-                    <li v-for="article in articleDatas">
+                    <li v-for="article in articleData">
                         <time class="cbp_tmtime">
                             <span>{{ article.monthDay }}</span>
                             <span>{{ article.years }}</span>

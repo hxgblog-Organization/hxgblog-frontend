@@ -5,7 +5,7 @@
         <li v-if="isBackLogin" class="first-li"><img class="login-logo" @click="thirdPartyLogin(thirdPartyURL.qq)" src="../../images/reception/qq.png"/></li>
         <li v-else class="first-li" style="margin-left: 10%"><img class="login-logo" @click="thirdPartyLogin(thirdPartyURL.qq)" src="../../images/reception/qq.png"/></li>
         <li class="third-login-li"><img class="login-logo" @click="thirdPartyLogin(thirdPartyURL.wei_bo)" src="../../images/reception/wei_bo.png"/></li>
-        <li class="third-login-li"><img class="login-logo" @click="thirdPartyLogin(thirdPartyURL.git_hub)" src="../../images/reception/github.jpg"/></li>
+        <li class="third-login-li"><img class="login-logo" @click="thirdPartyLogin(thirdPartyURL.git_hub)" src="../../images/reception/github.png"/></li>
     </ul>
 </template>
 

@@ -200,7 +200,7 @@
                 currentPages: 1,
                 total: 0,
                 delExhibitIdData: [],
-                editExhibitTitle: "修改文章名言",
+                editExhibitTitle: '修改文章名言',
                 diaEditExhibitVisible: false,
                 formLabelWidth: '80px',
                 exhibitContent: '',

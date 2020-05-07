@@ -128,7 +128,9 @@
             },
             handleSelectionChange(val) {
                 this.artTypeIdData = [];   //每次添加前，先清空之前的。
-                for (let i = 0; i < val.length; i++) this.artTypeIdData[i] = val[i].type_id;
+                for (let i = 0; i < val.length; i++) {
+                    this.artTypeIdData[i] = val[i].type_id;
+                }
             },
             handleCurrentChange(val) {
                 this.currentPages = val;

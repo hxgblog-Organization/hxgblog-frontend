@@ -28,7 +28,7 @@
                 </el-form-item>
                 <mavon-editor v-model="articleForm.art_content" :toolbars="toolbars"/>
                 <el-form-item class="submit">
-                    <el-button v-if="isAdd" type="primary" @click="addArticleInfor">添加</el-button>
+                    <el-button v-if="isAdd" type="primary" @click="addArticleInfo">添加</el-button>
                     <el-button v-else type="primary" @click="updateArtInfor">修改</el-button>
                     <el-button>
                         <router-link to="/admin/manageArticle">取消</router-link>
@@ -126,7 +126,7 @@
                 this.artCoverUrl = this.originalArtCoverUrl;
                 this.isUpdateCover = false;
             },
-            addArticleInfor() {
+            addArticleInfo() {
                 let self = this;
                 if (!self.artFormData.has('art_cover')) return self.$message.error("你没有上传文章封面");
                 if (!self.validateArticleInfor()) return false;

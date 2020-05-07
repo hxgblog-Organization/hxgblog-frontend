@@ -56,7 +56,7 @@
             }
         },
         methods: {
-            getAlbumInformation() {
+            getAlbumInfomation() {
                 let self = this;
                 self.GET(ApiPath.album.selectAllAlbumInformation)
                     .then(function (res) {
@@ -102,7 +102,7 @@
             },
         },
         mounted() {
-            this.getAlbumInformation();
+            this.getAlbumInfomation();
         }
     }
 </script>

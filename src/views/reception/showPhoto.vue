@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="photo-main">
         <p class="album-title-fir">即使行动导致错误，却也带来了学习与成长;不行动则是停滞与萎缩。</p>
         <p class="album-title-sec">在生活中，我跌倒过。我在嘲笑声中站起来，虽然衣服脏了，但那是暂时的，它可以洗净。</p>
         <p class="album-title-thi">放弃该放弃的是无奈，放弃不该放弃的是无能;不放弃该放弃的是无知，不放弃不该放弃的是执着。</p>
@@ -94,6 +94,10 @@
     }
 </script>
 <style>
+    .photo-main {
+        margin-bottom: 25px;
+    }
+
     .album-title-fir {
         margin-top: 40px;
         margin-right: 350px;

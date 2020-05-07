@@ -15,7 +15,7 @@
                     <el-input v-else v-model.number="userForm.phone" autocomplete="off" :disabled="true"
                               maxlength="11"></el-input>
                 </el-form-item>
-                <el-form-item prop="email" label="邮箱" :label-width="formLabelWidth">
+                <el-form-item prop="email" label="邮箱:" :label-width="formLabelWidth">
                     <el-input v-model="userForm.email" autocomplete="off"></el-input>
                 </el-form-item>
                 <el-form-item v-if="status === 1" label="密码:" :label-width="formLabelWidth" prop="password"
@@ -35,7 +35,7 @@
                         <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                     </el-upload>
                 </el-form-item>
-                <el-form-item label="个人介绍" :label-width="formLabelWidth" prop="introduce">
+                <el-form-item label="个人介绍:" :label-width="formLabelWidth" prop="introduce">
                     <el-input class="introduce" type="textarea" v-model="userForm.introduce" autocomplete="off"
                               maxlength="30"></el-input>
                 </el-form-item>
@@ -114,7 +114,7 @@
             }
         },
         methods: {
-            showInforModel(visible, status) {
+            showInfoModel(visible, status) {
                 this.dialogFormVisible = visible;
                 this.status = status;
                 if (status === 2) {

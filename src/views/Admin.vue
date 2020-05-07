@@ -87,7 +87,7 @@
                 this.checkBackLogin(2)
                     .then(function (res) {
                         if (res) {
-                            self.$refs.adminInfo.showInforModel(true, 2);
+                            self.$refs.adminInfo.showInfoModel(true, 2);
                             return true;
                         }
                         self.emptyUserInformation();
@@ -176,7 +176,7 @@
             let self = this;
             document.title = "坏小哥的博客后台";
             //判断是否登录
-            self.checkBackLogin().then(function (res) {
+            self.checkBackLogin(2).then(function (res) {
                 if (res === false) {
                     if (self.checkFrontLogin()) {
                         self.$message.warning("请你重新登录!first");
@@ -195,7 +195,7 @@
         created() {
             $('body').css('background-color', '#fff');
             this.information = store.state.user;
-            this.headPortraitUrl = ApiPath.common.getHeadPortrait + this.information.head_portrait;
+            this.headPortraitUrl = this.information.head_portrait;
         }
     }
 

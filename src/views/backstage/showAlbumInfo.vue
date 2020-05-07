@@ -201,7 +201,7 @@
             },
             getAlbumData() {
                 let self = this;
-                self.GET(ApiPath.maAlbum.getAlbumInfor)
+                self.GET(ApiPath.maAlbum.getAlbumInfo)
                     .then(function (res) {
                         if (res.data.code === 0) {
                             self.albumData = res.data.data;

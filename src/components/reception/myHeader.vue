@@ -85,7 +85,7 @@
                 this.$refs.byCodeUpdatePwd.showUpdatePasswordModel();
             },
             showModel(num) {
-                (num === 1) ? this.$refs.frontLogin.showLoginModel(true) : this.$refs.info.showInforModel(true, 1);
+                (num === 1) ? this.$refs.frontLogin.showLoginModel(true) : this.$refs.info.showInfoModel(true, 1);
             },
             updatePassword() {
                 let self = this;
@@ -112,7 +112,7 @@
                 this.checkBackLogin()
                     .then(function (res) {
                         if (res) {
-                            self.$refs.info.showInforModel(true, 2);
+                            self.$refs.info.showInfoModel(true, 2);
                             return true;
                         }
                         self.emptyUserInformation();

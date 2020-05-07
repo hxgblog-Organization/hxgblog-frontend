@@ -58,7 +58,6 @@
                 },
                 artCoverUrl: '',
                 formWidth: '120px',
-                getArticleCover: ApiPath.common.getArticleCover,
                 artFormData: new FormData(),
                 originalArtCoverUrl: '',
                 toolbars: {
@@ -119,12 +118,12 @@
                     self.articleForm.art_cover = data.article[0].art_cover;
                     self.artTypeData = data.art_type_data;
                     self.originalArtCoverUrl = data.article[0].art_cover;
-                    self.artCoverUrl = self.getArticleCover + self.originalArtCoverUrl;
+                    self.artCoverUrl = self.originalArtCoverUrl;
                 })
             },
             cancelUpdateCover() {
                 this.artFormData.delete('art_cover');
-                this.artCoverUrl = this.getArticleCover + this.originalArtCoverUrl;
+                this.artCoverUrl = this.originalArtCoverUrl;
                 this.isUpdateCover = false;
             },
             addArticleInfor() {

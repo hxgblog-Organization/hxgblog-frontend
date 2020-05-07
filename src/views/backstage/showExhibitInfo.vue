@@ -276,7 +276,7 @@
             addMusic() {
                 let self = this;
                 self.musicFormData.append('exh_dist', 4);
-                self.POST(ApiPath.maexhibit.addExhibit, self.musicFormData)
+                self.POST(ApiPath.maExhibit.addExhibit, self.musicFormData)
                     .then(function (res) {
                         if (res.data.code === 0) {
                             self.$message.success(res.data.msg);
@@ -308,7 +308,7 @@
                 let exhibitContentData;
                 (self.exhibitDist === 1) ? exhibitContentData = self.homeExhibitForm.first + '+' + self.homeExhibitForm.second + '+' + self.homeExhibitForm.third
                     : exhibitContentData = self.exhibitContent;
-                self.POST(ApiPath.maexhibit.addExhibit, {
+                self.POST(ApiPath.maExhibit.addExhibit, {
                     exh_dist: self.exhibitDist,
                     exh_name: self.exhibitName,
                     exh_content: exhibitContentData
@@ -327,7 +327,7 @@
                 let time = [];
                 time[0] = self.timeSection[0] / 1000;
                 time[1] = self.timeSection[1] / 1000;
-                self.GET(ApiPath.maexhibit.byTimeSelectExhibit, {
+                self.GET(ApiPath.maExhibit.byTimeSelectExhibit, {
                     exh_dist: self.exhibitDist,
                     page: self.pageSize,
                     total: self.currentPages,
@@ -342,7 +342,7 @@
             },
             getSelectExhibit() {
                 let self = this;
-                self.GET(ApiPath.maexhibit.selectExhibit, {
+                self.GET(ApiPath.maExhibit.selectExhibit, {
                     exh_dist: self.exhibitDist,
                     page: self.currentPages,
                     total: self.pageSize
@@ -371,7 +371,7 @@
                 }
                 self.exhibitName = self.exhibitData[index].exh_name;
                 self.exhibitId = self.exhibitData[index].exh_id;
-                self.GET(ApiPath.maexhibit.selectAloneExhibit, {
+                self.GET(ApiPath.maExhibit.selectAloneExhibit, {
                     exh_id: self.exhibitId
                 }).then(function (res) {
                     if (res.data.code === 0) {
@@ -397,7 +397,7 @@
                 self.exhibitName = self.exhibitData[index].exh_name;
                 self.exhibitId = self.exhibitData[index].exh_id;
                 self.exhibitCreatedTime = self.exhibitData[index].created_at;
-                self.GET(ApiPath.maexhibit.selectAloneExhibit, {
+                self.GET(ApiPath.maExhibit.selectAloneExhibit, {
                     exh_id: self.exhibitId
                 }).then(function (res) {
                     if (res.data.code === 0) {
@@ -415,7 +415,7 @@
                 let self = this;
                 (self.exhibitDist === '1') ? self.content = this.homeExhibitForm.first + '+' + this.homeExhibitForm.second + '+' + this.homeExhibitForm.third
                     : self.content = self.exhibitContent;
-                self.POST(ApiPath.maexhibit.updateExhibit, {
+                self.POST(ApiPath.maExhibit.updateExhibit, {
                     exh_id: self.exhibitId,
                     exh_name: self.exhibitName,
                     exh_content: self.content
@@ -435,7 +435,7 @@
             },
             deleteExhibit() {
                 let self = this;
-                self.POST(ApiPath.maexhibit.deleteExhibit, {
+                self.POST(ApiPath.maExhibit.deleteExhibit, {
                     exh_id_data: self.delExhibitIdData,
                     exh_dist: self.exhibitDist
                 }).then(function (res) {
@@ -450,7 +450,7 @@
             },
             replaceExhibitData(exhibitId) {
                 let self = this;
-                self.POST(ApiPath.maexhibit.replaceExhibit, {
+                self.POST(ApiPath.maExhibit.replaceExhibit, {
                     orig_select_id: self.exhibitData[0].exh_id,
                     new_select_id: exhibitId
                 }).then(function (res) {

@@ -140,7 +140,7 @@
             },
             getArtTypeData() {
                 let self = this;
-                self.GET(ApiPath.matype.getArtType, {
+                self.GET(ApiPath.maType.getArtType, {
                     total: self.pageSize,
                     page: self.currentPages,
                 }).then(function (res) {
@@ -152,7 +152,7 @@
             },
             addArtType() {
                 let self = this;
-                self.POST(ApiPath.matype.addArtType, {
+                self.POST(ApiPath.maType.addArtType, {
                     type_name: self.newArtTypeName
                 }).then(function (res) {
                     if (res.data.code === 0) {
@@ -172,7 +172,7 @@
             },
             updateArtType() {
                 let self = this;
-                self.POST(ApiPath.matype.updateArtType, {
+                self.POST(ApiPath.maType.updateArtType, {
                     type_id: self.typeId,
                     type_name: self.newArtTypeName
                 }).then(function (res) {
@@ -204,7 +204,7 @@
                 let time = [];
                 time[0] = self.timeSection[0] / 1000;
                 time[1] = self.timeSection[1] / 1000;
-                self.GET(ApiPath.matype.byTimeSelectArtType, {
+                self.GET(ApiPath.maType.byTimeSelectArtType, {
                     total: self.pageSize,
                     page: self.currentPages,
                     time: time
@@ -217,7 +217,7 @@
             },
             deleteArtType() {
                 let self = this;
-                self.POST(ApiPath.matype.deleteArtType, {
+                self.POST(ApiPath.maType.deleteArtType, {
                     type_id_data: self.artTypeIdData,
                 }).then(function (res) {
                     if (res.data.code === 0) {

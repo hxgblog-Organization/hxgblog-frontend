@@ -162,13 +162,10 @@
                                 let cubeDiv = cube.querySelectorAll('div');
                                 let cubeSpan = cube.querySelectorAll('span');
                                 for (let i = 0; i < cubeDiv.length; i++) {
-                                    $(cubeDiv[i]).css('background-image', "url(" + self.getPhotoUrl + self.photoData[i].pho_path + ")");//内部添加图片
+                                    $(cubeDiv[i]).css('background-image', "url(" + self.photoData[i].photo_path + ")");//外部添加图片
                                 }
                                 for (let i = 0; i < cubeSpan.length; i++) {
-                                    $(cubeDiv[i]).css('background-image', "url(" + self.photoData[i].photo_path + ")");//内部添加图片
-                                }
-                                for (let i = 0; i < cubeSpan.length; i++) {
-                                    $(cubeSpan[i]).css('background-image', "url(" + self.photoData[i].photo_path + ")");//外部添加图片
+                                    $(cubeSpan[i]).css('background-image', "url(" + self.photoData[i].photo_path + ")");//内部添加图片
                                 }
                                 // setInterval(function(){
                                 //     $(roll).css('left',(roll.offsetLeft - 1) + "px");
@@ -303,7 +300,7 @@
     }
 
     .wrap-box .cube > div { /*给儿子设置*/
-        width: 70%;
+        width: 78%;
         height: 70%;
         border: 1px solid #fff;
         background-size: cover;
@@ -318,15 +315,15 @@
     }
 
     .wrap-box .cube .out-back {
-        transform: translateZ(-35px) rotateY(180deg);
+        transform: translateZ(-33px) rotateY(180deg);
     }
 
     .wrap-box .cube .out-left {
-        transform: translateX(-35px) rotateY(-90deg);
+        transform: translateX(-33px) rotateY(-90deg);
     }
 
     .wrap-box .cube .out-right {
-        transform: translateX(35px) rotateY(90deg);
+        transform: translateX(31px) rotateY(90deg);
     }
 
     .wrap-box .cube .out-top {
@@ -339,7 +336,7 @@
 
     .wrap-box .cube > span {
         display: block;
-        width: 40%;
+        width: 44%;
         height: 40%;
         border: 1px solid black;
         background-size: cover;
@@ -357,7 +354,7 @@
     }
 
     .wrap-box .cube .in-left {
-        transform: translateX(-20px) rotateY(-90deg);
+        transform: translateX(-19px) rotateY(-90deg);
     }
 
     .wrap-box .cube .in-right {

@@ -36,7 +36,7 @@
                                 </el-dropdown>
                             </el-col>
                         </li>
-                        <li><span class="font-span">{{ information.nick_name }}&nbsp;</span></li>
+                        <li id="nick-name"><span class="font-span">{{ information.nick_name }}&nbsp;</span></li>
                         <el-button id="exit-btn" @click="loginOut">退出</el-button>
                     </ul>
                 </div>
@@ -185,9 +185,12 @@
 </script>
 
 <style>
+    #nick-name {
+        margin-left: 2%;
+    }
     @media screen and (min-width: 992px) {
         #exit-btn {
-            margin-left: 80px;
+            margin-left: 5%;
         }
 
         .el-dropdown-link {
@@ -467,7 +470,7 @@
             margin-left: 24px;
             align-items: center;
             display: flex;
-            margin-bottom: 0;
+            margin-bottom: 10px;
         }
 
         #head-img {
@@ -479,7 +482,7 @@
         }
 
         .font-span {
-            font-size: 15px;
+            font-size: 10px;
         }
     }
 

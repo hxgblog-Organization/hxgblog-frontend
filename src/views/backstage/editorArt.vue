@@ -29,7 +29,7 @@
                 <mavon-editor v-model="articleForm.art_content" :toolbars="toolbars"/>
                 <el-form-item class="submit">
                     <el-button v-if="isAdd" type="primary" @click="addArticleInfo">添加</el-button>
-                    <el-button v-else type="primary" @click="updateArtInfor">修改</el-button>
+                    <el-button v-else type="primary" @click="updateArtInfo">修改</el-button>
                     <el-button>
                         <router-link to="/admin/manageArticle">取消</router-link>
                     </el-button>
@@ -148,7 +148,7 @@
                         return false;
                     })
             },
-            updateArtInfor() {
+            updateArtInfo() {
                 let self = this;
                 if (!self.validateArticleInfor()) return false;
                 $.each(self.articleForm, function (i, val) {

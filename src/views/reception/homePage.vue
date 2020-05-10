@@ -175,10 +175,10 @@
                 }
                 leftPX = leftPX + 'px;';
                 let leaveMsg = $(
-                    "<div class='msg-div'>" +
+                    "<div class='leave-msg-div'>" +
                     "<img class='string' src="+ leaveMessage.head_portrait +">" +
                     "<span class='nick-name-span'>"+ leaveMessage.nick_name + " ：</span>" +
-                    "<span class='msg-span' style='left:" +  leftPX  + "' + " + ">"+ leaveMessage.msg_content + "</span>" +
+                    "<span class='leave-msg-span' style='left:" +  leftPX  + "' + " + ">"+ leaveMessage.msg_content + "</span>" +
                     "</div>"
                 );
                 Top = parseInt(pageH * (Math.random() * 0.63)) + 2;
@@ -292,7 +292,7 @@
         border-radius: 60px;
         position: relative;
     }
-    .msg-div {
+    .leave-msg-div {
         min-width:200px;
         height:40px;
         position:absolute;
@@ -301,7 +301,7 @@
         border-radius: 60px;
         /*animation: geiwogun 10s linear infinite;*/
     }
-    .msg-span {
+    .leave-msg-span {
         position: absolute;
         top:10px;
         font-size:1em;

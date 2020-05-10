@@ -89,11 +89,11 @@
                 title: '注册',
                 status: '',
                 formData: new FormData(),
-                formLabelWidth: '82px',
+                formLabelWidth: '83px',
                 rules: {
                     nickName: [
                         {required: true, message: '请输入昵称', trigger: 'blur'},
-                        {required: true, max: 5, message: '长度在3-5个字符', trigger: 'blur'}
+                        {required: true, max: 5, message: '长度不超过5个字符', trigger: 'blur'}
                     ],
                     email: [
                         {required: true, message: '请输入邮箱地址', trigger: 'blur'},

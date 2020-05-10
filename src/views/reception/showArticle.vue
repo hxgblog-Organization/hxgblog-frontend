@@ -118,6 +118,26 @@
 <script>
     import Lyric from 'lyric-parser'
     import marked from 'marked'
+    import highlight from  'highlight.js';
+    import 'highlight.js/styles/default.css';
+
+    marked.setOptions({
+        renderer: new marked.Renderer(),
+        gfm: true,
+        tables: true,
+        breaks: false,
+        pedantic: false,
+        sanitize: false,
+        smartLists: true,
+        smartypants: false,
+        highlight: function (code, lang) {
+            if (lang && highlight.getLanguage(lang)) {
+                return highlight.highlight(lang, code, true).value;
+            } else {
+                return highlight.highlightAuto(code).value;
+            }
+        }
+    });
 
     export default {
         name: "showArticle",

@@ -72,7 +72,9 @@
             },
             addAlbumPhoto() {
                 let self = this;
-                for (let index in self.fileList) self.photoFormData.append(index, self.fileList[index].raw);
+                for (let index in self.fileList) {
+                    self.photoFormData.append(index, self.fileList[index].raw);
+                }
                 self.photoFormData.append('album_id', this.albumId);
                 self.POST(ApiPath.maAlbum.addAlbumImage, self.photoFormData)
                     .then(function (res) {
@@ -91,7 +93,7 @@
                     this.fileList.push(file);
                     return true;
                 }
-                fileList.pop();
+                this.fileList.pop();
                 return false;
             },
             deletePhoto() {

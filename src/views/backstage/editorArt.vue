@@ -26,7 +26,7 @@
                     </el-upload>
                     <el-button v-if="isUpdateCover" @click="cancelUpdateCover">取消更改封面</el-button>
                 </el-form-item>
-                <mavon-editor v-model="articleForm.art_content" :toolbars="toolbars"/>
+                <mavon-editor ref=md @imgAdd="$imgAdd" @imgDel="$imgDel" v-model="articleForm.art_content" :toolbars="toolbars"/>
                 <el-form-item class="submit">
                     <el-button v-if="isAdd" type="primary" @click="addArticleInfo">添加</el-button>
                     <el-button v-else type="primary" @click="updateArtInfo">修改</el-button>
@@ -82,10 +82,42 @@
                     save: true, // 保存（触发events中的save事件）
                     /* 1.4.2 */
                     navigation: true // 导航目录
-                }
+                },
+                artPhotoFormData: new FormData(),
             }
         },
         methods: {
+            $imgAdd(pos, $file) {
+                let self = this;
+                self.artPhotoFormData.append(pos, $file);
+                self.POST(ApiPath.common.uploadArticlePhoto, self.artPhotoFormData)
+                    .then(function (res) {
+                        let data = res.data.data;
+                        $.each(data,function(index,value){
+                            console.log(index, value);
+                            self.$refs.md.$img2Url(index, value);
+                        });
+                        //清空 formData 所有数据
+                        for (let key of self.artPhotoFormData.keys()){
+                            self.artPhotoFormData.delete(key);
+                        }
+                });
+
+            },
+            $imgDel(pos) {
+                let self = this;
+                self.GET(ApiPath.common.deleteArticlePhoto, {
+                    'article_photo_road' : pos[1].name
+                }).then(function (res) {
+                    let data = res.data;
+                    if (data.code === 0) {
+                        self.$message.success(data.msg);
+                        return true;
+                    }
+                    self.$message.error(data.msg);
+                })
+
+            },
             addArticleCover(file) {
                 let imageFile = file.raw;
                 if (!this.beforeCoverUpload(imageFile)) return false;
@@ -129,7 +161,7 @@
             addArticleInfo() {
                 let self = this;
                 if (!self.artFormData.has('art_cover')) return self.$message.error("你没有上传文章封面");
-                if (!self.validateArticleInfor()) return false;
+                if (!self.validateArticleInfo()) return false;
                 delete self.articleForm.orig_art_type;
                 delete self.articleForm.art_id;
                 delete self.articleForm.art_cover;
@@ -150,7 +182,7 @@
             },
             updateArtInfo() {
                 let self = this;
-                if (!self.validateArticleInfor()) return false;
+                if (!self.validateArticleInfo()) return false;
                 $.each(self.articleForm, function (i, val) {
                     self.artFormData.append(i, val);
                 });
@@ -166,7 +198,7 @@
                         return false;
                     })
             },
-            validateArticleInfor() {
+            validateArticleInfo() {
                 if (this.articleForm.art_title.length > 100) {
                     this.$message.error("文章题目过长");
                     return false;

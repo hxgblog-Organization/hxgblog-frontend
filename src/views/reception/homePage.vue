@@ -26,13 +26,17 @@
                 </div>
             </section>
         </div>
-        <div class="template">
-            <div class="box scroll-photo">
-                <ul id="photo-ul">
-                    <li v-for="photo in photoData"><img :src="photo.photo_path"></li>
-                </ul>
-            </div>
-        </div>
+<!--        <div class="template">-->
+<!--            <div class="box scroll-photo">-->
+                <div class="template boxDom" id="boxDom">
+                    <div class="box scroll-photo idDom" id="idDom">
+                    </div>
+                </div>
+<!--                <ul id="photo-ul">-->
+<!--                    <li v-for="photo in photoData"><img :src="photo.photo_path"></li>-->
+<!--                </ul>-->
+<!--            </div>-->
+<!--        </div>-->
         <article>
             <h2 class="title_tj">
                 <p>文章<span>推荐</span></p>
@@ -142,10 +146,63 @@
                 cityName: '',
                 photoData: [],
                 exhibitData: [],
+                leaveMessage: [],
             }
 
         },
         methods: {
+            loadBarrage() {
+                let self = this;
+                let index = 0;
+                let d = setInterval(function(){
+                    if (index <= self.leaveMessage.length - 1) {
+                        self.auto(self.leaveMessage[index++]);
+                    } else {
+                        index = 0;
+                        self.auto(self.leaveMessage[index++]);
+                    }
+                }, 2200);
+            },
+            auto(leaveMessage) {
+                let Top;
+                let pageH = parseInt($('.template').height());
+                let pageW = parseInt($('.template').width());
+                let boxDom = $("#boxDom");
+                let self = this;
+                let leftPX = 80;
+                if (leaveMessage.nick_name.length > 2) {
+                    leftPX = leftPX + (Math.floor((leaveMessage.nick_name.length / 2)) * 20);
+                }
+                leftPX = leftPX + 'px;';
+                let leaveMsg = $(
+                    "<div class='msg-div'>" +
+                    "<img class='string' src="+ leaveMessage.head_portrait +">" +
+                    "<span class='nick-name-span'>"+ leaveMessage.nick_name + " ：</span>" +
+                    "<span class='msg-span' style='left:" +  leftPX  + "' + " + ">"+ leaveMessage.msg_content + "</span>" +
+                    "</div>"
+                );
+                Top = parseInt(pageH * (Math.random() * 0.63)) + 2;
+                // if (Top > 75) {
+                //     Top = pageH - 115;
+                // }
+                leaveMsg.css({
+                    "top": Top,
+                    "right": -150,
+                    "color": self.getRandomColor()
+                });
+                boxDom.append(leaveMsg);
+                let spanDom = $("#boxDom>div:last-child");
+                spanDom.stop().animate({
+                    "right": pageW + 30
+                }, 10000, "linear", function() {
+                    $(this).remove();
+                });
+            },
+            getRandomColor() {
+                return '#' + (function(h) {
+                    return new Array(7 - h.length).join("0") + h
+                })((Math.random() * 0x1000000 << 0).toString(16));
+            },
             showMainPage() {
                 let self = this;
                 this.GET(ApiPath.homePage.showMain)
@@ -156,6 +213,7 @@
                             self.browseTop = data.browse_top;
                             self.photoData = data.new_photo;
                             self.exhibitData = data.exhibit_data;
+                            self.leaveMessage = data.leave_message;
                             setTimeout(function () {
                                 let roll = $("#photo-ul")[0];
                                 let cube = document.querySelector('.cube');
@@ -219,12 +277,58 @@
         mounted() {
             this.showMainPage();
             this.getCityName();
+            this.loadBarrage();
         }
     }
 
 </script>
 
+<style>
+    .string {
+        width: 40px;
+        height: 40px;
+        -moz-border-radius: 60px;
+        -webkit-border-radius: 60px;
+        border-radius: 60px;
+        position: relative;
+    }
+    .msg-div {
+        min-width:200px;
+        height:40px;
+        position:absolute;
+        overflow:hidden;
+        background-color: #fff;
+        border-radius: 60px;
+        /*animation: geiwogun 10s linear infinite;*/
+    }
+    .msg-span {
+        position: absolute;
+        top:10px;
+        font-size:1em;
+    }
+    .nick-name-span {
+        position: absolute;
+        top:10px;
+        font-size:1em;
+        color: #000;
+        left: 45px;
+    }
+    /*@keyframes geiwogun {*/
+    /*    from {*/
+    /*        transform: translate(1000px, 0);*/
+    /*    }*/
+    /*    to {*/
+    /*        transform: translate(-1600px, 0);*/
+    /*    }*/
+    /*}*/
+
+</style>
 <style scoped>
+    .boxDom {
+        height: 116px;
+        position:relative;
+        overflow:hidden;
+    }
     #photo-ul li {
         animation: geiwogun 10s linear infinite;
     }
@@ -249,9 +353,9 @@
     }
 
     .box {
-        height: 150px;
+        height: 116px;
         display: flex;
-        /*margin-top: 2%;*/
+        margin-top: 2%;
     }
 
     .scroll-photo {

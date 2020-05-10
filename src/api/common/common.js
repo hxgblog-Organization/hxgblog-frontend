@@ -1,5 +1,5 @@
-var basePath = 'http://localhost:88/';                  //线下
-// var basePath = 'https://blogback.zhangtengfei-steven.cn/'; //线上
+// var basePath = 'http://localhost:88/';                  //线下
+var basePath = 'https://blogback.zhangtengfei-steven.cn/'; //线上
 export default {
     /**
      * 接口路由
@@ -26,4 +26,6 @@ export default {
     updatePassword: 'updatePassword',                           //修改密码
     byCodeUpdatePassword: 'byCodeUpdatePassword',               //用户根据短信验证码修改密码
     getThirdPartyUrl: 'getThirdPartyURL',                       //获取第三方登录URL
+    uploadArticlePhoto: 'uploadArticlePhoto',                   //上传文章内容图片
+    deleteArticlePhoto: 'deleteArticlePhoto'                    //删除文章内容图片
 }

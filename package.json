@@ -19,7 +19,7 @@
     "js-base64": "^2.5.1",
     "js-pinyin": "^0.1.9",
     "jsencrypt": "^3.0.0-rc.1",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.21",
     "lyric-parser": "^1.0.1",
     "marked": "^0.7.0",
     "mavon-editor": "^2.7.5",

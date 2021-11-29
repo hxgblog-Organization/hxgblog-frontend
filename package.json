@@ -22,7 +22,7 @@
     "lodash": "^4.17.11",
     "lyric-parser": "^1.0.1",
     "marked": "^0.7.0",
-    "mavon-editor": "^2.7.5",
+    "mavon-editor": "^2.8.2",
     "mockjs": "^1.0.1-beta3",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1",

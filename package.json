@@ -21,7 +21,7 @@
     "jsencrypt": "^3.0.0-rc.1",
     "lodash": "^4.17.11",
     "lyric-parser": "^1.0.1",
-    "marked": "^0.7.0",
+    "marked": "^4.0.10",
     "mavon-editor": "^2.7.5",
     "mockjs": "^1.0.1-beta3",
     "vue": "^2.5.2",
